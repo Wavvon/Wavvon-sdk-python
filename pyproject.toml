@@ -1,0 +1,69 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wavvon-sdk"
+version = "0.1.0"
+description = "Write programs (bots and apps) that talk to a Wavvon hub."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.27",
+    "websockets>=13",
+    "cryptography>=42",
+    "attrs>=22.2",
+    "python-dateutil>=2.8",
+    "typing-extensions>=4.6",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Framework :: AsyncIO",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/Wavvon/Wavvon-docs/blob/main/docs/sdk.md"
+Repository = "https://github.com/Wavvon/Wavvon-sdk-python"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "mypy>=1.11",
+    "ruff>=0.6",
+    "uvicorn>=0.30",
+    "types-python-dateutil",
+    "openapi-python-client==0.29.1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wavvon"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+extend-exclude = ["src/wavvon/rest"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "ASYNC", "RUF"]
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+files = ["src", "tests", "examples", "scripts"]
+
+[[tool.mypy.overrides]]
+module = "wavvon.rest.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = ["ruamel.*"]
+ignore_missing_imports = true
