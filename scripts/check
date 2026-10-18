@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+"""Everything CI runs. `python scripts/check` with the dev dependencies installed."""
+
+import subprocess
+import sys
+
+STEPS = [
+    ["ruff", "check", "."],
+    ["ruff", "format", "--check", "."],
+    ["mypy", "--strict"],
+    ["pytest", "-q"],
+]
+
+for step in STEPS:
+    print(f"$ {' '.join(step)}", flush=True)
+    if subprocess.run([sys.executable, "-m", *step]).returncode != 0:
+        sys.exit(1)
