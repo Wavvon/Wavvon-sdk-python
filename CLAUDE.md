@@ -27,9 +27,7 @@ GitHub Actions workflow files: explain choices in the commit message.
 1. **Generated REST** - `src/wavvon/rest/`, from Wavvon-docs `openapi.yaml`
    by `scripts/generate.py` (openapi-python-client, pinned in the dev group).
    Committed; never edit by hand. `SPEC_COMMIT` records the docs commit:
-   `-dirty` means local edits, `+refnull` means the script wrapped a
-   `{$ref, nullable: true}` in `anyOf` (OpenAPI 3.0 ignores `$ref` siblings, so
-   the model would reject the hub's `null`). Excluded from ruff and from mypy
+   `-dirty` means local edits. Excluded from ruff and from mypy
    errors.
 2. **Hand-written core** - `src/wavvon/`:
    `auth.py` challenge rules and login; `retry.py` backoff; `client.py`

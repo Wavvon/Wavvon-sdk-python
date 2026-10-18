@@ -32,7 +32,7 @@ class Message:
         edited_at (int | None | Unset):
         attachments (list[Attachment] | Unset):
         reactions (list[Reaction] | Unset):
-        reply_to (None | ReplyContext | Unset):
+        reply_to (ReplyContext | Unset):
         visible_to_pubkey (str | Unset): Omitted unless set. When present, only the named user should see this message
             (ephemeral bot replies).
         reply_count (int | Unset): Number of direct replies; non-zero only on thread roots.
@@ -49,7 +49,7 @@ class Message:
     edited_at: int | None | Unset = UNSET
     attachments: list[Attachment] | Unset = UNSET
     reactions: list[Reaction] | Unset = UNSET
-    reply_to: None | ReplyContext | Unset = UNSET
+    reply_to: ReplyContext | Unset = UNSET
     visible_to_pubkey: str | Unset = UNSET
     reply_count: int | Unset = UNSET
     embeds: list[MessageEmbedsItem] | Unset = UNSET
@@ -57,8 +57,6 @@ class Message:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.reply_context import ReplyContext
-
         id = self.id
 
         channel_id = self.channel_id
@@ -95,13 +93,9 @@ class Message:
                 reactions_item = reactions_item_data.to_dict()
                 reactions.append(reactions_item)
 
-        reply_to: dict[str, Any] | None | Unset
-        if isinstance(self.reply_to, Unset):
-            reply_to = UNSET
-        elif isinstance(self.reply_to, ReplyContext):
+        reply_to: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.reply_to, Unset):
             reply_to = self.reply_to.to_dict()
-        else:
-            reply_to = self.reply_to
 
         visible_to_pubkey = self.visible_to_pubkey
 
@@ -207,22 +201,12 @@ class Message:
 
                 reactions.append(reactions_item)
 
-        def _parse_reply_to(data: object) -> None | ReplyContext | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            try:
-                if not isinstance(data, dict):
-                    raise TypeError()
-                reply_to_type_0 = ReplyContext.from_dict(data)
-
-                return reply_to_type_0
-            except (TypeError, ValueError, AttributeError, KeyError):
-                pass
-            return cast(None | ReplyContext | Unset, data)
-
-        reply_to = _parse_reply_to(d.pop("reply_to", UNSET))
+        _reply_to = d.pop("reply_to", UNSET)
+        reply_to: ReplyContext | Unset
+        if isinstance(_reply_to, Unset):
+            reply_to = UNSET
+        else:
+            reply_to = ReplyContext.from_dict(_reply_to)
 
         visible_to_pubkey = d.pop("visible_to_pubkey", UNSET)
 

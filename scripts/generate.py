@@ -4,8 +4,7 @@
 
 docs-path defaults to ../../docs (the monorepo layout). With --ref the spec is
 read from that commit instead of the working tree. The docs commit is written
-to src/wavvon/rest/SPEC_COMMIT: `-dirty` means local edits, `+refnull` means
-nullable_refs() patched the spec.
+to src/wavvon/rest/SPEC_COMMIT: `-dirty` means local edits.
 """
 
 from __future__ import annotations
@@ -24,23 +23,6 @@ from ruamel.yaml import YAML
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "src" / "wavvon" / "rest"
-
-
-def nullable_refs(node: Any) -> bool:
-    """OpenAPI 3.0 ignores siblings of `$ref`, so `{$ref, nullable: true}` is
-    not nullable and the generated model raises on the hub's `null`. Wrap the
-    ref in `anyOf`, which keeps `nullable`. Returns whether anything changed."""
-    changed = False
-    if isinstance(node, dict):
-        if "$ref" in node and node.get("nullable"):
-            node["anyOf"] = [{"$ref": node.pop("$ref")}]
-            changed = True
-        for v in node.values():
-            changed |= nullable_refs(v)
-    elif isinstance(node, list):
-        for v in node:
-            changed |= nullable_refs(v)
-    return changed
 
 
 def main() -> None:
@@ -63,10 +45,6 @@ def main() -> None:
         commit += "-dirty"
 
     spec: dict[str, Any] = YAML(typ="safe").load(text)
-    if nullable_refs(spec):
-        print("WARNING: openapi.yaml marks a $ref nullable with a sibling, which OpenAPI 3.0 ignores; patched.")
-        commit += "+refnull"
-
     with tempfile.TemporaryDirectory() as tmp:
         spec_path = Path(tmp) / "openapi.json"
         spec_path.write_text(json.dumps(spec), "utf-8")
