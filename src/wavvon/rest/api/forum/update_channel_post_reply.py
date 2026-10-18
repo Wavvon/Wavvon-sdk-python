@@ -1,0 +1,204 @@
+from http import HTTPStatus
+from typing import Any
+from urllib.parse import quote
+
+import httpx
+
+from ... import errors
+from ...client import AuthenticatedClient, Client
+from ...models.reply_view import ReplyView
+from ...models.update_channel_post_reply_body import UpdateChannelPostReplyBody
+from ...types import Response
+
+
+def _get_kwargs(
+    channel_id: str,
+    post_id: str,
+    reply_id: str,
+    *,
+    body: UpdateChannelPostReplyBody,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+
+    _kwargs: dict[str, Any] = {
+        "method": "patch",
+        "url": "/channels/{channel_id}/posts/{post_id}/replies/{reply_id}".format(
+            channel_id=quote(str(channel_id), safe=""),
+            post_id=quote(str(post_id), safe=""),
+            reply_id=quote(str(reply_id), safe=""),
+        ),
+    }
+
+    _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> ReplyView | None:
+    if response.status_code == 200:
+        response_200 = ReplyView.from_dict(response.json())
+
+        return response_200
+
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
+
+
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[ReplyView]:
+    return Response(
+        status_code=HTTPStatus(response.status_code),
+        content=response.content,
+        headers=response.headers,
+        parsed=_parse_response(client=client, response=response),
+    )
+
+
+def sync_detailed(
+    channel_id: str,
+    post_id: str,
+    reply_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: UpdateChannelPostReplyBody,
+) -> Response[ReplyView]:
+    """Edit a reply (author or manage_posts)
+
+    Args:
+        channel_id (str):
+        post_id (str):
+        reply_id (str):
+        body (UpdateChannelPostReplyBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[ReplyView]
+    """
+
+    kwargs = _get_kwargs(
+        channel_id=channel_id,
+        post_id=post_id,
+        reply_id=reply_id,
+        body=body,
+    )
+
+    response = client.get_httpx_client().request(
+        **kwargs,
+    )
+
+    return _build_response(client=client, response=response)
+
+
+def sync(
+    channel_id: str,
+    post_id: str,
+    reply_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: UpdateChannelPostReplyBody,
+) -> ReplyView | None:
+    """Edit a reply (author or manage_posts)
+
+    Args:
+        channel_id (str):
+        post_id (str):
+        reply_id (str):
+        body (UpdateChannelPostReplyBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        ReplyView
+    """
+
+    return sync_detailed(
+        channel_id=channel_id,
+        post_id=post_id,
+        reply_id=reply_id,
+        client=client,
+        body=body,
+    ).parsed
+
+
+async def asyncio_detailed(
+    channel_id: str,
+    post_id: str,
+    reply_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: UpdateChannelPostReplyBody,
+) -> Response[ReplyView]:
+    """Edit a reply (author or manage_posts)
+
+    Args:
+        channel_id (str):
+        post_id (str):
+        reply_id (str):
+        body (UpdateChannelPostReplyBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[ReplyView]
+    """
+
+    kwargs = _get_kwargs(
+        channel_id=channel_id,
+        post_id=post_id,
+        reply_id=reply_id,
+        body=body,
+    )
+
+    response = await client.get_async_httpx_client().request(**kwargs)
+
+    return _build_response(client=client, response=response)
+
+
+async def asyncio(
+    channel_id: str,
+    post_id: str,
+    reply_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: UpdateChannelPostReplyBody,
+) -> ReplyView | None:
+    """Edit a reply (author or manage_posts)
+
+    Args:
+        channel_id (str):
+        post_id (str):
+        reply_id (str):
+        body (UpdateChannelPostReplyBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        ReplyView
+    """
+
+    return (
+        await asyncio_detailed(
+            channel_id=channel_id,
+            post_id=post_id,
+            reply_id=reply_id,
+            client=client,
+            body=body,
+        )
+    ).parsed

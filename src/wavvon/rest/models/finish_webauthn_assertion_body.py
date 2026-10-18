@@ -1,0 +1,82 @@
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, Self, TypeVar
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
+if TYPE_CHECKING:
+    from ..models.finish_webauthn_assertion_body_credential import (
+        FinishWebauthnAssertionBodyCredential,
+    )
+
+
+T = TypeVar("T", bound="FinishWebauthnAssertionBody")
+
+
+@_attrs_define
+class FinishWebauthnAssertionBody:
+    """
+    Attributes:
+        session_id (str):
+        credential (FinishWebauthnAssertionBodyCredential): PublicKeyCredential assertion from
+            navigator.credentials.get()
+    """
+
+    session_id: str
+    credential: FinishWebauthnAssertionBodyCredential
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        session_id = self.session_id
+
+        credential = self.credential.to_dict()
+
+        field_dict: dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "session_id": session_id,
+                "credential": credential,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.finish_webauthn_assertion_body_credential import (
+            FinishWebauthnAssertionBodyCredential,
+        )
+
+        d = dict(src_dict)
+        session_id = d.pop("session_id")
+
+        credential = FinishWebauthnAssertionBodyCredential.from_dict(
+            d.pop("credential")
+        )
+
+        finish_webauthn_assertion_body = cls(
+            session_id=session_id,
+            credential=credential,
+        )
+
+        finish_webauthn_assertion_body.additional_properties = d
+        return finish_webauthn_assertion_body
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

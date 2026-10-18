@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Wavvon/Wavvon-server
+          ref: eb11d75657ee8362dd42a7982fc5b13a3dcc4e68
+          path: wavvon-server
+          sparse-checkout: crates/identity/wire-vectors.json
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e . --group dev
+      - run: python scripts/check
+        env:
+          CI: "true"
+          WAVVON_WIRE_VECTORS: wavvon-server/crates/identity/wire-vectors.json

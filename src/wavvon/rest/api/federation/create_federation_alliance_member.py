@@ -1,0 +1,121 @@
+from http import HTTPStatus
+from typing import Any
+
+import httpx
+
+from ... import errors
+from ...client import AuthenticatedClient, Client
+from ...models.create_federation_alliance_member_body import (
+    CreateFederationAllianceMemberBody,
+)
+from ...types import Response
+
+
+def _get_kwargs(
+    *,
+    body: CreateFederationAllianceMemberBody,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+
+    _kwargs: dict[str, Any] = {
+        "method": "post",
+        "url": "/federation/alliance-member",
+    }
+
+    _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Any | None:
+    if response.status_code == 200:
+        return None
+
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
+
+
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Any]:
+    return Response(
+        status_code=HTTPStatus(response.status_code),
+        content=response.content,
+        headers=response.headers,
+        parsed=_parse_response(client=client, response=response),
+    )
+
+
+def sync_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+    body: CreateFederationAllianceMemberBody,
+) -> Response[Any]:
+    """A hub that just joined an alliance announces itself to the other members
+
+     Sent with the announcing hub's own peer session. Carries the voucher the inviter returned from the
+    join: its signature over "wavvon/alliance-member/v1\\0" + alliance id + "\\0" + the new member's
+    key. The receiver verifies it against a hub already in its own member list and against the key that
+    authenticated, and checks that hub_url answers for that key. Without this only the inviter learns of
+    a new member, and an alliance of three never converges.
+
+    Args:
+        body (CreateFederationAllianceMemberBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Any]
+    """
+
+    kwargs = _get_kwargs(
+        body=body,
+    )
+
+    response = client.get_httpx_client().request(
+        **kwargs,
+    )
+
+    return _build_response(client=client, response=response)
+
+
+async def asyncio_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+    body: CreateFederationAllianceMemberBody,
+) -> Response[Any]:
+    """A hub that just joined an alliance announces itself to the other members
+
+     Sent with the announcing hub's own peer session. Carries the voucher the inviter returned from the
+    join: its signature over "wavvon/alliance-member/v1\\0" + alliance id + "\\0" + the new member's
+    key. The receiver verifies it against a hub already in its own member list and against the key that
+    authenticated, and checks that hub_url answers for that key. Without this only the inviter learns of
+    a new member, and an alliance of three never converges.
+
+    Args:
+        body (CreateFederationAllianceMemberBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Any]
+    """
+
+    kwargs = _get_kwargs(
+        body=body,
+    )
+
+    response = await client.get_async_httpx_client().request(**kwargs)
+
+    return _build_response(client=client, response=response)
