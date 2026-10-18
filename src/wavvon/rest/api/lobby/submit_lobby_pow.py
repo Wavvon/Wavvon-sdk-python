@@ -1,0 +1,109 @@
+from http import HTTPStatus
+from typing import Any
+
+import httpx
+
+from ...client import AuthenticatedClient, Client
+from ...models.submit_lobby_pow_body import SubmitLobbyPowBody
+from ...types import UNSET, Response, Unset
+
+
+def _get_kwargs(
+    *,
+    body: SubmitLobbyPowBody | Unset = UNSET,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+
+    _kwargs: dict[str, Any] = {
+        "method": "post",
+        "url": "/lobby/submit-pow",
+    }
+
+    if not isinstance(body, Unset):
+        _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Any:
+    return None
+
+
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Any]:
+    return Response(
+        status_code=HTTPStatus(response.status_code),
+        content=response.content,
+        headers=response.headers,
+        parsed=_parse_response(client=client, response=response),
+    )
+
+
+def sync_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+    body: SubmitLobbyPowBody | Unset = UNSET,
+) -> Response[Any]:
+    """Submit a PoW nonce to increase security level
+
+     Compute `SHA256(utf8(public_key_hex) || little_endian_u64(nonce))` and
+    find a nonce whose hash has ≥ N leading zero bits, then submit here.
+    On promotion, the session scope changes to "member".
+
+    Args:
+        body (SubmitLobbyPowBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Any]
+    """
+
+    kwargs = _get_kwargs(
+        body=body,
+    )
+
+    response = client.get_httpx_client().request(
+        **kwargs,
+    )
+
+    return _build_response(client=client, response=response)
+
+
+async def asyncio_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+    body: SubmitLobbyPowBody | Unset = UNSET,
+) -> Response[Any]:
+    """Submit a PoW nonce to increase security level
+
+     Compute `SHA256(utf8(public_key_hex) || little_endian_u64(nonce))` and
+    find a nonce whose hash has ≥ N leading zero bits, then submit here.
+    On promotion, the session scope changes to "member".
+
+    Args:
+        body (SubmitLobbyPowBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Any]
+    """
+
+    kwargs = _get_kwargs(
+        body=body,
+    )
+
+    response = await client.get_async_httpx_client().request(**kwargs)
+
+    return _build_response(client=client, response=response)
