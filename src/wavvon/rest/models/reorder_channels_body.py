@@ -1,37 +1,32 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar
+from typing import Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="CreateChannelPollBodyOptionsItem")
+T = TypeVar("T", bound="ReorderChannelsBody")
 
 
 @_attrs_define
-class CreateChannelPollBodyOptionsItem:
+class ReorderChannelsBody:
     """
     Attributes:
-        id (str):
-        text (str):
+        channel_ids (list[str]):
     """
 
-    id: str
-    text: str
+    channel_ids: list[str]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        id = self.id
-
-        text = self.text
+        channel_ids = self.channel_ids
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "id": id,
-                "text": text,
+                "channel_ids": channel_ids,
             }
         )
 
@@ -40,17 +35,14 @@ class CreateChannelPollBodyOptionsItem:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        id = d.pop("id")
+        channel_ids = cast(list[str], d.pop("channel_ids"))
 
-        text = d.pop("text")
-
-        create_channel_poll_body_options_item = cls(
-            id=id,
-            text=text,
+        reorder_channels_body = cls(
+            channel_ids=channel_ids,
         )
 
-        create_channel_poll_body_options_item.additional_properties = d
-        return create_channel_poll_body_options_item
+        reorder_channels_body.additional_properties = d
+        return reorder_channels_body
 
     @property
     def additional_keys(self) -> list[str]:

@@ -1,70 +1,72 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar, cast
+from typing import Any, Self, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-T = TypeVar("T", bound="CreateEventSlotBody")
+T = TypeVar("T", bound="CreateChannelPostReplyBodyAttachmentsItem")
 
 
 @_attrs_define
-class CreateEventSlotBody:
+class CreateChannelPostReplyBodyAttachmentsItem:
     """
     Attributes:
+        url (str):
         name (str):
-        capacity (int | None | Unset): Omit or null = unlimited
+        mime (str):
+        size (int):
     """
 
+    url: str
     name: str
-    capacity: int | None | Unset = UNSET
+    mime: str
+    size: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        url = self.url
+
         name = self.name
 
-        capacity: int | None | Unset
-        if isinstance(self.capacity, Unset):
-            capacity = UNSET
-        else:
-            capacity = self.capacity
+        mime = self.mime
+
+        size = self.size
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
+                "url": url,
                 "name": name,
+                "mime": mime,
+                "size": size,
             }
         )
-        if capacity is not UNSET:
-            field_dict["capacity"] = capacity
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
+        url = d.pop("url")
+
         name = d.pop("name")
 
-        def _parse_capacity(data: object) -> int | None | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(int | None | Unset, data)
+        mime = d.pop("mime")
 
-        capacity = _parse_capacity(d.pop("capacity", UNSET))
+        size = d.pop("size")
 
-        create_event_slot_body = cls(
+        create_channel_post_reply_body_attachments_item = cls(
+            url=url,
             name=name,
-            capacity=capacity,
+            mime=mime,
+            size=size,
         )
 
-        create_event_slot_body.additional_properties = d
-        return create_event_slot_body
+        create_channel_post_reply_body_attachments_item.additional_properties = d
+        return create_channel_post_reply_body_attachments_item
 
     @property
     def additional_keys(self) -> list[str]:

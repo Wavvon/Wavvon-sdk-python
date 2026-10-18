@@ -13,25 +13,20 @@ T = TypeVar("T", bound="SubmitLobbyPowBody")
 class SubmitLobbyPowBody:
     """
     Attributes:
-        nonce (int):
-        claimed_level (int):
+        pow_proof (str):
     """
 
-    nonce: int
-    claimed_level: int
+    pow_proof: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        nonce = self.nonce
-
-        claimed_level = self.claimed_level
+        pow_proof = self.pow_proof
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "nonce": nonce,
-                "claimed_level": claimed_level,
+                "pow_proof": pow_proof,
             }
         )
 
@@ -40,13 +35,10 @@ class SubmitLobbyPowBody:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        nonce = d.pop("nonce")
-
-        claimed_level = d.pop("claimed_level")
+        pow_proof = d.pop("pow_proof")
 
         submit_lobby_pow_body = cls(
-            nonce=nonce,
-            claimed_level=claimed_level,
+            pow_proof=pow_proof,
         )
 
         submit_lobby_pow_body.additional_properties = d

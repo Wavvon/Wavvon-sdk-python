@@ -8,14 +8,14 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.post_detail import PostDetail
 from ...models.update_channel_post_body import UpdateChannelPostBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     post_id: str,
     *,
-    body: UpdateChannelPostBody | Unset = UNSET,
+    body: UpdateChannelPostBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -27,8 +27,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -66,14 +65,14 @@ def sync_detailed(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelPostBody | Unset = UNSET,
+    body: UpdateChannelPostBody,
 ) -> Response[PostDetail]:
     """Edit a post's title and/or body (author or manage_posts)
 
     Args:
         channel_id (str):
         post_id (str):
-        body (UpdateChannelPostBody | Unset):
+        body (UpdateChannelPostBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -101,14 +100,14 @@ def sync(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelPostBody | Unset = UNSET,
+    body: UpdateChannelPostBody,
 ) -> PostDetail | None:
     """Edit a post's title and/or body (author or manage_posts)
 
     Args:
         channel_id (str):
         post_id (str):
-        body (UpdateChannelPostBody | Unset):
+        body (UpdateChannelPostBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -131,14 +130,14 @@ async def asyncio_detailed(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelPostBody | Unset = UNSET,
+    body: UpdateChannelPostBody,
 ) -> Response[PostDetail]:
     """Edit a post's title and/or body (author or manage_posts)
 
     Args:
         channel_id (str):
         post_id (str):
-        body (UpdateChannelPostBody | Unset):
+        body (UpdateChannelPostBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -164,14 +163,14 @@ async def asyncio(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelPostBody | Unset = UNSET,
+    body: UpdateChannelPostBody,
 ) -> PostDetail | None:
     """Edit a post's title and/or body (author or manage_posts)
 
     Args:
         channel_id (str):
         post_id (str):
-        body (UpdateChannelPostBody | Unset):
+        body (UpdateChannelPostBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

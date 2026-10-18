@@ -9,12 +9,12 @@ from ...models.create_admin_outgoing_webhook_body import CreateAdminOutgoingWebh
 from ...models.create_admin_outgoing_webhook_response_201 import (
     CreateAdminOutgoingWebhookResponse201,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateAdminOutgoingWebhookBody | Unset = UNSET,
+    body: CreateAdminOutgoingWebhookBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -23,8 +23,7 @@ def _get_kwargs(
         "url": "/admin/outgoing-webhooks",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,7 +59,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminOutgoingWebhookBody | Unset = UNSET,
+    body: CreateAdminOutgoingWebhookBody,
 ) -> Response[CreateAdminOutgoingWebhookResponse201]:
     """Create an outgoing webhook (admin)
 
@@ -68,7 +67,7 @@ def sync_detailed(
     shown once and used to derive the persisted HMAC signing key.
 
     Args:
-        body (CreateAdminOutgoingWebhookBody | Unset):
+        body (CreateAdminOutgoingWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -92,7 +91,7 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminOutgoingWebhookBody | Unset = UNSET,
+    body: CreateAdminOutgoingWebhookBody,
 ) -> CreateAdminOutgoingWebhookResponse201 | None:
     """Create an outgoing webhook (admin)
 
@@ -100,7 +99,7 @@ def sync(
     shown once and used to derive the persisted HMAC signing key.
 
     Args:
-        body (CreateAdminOutgoingWebhookBody | Unset):
+        body (CreateAdminOutgoingWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -119,7 +118,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminOutgoingWebhookBody | Unset = UNSET,
+    body: CreateAdminOutgoingWebhookBody,
 ) -> Response[CreateAdminOutgoingWebhookResponse201]:
     """Create an outgoing webhook (admin)
 
@@ -127,7 +126,7 @@ async def asyncio_detailed(
     shown once and used to derive the persisted HMAC signing key.
 
     Args:
-        body (CreateAdminOutgoingWebhookBody | Unset):
+        body (CreateAdminOutgoingWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -149,7 +148,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminOutgoingWebhookBody | Unset = UNSET,
+    body: CreateAdminOutgoingWebhookBody,
 ) -> CreateAdminOutgoingWebhookResponse201 | None:
     """Create an outgoing webhook (admin)
 
@@ -157,7 +156,7 @@ async def asyncio(
     shown once and used to derive the persisted HMAC signing key.
 
     Args:
-        body (CreateAdminOutgoingWebhookBody | Unset):
+        body (CreateAdminOutgoingWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -8,7 +8,7 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.reply_view import ReplyView
 from ...models.update_channel_post_reply_body import UpdateChannelPostReplyBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
@@ -16,7 +16,7 @@ def _get_kwargs(
     post_id: str,
     reply_id: str,
     *,
-    body: UpdateChannelPostReplyBody | Unset = UNSET,
+    body: UpdateChannelPostReplyBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -29,8 +29,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -69,7 +68,7 @@ def sync_detailed(
     reply_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelPostReplyBody | Unset = UNSET,
+    body: UpdateChannelPostReplyBody,
 ) -> Response[ReplyView]:
     """Edit a reply (author or manage_posts)
 
@@ -77,7 +76,7 @@ def sync_detailed(
         channel_id (str):
         post_id (str):
         reply_id (str):
-        body (UpdateChannelPostReplyBody | Unset):
+        body (UpdateChannelPostReplyBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -107,7 +106,7 @@ def sync(
     reply_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelPostReplyBody | Unset = UNSET,
+    body: UpdateChannelPostReplyBody,
 ) -> ReplyView | None:
     """Edit a reply (author or manage_posts)
 
@@ -115,7 +114,7 @@ def sync(
         channel_id (str):
         post_id (str):
         reply_id (str):
-        body (UpdateChannelPostReplyBody | Unset):
+        body (UpdateChannelPostReplyBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -140,7 +139,7 @@ async def asyncio_detailed(
     reply_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelPostReplyBody | Unset = UNSET,
+    body: UpdateChannelPostReplyBody,
 ) -> Response[ReplyView]:
     """Edit a reply (author or manage_posts)
 
@@ -148,7 +147,7 @@ async def asyncio_detailed(
         channel_id (str):
         post_id (str):
         reply_id (str):
-        body (UpdateChannelPostReplyBody | Unset):
+        body (UpdateChannelPostReplyBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -176,7 +175,7 @@ async def asyncio(
     reply_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelPostReplyBody | Unset = UNSET,
+    body: UpdateChannelPostReplyBody,
 ) -> ReplyView | None:
     """Edit a reply (author or manage_posts)
 
@@ -184,7 +183,7 @@ async def asyncio(
         channel_id (str):
         post_id (str):
         reply_id (str):
-        body (UpdateChannelPostReplyBody | Unset):
+        body (UpdateChannelPostReplyBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

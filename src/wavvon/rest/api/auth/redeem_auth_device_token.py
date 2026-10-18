@@ -9,12 +9,12 @@ from ...models.redeem_auth_device_token_body import RedeemAuthDeviceTokenBody
 from ...models.redeem_auth_device_token_response_200 import (
     RedeemAuthDeviceTokenResponse200,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: RedeemAuthDeviceTokenBody | Unset = UNSET,
+    body: RedeemAuthDeviceTokenBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -23,8 +23,7 @@ def _get_kwargs(
         "url": "/auth/device-token/redeem",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -64,14 +63,14 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: RedeemAuthDeviceTokenBody | Unset = UNSET,
+    body: RedeemAuthDeviceTokenBody,
 ) -> Response[Any | RedeemAuthDeviceTokenResponse200]:
     """Exchange a device token for a fresh session token
 
      Rotates the device token on each use (issues a new one, invalidates the old).
 
     Args:
-        body (RedeemAuthDeviceTokenBody | Unset):
+        body (RedeemAuthDeviceTokenBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -95,14 +94,14 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: RedeemAuthDeviceTokenBody | Unset = UNSET,
+    body: RedeemAuthDeviceTokenBody,
 ) -> Any | RedeemAuthDeviceTokenResponse200 | None:
     """Exchange a device token for a fresh session token
 
      Rotates the device token on each use (issues a new one, invalidates the old).
 
     Args:
-        body (RedeemAuthDeviceTokenBody | Unset):
+        body (RedeemAuthDeviceTokenBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -121,14 +120,14 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: RedeemAuthDeviceTokenBody | Unset = UNSET,
+    body: RedeemAuthDeviceTokenBody,
 ) -> Response[Any | RedeemAuthDeviceTokenResponse200]:
     """Exchange a device token for a fresh session token
 
      Rotates the device token on each use (issues a new one, invalidates the old).
 
     Args:
-        body (RedeemAuthDeviceTokenBody | Unset):
+        body (RedeemAuthDeviceTokenBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -150,14 +149,14 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: RedeemAuthDeviceTokenBody | Unset = UNSET,
+    body: RedeemAuthDeviceTokenBody,
 ) -> Any | RedeemAuthDeviceTokenResponse200 | None:
     """Exchange a device token for a fresh session token
 
      Rotates the device token on each use (issues a new one, invalidates the old).
 
     Args:
-        body (RedeemAuthDeviceTokenBody | Unset):
+        body (RedeemAuthDeviceTokenBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

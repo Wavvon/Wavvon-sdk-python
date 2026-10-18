@@ -7,13 +7,13 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_alliance_push_invite_body import CreateAlliancePushInviteBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     alliance_id: str,
     *,
-    body: CreateAlliancePushInviteBody | Unset = UNSET,
+    body: CreateAlliancePushInviteBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -24,8 +24,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,13 +59,13 @@ def sync_detailed(
     alliance_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAlliancePushInviteBody | Unset = UNSET,
+    body: CreateAlliancePushInviteBody,
 ) -> Response[Any]:
     """Push a direct alliance invite to another hub (alliance manager)
 
     Args:
         alliance_id (str):
-        body (CreateAlliancePushInviteBody | Unset):
+        body (CreateAlliancePushInviteBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -92,13 +91,13 @@ async def asyncio_detailed(
     alliance_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAlliancePushInviteBody | Unset = UNSET,
+    body: CreateAlliancePushInviteBody,
 ) -> Response[Any]:
     """Push a direct alliance invite to another hub (alliance manager)
 
     Args:
         alliance_id (str):
-        body (CreateAlliancePushInviteBody | Unset):
+        body (CreateAlliancePushInviteBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

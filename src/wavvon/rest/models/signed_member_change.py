@@ -9,7 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.signed_member_change_signer_cert import SignedMemberChangeSignerCert
+    from ..models.subkey_cert import SubkeyCert
 
 
 T = TypeVar("T", bound="SignedMemberChange")
@@ -24,13 +24,12 @@ class SignedMemberChange:
         Attributes:
             issued_at (int): unix seconds
             signature (str):
-            signer_cert (SignedMemberChangeSignerCert | Unset): When the signing key is not the actor's own, the master-
-                signed cert tying the two.
+            signer_cert (SubkeyCert | Unset):
     """
 
     issued_at: int
     signature: str
-    signer_cert: SignedMemberChangeSignerCert | Unset = UNSET
+    signer_cert: SubkeyCert | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -57,9 +56,7 @@ class SignedMemberChange:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.signed_member_change_signer_cert import (
-            SignedMemberChangeSignerCert,
-        )
+        from ..models.subkey_cert import SubkeyCert
 
         d = dict(src_dict)
         issued_at = d.pop("issued_at")
@@ -67,11 +64,11 @@ class SignedMemberChange:
         signature = d.pop("signature")
 
         _signer_cert = d.pop("signer_cert", UNSET)
-        signer_cert: SignedMemberChangeSignerCert | Unset
+        signer_cert: SubkeyCert | Unset
         if isinstance(_signer_cert, Unset):
             signer_cert = UNSET
         else:
-            signer_cert = SignedMemberChangeSignerCert.from_dict(_signer_cert)
+            signer_cert = SubkeyCert.from_dict(_signer_cert)
 
         signed_member_change = cls(
             issued_at=issued_at,

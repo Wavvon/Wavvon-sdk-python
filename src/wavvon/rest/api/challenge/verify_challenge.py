@@ -6,12 +6,12 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.verify_challenge_body import VerifyChallengeBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: VerifyChallengeBody | Unset = UNSET,
+    body: VerifyChallengeBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -20,8 +20,7 @@ def _get_kwargs(
         "url": "/challenge/verify",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -55,14 +54,14 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: VerifyChallengeBody | Unset = UNSET,
+    body: VerifyChallengeBody,
 ) -> Response[Any]:
     """Submit challenge answer and receive a one-time token
 
      On success returns a `challenge_token` to include in `POST /auth/verify`.
 
     Args:
-        body (VerifyChallengeBody | Unset):
+        body (VerifyChallengeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -86,14 +85,14 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: VerifyChallengeBody | Unset = UNSET,
+    body: VerifyChallengeBody,
 ) -> Response[Any]:
     """Submit challenge answer and receive a one-time token
 
      On success returns a `challenge_token` to include in `POST /auth/verify`.
 
     Args:
-        body (VerifyChallengeBody | Unset):
+        body (VerifyChallengeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

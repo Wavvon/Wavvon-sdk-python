@@ -8,14 +8,14 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.message import Message
 from ...models.update_channel_message_body import UpdateChannelMessageBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     message_id: str,
     *,
-    body: UpdateChannelMessageBody | Unset = UNSET,
+    body: UpdateChannelMessageBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -27,8 +27,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -66,14 +65,14 @@ def sync_detailed(
     message_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelMessageBody | Unset = UNSET,
+    body: UpdateChannelMessageBody,
 ) -> Response[Message]:
     """Edit own message
 
     Args:
         channel_id (str):
         message_id (str):
-        body (UpdateChannelMessageBody | Unset):
+        body (UpdateChannelMessageBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -101,14 +100,14 @@ def sync(
     message_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelMessageBody | Unset = UNSET,
+    body: UpdateChannelMessageBody,
 ) -> Message | None:
     """Edit own message
 
     Args:
         channel_id (str):
         message_id (str):
-        body (UpdateChannelMessageBody | Unset):
+        body (UpdateChannelMessageBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -131,14 +130,14 @@ async def asyncio_detailed(
     message_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelMessageBody | Unset = UNSET,
+    body: UpdateChannelMessageBody,
 ) -> Response[Message]:
     """Edit own message
 
     Args:
         channel_id (str):
         message_id (str):
-        body (UpdateChannelMessageBody | Unset):
+        body (UpdateChannelMessageBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -164,14 +163,14 @@ async def asyncio(
     message_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateChannelMessageBody | Unset = UNSET,
+    body: UpdateChannelMessageBody,
 ) -> Message | None:
     """Edit own message
 
     Args:
         channel_id (str):
         message_id (str):
-        body (UpdateChannelMessageBody | Unset):
+        body (UpdateChannelMessageBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -33,10 +33,10 @@ class UpdateAdminSettingsCertsBody:
         cert_validity_days (int | str | Unset):
         cert_mode (UpdateAdminSettingsCertsBodyCertMode | Unset):
         cert_trusted_issuers (list[str] | Unset):
-        cert_require (UpdateAdminSettingsCertsBodyCertRequire | Unset):
-        cert_min_pow_level (int | str | Unset):
         cert_issuer_urls (UpdateAdminSettingsCertsBodyCertIssuerUrls | Unset): Replaces the whole map, like the trust
             list it accompanies.
+        cert_require (UpdateAdminSettingsCertsBodyCertRequire | Unset):
+        cert_min_pow_level (int | str | Unset):
     """
 
     cert_auto_issue: bool | str | Unset = UNSET
@@ -45,9 +45,9 @@ class UpdateAdminSettingsCertsBody:
     cert_validity_days: int | str | Unset = UNSET
     cert_mode: UpdateAdminSettingsCertsBodyCertMode | Unset = UNSET
     cert_trusted_issuers: list[str] | Unset = UNSET
+    cert_issuer_urls: UpdateAdminSettingsCertsBodyCertIssuerUrls | Unset = UNSET
     cert_require: UpdateAdminSettingsCertsBodyCertRequire | Unset = UNSET
     cert_min_pow_level: int | str | Unset = UNSET
-    cert_issuer_urls: UpdateAdminSettingsCertsBodyCertIssuerUrls | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -83,6 +83,10 @@ class UpdateAdminSettingsCertsBody:
         if not isinstance(self.cert_trusted_issuers, Unset):
             cert_trusted_issuers = self.cert_trusted_issuers
 
+        cert_issuer_urls: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.cert_issuer_urls, Unset):
+            cert_issuer_urls = self.cert_issuer_urls.to_dict()
+
         cert_require: dict[str, Any] | Unset = UNSET
         if not isinstance(self.cert_require, Unset):
             cert_require = self.cert_require.to_dict()
@@ -92,10 +96,6 @@ class UpdateAdminSettingsCertsBody:
             cert_min_pow_level = UNSET
         else:
             cert_min_pow_level = self.cert_min_pow_level
-
-        cert_issuer_urls: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.cert_issuer_urls, Unset):
-            cert_issuer_urls = self.cert_issuer_urls.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -112,12 +112,12 @@ class UpdateAdminSettingsCertsBody:
             field_dict["cert_mode"] = cert_mode
         if cert_trusted_issuers is not UNSET:
             field_dict["cert_trusted_issuers"] = cert_trusted_issuers
+        if cert_issuer_urls is not UNSET:
+            field_dict["cert_issuer_urls"] = cert_issuer_urls
         if cert_require is not UNSET:
             field_dict["cert_require"] = cert_require
         if cert_min_pow_level is not UNSET:
             field_dict["cert_min_pow_level"] = cert_min_pow_level
-        if cert_issuer_urls is not UNSET:
-            field_dict["cert_issuer_urls"] = cert_issuer_urls
 
         return field_dict
 
@@ -173,6 +173,15 @@ class UpdateAdminSettingsCertsBody:
 
         cert_trusted_issuers = cast(list[str], d.pop("cert_trusted_issuers", UNSET))
 
+        _cert_issuer_urls = d.pop("cert_issuer_urls", UNSET)
+        cert_issuer_urls: UpdateAdminSettingsCertsBodyCertIssuerUrls | Unset
+        if isinstance(_cert_issuer_urls, Unset):
+            cert_issuer_urls = UNSET
+        else:
+            cert_issuer_urls = UpdateAdminSettingsCertsBodyCertIssuerUrls.from_dict(
+                _cert_issuer_urls
+            )
+
         _cert_require = d.pop("cert_require", UNSET)
         cert_require: UpdateAdminSettingsCertsBodyCertRequire | Unset
         if isinstance(_cert_require, Unset):
@@ -191,15 +200,6 @@ class UpdateAdminSettingsCertsBody:
             d.pop("cert_min_pow_level", UNSET)
         )
 
-        _cert_issuer_urls = d.pop("cert_issuer_urls", UNSET)
-        cert_issuer_urls: UpdateAdminSettingsCertsBodyCertIssuerUrls | Unset
-        if isinstance(_cert_issuer_urls, Unset):
-            cert_issuer_urls = UNSET
-        else:
-            cert_issuer_urls = UpdateAdminSettingsCertsBodyCertIssuerUrls.from_dict(
-                _cert_issuer_urls
-            )
-
         update_admin_settings_certs_body = cls(
             cert_auto_issue=cert_auto_issue,
             cert_standing_days=cert_standing_days,
@@ -207,9 +207,9 @@ class UpdateAdminSettingsCertsBody:
             cert_validity_days=cert_validity_days,
             cert_mode=cert_mode,
             cert_trusted_issuers=cert_trusted_issuers,
+            cert_issuer_urls=cert_issuer_urls,
             cert_require=cert_require,
             cert_min_pow_level=cert_min_pow_level,
-            cert_issuer_urls=cert_issuer_urls,
         )
 
         update_admin_settings_certs_body.additional_properties = d

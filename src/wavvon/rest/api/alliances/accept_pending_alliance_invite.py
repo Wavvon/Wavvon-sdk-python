@@ -6,12 +6,18 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.accept_pending_alliance_invite_body import (
+    AcceptPendingAllianceInviteBody,
+)
 from ...types import Response
 
 
 def _get_kwargs(
     invite_id: str,
+    *,
+    body: AcceptPendingAllianceInviteBody,
 ) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -20,6 +26,11 @@ def _get_kwargs(
         ),
     }
 
+    _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -50,11 +61,13 @@ def sync_detailed(
     invite_id: str,
     *,
     client: AuthenticatedClient | Client,
+    body: AcceptPendingAllianceInviteBody,
 ) -> Response[Any]:
     """Accept a pending alliance invite (manage_hub)
 
     Args:
         invite_id (str):
+        body (AcceptPendingAllianceInviteBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -66,6 +79,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         invite_id=invite_id,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -79,11 +93,13 @@ async def asyncio_detailed(
     invite_id: str,
     *,
     client: AuthenticatedClient | Client,
+    body: AcceptPendingAllianceInviteBody,
 ) -> Response[Any]:
     """Accept a pending alliance invite (manage_hub)
 
     Args:
         invite_id (str):
+        body (AcceptPendingAllianceInviteBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -95,6 +111,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         invite_id=invite_id,
+        body=body,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)

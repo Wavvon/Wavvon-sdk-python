@@ -8,21 +8,21 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="SetMeAppProfileBodyGame")
+T = TypeVar("T", bound="GameLaunchCard")
 
 
 @_attrs_define
-class SetMeAppProfileBodyGame:
+class GameLaunchCard:
     """
     Attributes:
-        entry_url (str | Unset):
-        name (str | Unset):
+        entry_url (str):
+        name (str):
         description (str | Unset):
         thumbnail_url (str | Unset):
     """
 
-    entry_url: str | Unset = UNSET
-    name: str | Unset = UNSET
+    entry_url: str
+    name: str
     description: str | Unset = UNSET
     thumbnail_url: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -38,11 +38,12 @@ class SetMeAppProfileBodyGame:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if entry_url is not UNSET:
-            field_dict["entry_url"] = entry_url
-        if name is not UNSET:
-            field_dict["name"] = name
+        field_dict.update(
+            {
+                "entry_url": entry_url,
+                "name": name,
+            }
+        )
         if description is not UNSET:
             field_dict["description"] = description
         if thumbnail_url is not UNSET:
@@ -53,23 +54,23 @@ class SetMeAppProfileBodyGame:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        entry_url = d.pop("entry_url", UNSET)
+        entry_url = d.pop("entry_url")
 
-        name = d.pop("name", UNSET)
+        name = d.pop("name")
 
         description = d.pop("description", UNSET)
 
         thumbnail_url = d.pop("thumbnail_url", UNSET)
 
-        set_me_app_profile_body_game = cls(
+        game_launch_card = cls(
             entry_url=entry_url,
             name=name,
             description=description,
             thumbnail_url=thumbnail_url,
         )
 
-        set_me_app_profile_body_game.additional_properties = d
-        return set_me_app_profile_body_game
+        game_launch_card.additional_properties = d
+        return game_launch_card
 
     @property
     def additional_keys(self) -> list[str]:

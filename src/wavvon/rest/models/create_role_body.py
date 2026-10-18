@@ -16,41 +16,55 @@ class CreateRoleBody:
     """
     Attributes:
         name (str):
-        permissions (list[str] | Unset):
-        priority (int | Unset):
+        permissions (list[str]):
+        priority (int):
         display_separately (bool | Unset):
+        color (str | Unset):
+        icon (str | Unset):
+        category_id (str | Unset):
     """
 
     name: str
-    permissions: list[str] | Unset = UNSET
-    priority: int | Unset = UNSET
+    permissions: list[str]
+    priority: int
     display_separately: bool | Unset = UNSET
+    color: str | Unset = UNSET
+    icon: str | Unset = UNSET
+    category_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
 
-        permissions: list[str] | Unset = UNSET
-        if not isinstance(self.permissions, Unset):
-            permissions = self.permissions
+        permissions = self.permissions
 
         priority = self.priority
 
         display_separately = self.display_separately
+
+        color = self.color
+
+        icon = self.icon
+
+        category_id = self.category_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "name": name,
+                "permissions": permissions,
+                "priority": priority,
             }
         )
-        if permissions is not UNSET:
-            field_dict["permissions"] = permissions
-        if priority is not UNSET:
-            field_dict["priority"] = priority
         if display_separately is not UNSET:
             field_dict["display_separately"] = display_separately
+        if color is not UNSET:
+            field_dict["color"] = color
+        if icon is not UNSET:
+            field_dict["icon"] = icon
+        if category_id is not UNSET:
+            field_dict["category_id"] = category_id
 
         return field_dict
 
@@ -59,17 +73,26 @@ class CreateRoleBody:
         d = dict(src_dict)
         name = d.pop("name")
 
-        permissions = cast(list[str], d.pop("permissions", UNSET))
+        permissions = cast(list[str], d.pop("permissions"))
 
-        priority = d.pop("priority", UNSET)
+        priority = d.pop("priority")
 
         display_separately = d.pop("display_separately", UNSET)
+
+        color = d.pop("color", UNSET)
+
+        icon = d.pop("icon", UNSET)
+
+        category_id = d.pop("category_id", UNSET)
 
         create_role_body = cls(
             name=name,
             permissions=permissions,
             priority=priority,
             display_separately=display_separately,
+            color=color,
+            icon=icon,
+            category_id=category_id,
         )
 
         create_role_body.additional_properties = d

@@ -9,12 +9,12 @@ from ...models.create_admin_banlist_source_body import CreateAdminBanlistSourceB
 from ...models.create_admin_banlist_source_response_201 import (
     CreateAdminBanlistSourceResponse201,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateAdminBanlistSourceBody | Unset = UNSET,
+    body: CreateAdminBanlistSourceBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -23,8 +23,7 @@ def _get_kwargs(
         "url": "/admin/banlist/sources",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,12 +59,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminBanlistSourceBody | Unset = UNSET,
+    body: CreateAdminBanlistSourceBody,
 ) -> Response[CreateAdminBanlistSourceResponse201]:
     """Add a ban list source and trigger an immediate sync (admin)
 
     Args:
-        body (CreateAdminBanlistSourceBody | Unset):
+        body (CreateAdminBanlistSourceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -89,12 +88,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminBanlistSourceBody | Unset = UNSET,
+    body: CreateAdminBanlistSourceBody,
 ) -> CreateAdminBanlistSourceResponse201 | None:
     """Add a ban list source and trigger an immediate sync (admin)
 
     Args:
-        body (CreateAdminBanlistSourceBody | Unset):
+        body (CreateAdminBanlistSourceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -113,12 +112,12 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminBanlistSourceBody | Unset = UNSET,
+    body: CreateAdminBanlistSourceBody,
 ) -> Response[CreateAdminBanlistSourceResponse201]:
     """Add a ban list source and trigger an immediate sync (admin)
 
     Args:
-        body (CreateAdminBanlistSourceBody | Unset):
+        body (CreateAdminBanlistSourceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -140,12 +139,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminBanlistSourceBody | Unset = UNSET,
+    body: CreateAdminBanlistSourceBody,
 ) -> CreateAdminBanlistSourceResponse201 | None:
     """Add a ban list source and trigger an immediate sync (admin)
 
     Args:
-        body (CreateAdminBanlistSourceBody | Unset):
+        body (CreateAdminBanlistSourceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

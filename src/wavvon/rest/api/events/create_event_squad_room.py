@@ -8,13 +8,13 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.channel import Channel
 from ...models.create_event_squad_room_body import CreateEventSquadRoomBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     event_id: str,
     *,
-    body: CreateEventSquadRoomBody | Unset = UNSET,
+    body: CreateEventSquadRoomBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -25,8 +25,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -68,7 +67,7 @@ def sync_detailed(
     event_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateEventSquadRoomBody | Unset = UNSET,
+    body: CreateEventSquadRoomBody,
 ) -> Response[list[Channel]]:
     """Auto-spawn temp squad voice channels
 
@@ -79,7 +78,7 @@ def sync_detailed(
 
     Args:
         event_id (str):
-        body (CreateEventSquadRoomBody | Unset):
+        body (CreateEventSquadRoomBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -105,7 +104,7 @@ def sync(
     event_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateEventSquadRoomBody | Unset = UNSET,
+    body: CreateEventSquadRoomBody,
 ) -> list[Channel] | None:
     """Auto-spawn temp squad voice channels
 
@@ -116,7 +115,7 @@ def sync(
 
     Args:
         event_id (str):
-        body (CreateEventSquadRoomBody | Unset):
+        body (CreateEventSquadRoomBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -137,7 +136,7 @@ async def asyncio_detailed(
     event_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateEventSquadRoomBody | Unset = UNSET,
+    body: CreateEventSquadRoomBody,
 ) -> Response[list[Channel]]:
     """Auto-spawn temp squad voice channels
 
@@ -148,7 +147,7 @@ async def asyncio_detailed(
 
     Args:
         event_id (str):
-        body (CreateEventSquadRoomBody | Unset):
+        body (CreateEventSquadRoomBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -172,7 +171,7 @@ async def asyncio(
     event_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateEventSquadRoomBody | Unset = UNSET,
+    body: CreateEventSquadRoomBody,
 ) -> list[Channel] | None:
     """Auto-spawn temp squad voice channels
 
@@ -183,7 +182,7 @@ async def asyncio(
 
     Args:
         event_id (str):
-        body (CreateEventSquadRoomBody | Unset):
+        body (CreateEventSquadRoomBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

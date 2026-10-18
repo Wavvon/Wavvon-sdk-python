@@ -9,14 +9,14 @@ from ...client import AuthenticatedClient, Client
 from ...models.create_channel_message_reaction_body import (
     CreateChannelMessageReactionBody,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     message_id: str,
     *,
-    body: CreateChannelMessageReactionBody | Unset = UNSET,
+    body: CreateChannelMessageReactionBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -28,8 +28,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -65,14 +64,14 @@ def sync_detailed(
     message_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelMessageReactionBody | Unset = UNSET,
+    body: CreateChannelMessageReactionBody,
 ) -> Response[Any]:
     """Add reaction to a message
 
     Args:
         channel_id (str):
         message_id (str):
-        body (CreateChannelMessageReactionBody | Unset):
+        body (CreateChannelMessageReactionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -100,14 +99,14 @@ async def asyncio_detailed(
     message_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelMessageReactionBody | Unset = UNSET,
+    body: CreateChannelMessageReactionBody,
 ) -> Response[Any]:
     """Add reaction to a message
 
     Args:
         channel_id (str):
         message_id (str):
-        body (CreateChannelMessageReactionBody | Unset):
+        body (CreateChannelMessageReactionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

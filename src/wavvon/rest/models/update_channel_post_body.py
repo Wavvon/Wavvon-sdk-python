@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar
+from typing import Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,16 +17,22 @@ class UpdateChannelPostBody:
     Attributes:
         title (str | Unset):
         body (str | Unset):
+        tag_ids (list[str] | Unset):
     """
 
     title: str | Unset = UNSET
     body: str | Unset = UNSET
+    tag_ids: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         title = self.title
 
         body = self.body
+
+        tag_ids: list[str] | Unset = UNSET
+        if not isinstance(self.tag_ids, Unset):
+            tag_ids = self.tag_ids
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -35,6 +41,8 @@ class UpdateChannelPostBody:
             field_dict["title"] = title
         if body is not UNSET:
             field_dict["body"] = body
+        if tag_ids is not UNSET:
+            field_dict["tag_ids"] = tag_ids
 
         return field_dict
 
@@ -45,9 +53,12 @@ class UpdateChannelPostBody:
 
         body = d.pop("body", UNSET)
 
+        tag_ids = cast(list[str], d.pop("tag_ids", UNSET))
+
         update_channel_post_body = cls(
             title=title,
             body=body,
+            tag_ids=tag_ids,
         )
 
         update_channel_post_body.additional_properties = d

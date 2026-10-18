@@ -7,12 +7,12 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.issue_admin_badge_body import IssueAdminBadgeBody
 from ...models.issue_admin_badge_response_201 import IssueAdminBadgeResponse201
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: IssueAdminBadgeBody | Unset = UNSET,
+    body: IssueAdminBadgeBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -21,8 +21,7 @@ def _get_kwargs(
         "url": "/admin/badges/issue",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -62,7 +61,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: IssueAdminBadgeBody | Unset = UNSET,
+    body: IssueAdminBadgeBody,
 ) -> Response[Any | IssueAdminBadgeResponse201]:
     """Issue a badge to another hub (admin)
 
@@ -70,7 +69,7 @@ def sync_detailed(
     the recipient's /federation/badge-offer, and records it locally.
 
     Args:
-        body (IssueAdminBadgeBody | Unset):
+        body (IssueAdminBadgeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -94,7 +93,7 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: IssueAdminBadgeBody | Unset = UNSET,
+    body: IssueAdminBadgeBody,
 ) -> Any | IssueAdminBadgeResponse201 | None:
     """Issue a badge to another hub (admin)
 
@@ -102,7 +101,7 @@ def sync(
     the recipient's /federation/badge-offer, and records it locally.
 
     Args:
-        body (IssueAdminBadgeBody | Unset):
+        body (IssueAdminBadgeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -121,7 +120,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: IssueAdminBadgeBody | Unset = UNSET,
+    body: IssueAdminBadgeBody,
 ) -> Response[Any | IssueAdminBadgeResponse201]:
     """Issue a badge to another hub (admin)
 
@@ -129,7 +128,7 @@ async def asyncio_detailed(
     the recipient's /federation/badge-offer, and records it locally.
 
     Args:
-        body (IssueAdminBadgeBody | Unset):
+        body (IssueAdminBadgeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -151,7 +150,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: IssueAdminBadgeBody | Unset = UNSET,
+    body: IssueAdminBadgeBody,
 ) -> Any | IssueAdminBadgeResponse201 | None:
     """Issue a badge to another hub (admin)
 
@@ -159,7 +158,7 @@ async def asyncio(
     the recipient's /federation/badge-offer, and records it locally.
 
     Args:
-        body (IssueAdminBadgeBody | Unset):
+        body (IssueAdminBadgeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

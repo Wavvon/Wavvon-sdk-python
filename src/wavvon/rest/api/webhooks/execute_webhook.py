@@ -8,14 +8,14 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.execute_webhook_body import ExecuteWebhookBody
 from ...models.execute_webhook_response_200 import ExecuteWebhookResponse200
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     id: str,
     token: str,
     *,
-    body: ExecuteWebhookBody | Unset = UNSET,
+    body: ExecuteWebhookBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -27,8 +27,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -70,7 +69,7 @@ def sync_detailed(
     token: str,
     *,
     client: AuthenticatedClient | Client,
-    body: ExecuteWebhookBody | Unset = UNSET,
+    body: ExecuteWebhookBody,
 ) -> Response[Any | ExecuteWebhookResponse200]:
     """Post a message via an incoming webhook
 
@@ -80,7 +79,7 @@ def sync_detailed(
     Args:
         id (str):
         token (str):
-        body (ExecuteWebhookBody | Unset):
+        body (ExecuteWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -108,7 +107,7 @@ def sync(
     token: str,
     *,
     client: AuthenticatedClient | Client,
-    body: ExecuteWebhookBody | Unset = UNSET,
+    body: ExecuteWebhookBody,
 ) -> Any | ExecuteWebhookResponse200 | None:
     """Post a message via an incoming webhook
 
@@ -118,7 +117,7 @@ def sync(
     Args:
         id (str):
         token (str):
-        body (ExecuteWebhookBody | Unset):
+        body (ExecuteWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -141,7 +140,7 @@ async def asyncio_detailed(
     token: str,
     *,
     client: AuthenticatedClient | Client,
-    body: ExecuteWebhookBody | Unset = UNSET,
+    body: ExecuteWebhookBody,
 ) -> Response[Any | ExecuteWebhookResponse200]:
     """Post a message via an incoming webhook
 
@@ -151,7 +150,7 @@ async def asyncio_detailed(
     Args:
         id (str):
         token (str):
-        body (ExecuteWebhookBody | Unset):
+        body (ExecuteWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -177,7 +176,7 @@ async def asyncio(
     token: str,
     *,
     client: AuthenticatedClient | Client,
-    body: ExecuteWebhookBody | Unset = UNSET,
+    body: ExecuteWebhookBody,
 ) -> Any | ExecuteWebhookResponse200 | None:
     """Post a message via an incoming webhook
 
@@ -187,7 +186,7 @@ async def asyncio(
     Args:
         id (str):
         token (str):
-        body (ExecuteWebhookBody | Unset):
+        body (ExecuteWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -7,13 +7,13 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_conversation_member_body import CreateConversationMemberBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     conversation_id: str,
     *,
-    body: CreateConversationMemberBody | Unset = UNSET,
+    body: CreateConversationMemberBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -24,8 +24,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,13 +59,13 @@ def sync_detailed(
     conversation_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateConversationMemberBody | Unset = UNSET,
+    body: CreateConversationMemberBody,
 ) -> Response[Any]:
     """Add a member to a group conversation (members only; not 1-on-1 DMs)
 
     Args:
         conversation_id (str):
-        body (CreateConversationMemberBody | Unset):
+        body (CreateConversationMemberBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -92,13 +91,13 @@ async def asyncio_detailed(
     conversation_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateConversationMemberBody | Unset = UNSET,
+    body: CreateConversationMemberBody,
 ) -> Response[Any]:
     """Add a member to a group conversation (members only; not 1-on-1 DMs)
 
     Args:
         conversation_id (str):
-        body (CreateConversationMemberBody | Unset):
+        body (CreateConversationMemberBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

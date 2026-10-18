@@ -6,29 +6,43 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="CreateFederationDmMemberChangeBodySignerCert")
+T = TypeVar("T", bound="AcceptPendingAllianceInviteBody")
 
 
 @_attrs_define
-class CreateFederationDmMemberChangeBodySignerCert:
-    """When the signing key is not the actor's own, the master-signed cert tying the two."""
+class AcceptPendingAllianceInviteBody:
+    """
+    Attributes:
+        own_hub_url (str):
+    """
 
+    own_hub_url: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        own_hub_url = self.own_hub_url
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "own_hub_url": own_hub_url,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        create_federation_dm_member_change_body_signer_cert = cls()
+        own_hub_url = d.pop("own_hub_url")
 
-        create_federation_dm_member_change_body_signer_cert.additional_properties = d
-        return create_federation_dm_member_change_body_signer_cert
+        accept_pending_alliance_invite_body = cls(
+            own_hub_url=own_hub_url,
+        )
+
+        accept_pending_alliance_invite_body.additional_properties = d
+        return accept_pending_alliance_invite_body
 
     @property
     def additional_keys(self) -> list[str]:

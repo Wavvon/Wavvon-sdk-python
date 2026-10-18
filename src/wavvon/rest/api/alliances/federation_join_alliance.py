@@ -10,13 +10,13 @@ from ...models.federation_join_alliance_body import FederationJoinAllianceBody
 from ...models.federation_join_alliance_response_200 import (
     FederationJoinAllianceResponse200,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     alliance_id: str,
     *,
-    body: FederationJoinAllianceBody | Unset = UNSET,
+    body: FederationJoinAllianceBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -27,8 +27,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -65,7 +64,7 @@ def sync_detailed(
     alliance_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: FederationJoinAllianceBody | Unset = UNSET,
+    body: FederationJoinAllianceBody,
 ) -> Response[FederationJoinAllianceResponse200]:
     """Remote hub joins an alliance with an invite token
 
@@ -75,7 +74,7 @@ def sync_detailed(
 
     Args:
         alliance_id (str):
-        body (FederationJoinAllianceBody | Unset):
+        body (FederationJoinAllianceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -101,7 +100,7 @@ def sync(
     alliance_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: FederationJoinAllianceBody | Unset = UNSET,
+    body: FederationJoinAllianceBody,
 ) -> FederationJoinAllianceResponse200 | None:
     """Remote hub joins an alliance with an invite token
 
@@ -111,7 +110,7 @@ def sync(
 
     Args:
         alliance_id (str):
-        body (FederationJoinAllianceBody | Unset):
+        body (FederationJoinAllianceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -132,7 +131,7 @@ async def asyncio_detailed(
     alliance_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: FederationJoinAllianceBody | Unset = UNSET,
+    body: FederationJoinAllianceBody,
 ) -> Response[FederationJoinAllianceResponse200]:
     """Remote hub joins an alliance with an invite token
 
@@ -142,7 +141,7 @@ async def asyncio_detailed(
 
     Args:
         alliance_id (str):
-        body (FederationJoinAllianceBody | Unset):
+        body (FederationJoinAllianceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -166,7 +165,7 @@ async def asyncio(
     alliance_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: FederationJoinAllianceBody | Unset = UNSET,
+    body: FederationJoinAllianceBody,
 ) -> FederationJoinAllianceResponse200 | None:
     """Remote hub joins an alliance with an invite token
 
@@ -176,7 +175,7 @@ async def asyncio(
 
     Args:
         alliance_id (str):
-        body (FederationJoinAllianceBody | Unset):
+        body (FederationJoinAllianceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

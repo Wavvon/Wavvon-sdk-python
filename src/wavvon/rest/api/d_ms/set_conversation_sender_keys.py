@@ -7,13 +7,13 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.set_conversation_sender_keys_body import SetConversationSenderKeysBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     conversation_id: str,
     *,
-    body: SetConversationSenderKeysBody | Unset = UNSET,
+    body: SetConversationSenderKeysBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -24,8 +24,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,13 +59,13 @@ def sync_detailed(
     conversation_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: SetConversationSenderKeysBody | Unset = UNSET,
+    body: SetConversationSenderKeysBody,
 ) -> Response[Any]:
     """Distribute the caller's group sender key (group conversations only)
 
     Args:
         conversation_id (str):
-        body (SetConversationSenderKeysBody | Unset):
+        body (SetConversationSenderKeysBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -92,13 +91,13 @@ async def asyncio_detailed(
     conversation_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: SetConversationSenderKeysBody | Unset = UNSET,
+    body: SetConversationSenderKeysBody,
 ) -> Response[Any]:
     """Distribute the caller's group sender key (group conversations only)
 
     Args:
         conversation_id (str):
-        body (SetConversationSenderKeysBody | Unset):
+        body (SetConversationSenderKeysBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

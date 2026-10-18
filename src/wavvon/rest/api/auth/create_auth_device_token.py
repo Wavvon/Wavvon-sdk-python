@@ -9,12 +9,12 @@ from ...models.create_auth_device_token_body import CreateAuthDeviceTokenBody
 from ...models.create_auth_device_token_response_200 import (
     CreateAuthDeviceTokenResponse200,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateAuthDeviceTokenBody | Unset = UNSET,
+    body: CreateAuthDeviceTokenBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -23,8 +23,7 @@ def _get_kwargs(
         "url": "/auth/device-token/create",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,14 +59,14 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAuthDeviceTokenBody | Unset = UNSET,
+    body: CreateAuthDeviceTokenBody,
 ) -> Response[CreateAuthDeviceTokenResponse200]:
     """Mint a long-lived "trust this device" token
 
      Requires an existing session (e.g. right after a WebAuthn assertion).
 
     Args:
-        body (CreateAuthDeviceTokenBody | Unset):
+        body (CreateAuthDeviceTokenBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -91,14 +90,14 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAuthDeviceTokenBody | Unset = UNSET,
+    body: CreateAuthDeviceTokenBody,
 ) -> CreateAuthDeviceTokenResponse200 | None:
     """Mint a long-lived "trust this device" token
 
      Requires an existing session (e.g. right after a WebAuthn assertion).
 
     Args:
-        body (CreateAuthDeviceTokenBody | Unset):
+        body (CreateAuthDeviceTokenBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -117,14 +116,14 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAuthDeviceTokenBody | Unset = UNSET,
+    body: CreateAuthDeviceTokenBody,
 ) -> Response[CreateAuthDeviceTokenResponse200]:
     """Mint a long-lived "trust this device" token
 
      Requires an existing session (e.g. right after a WebAuthn assertion).
 
     Args:
-        body (CreateAuthDeviceTokenBody | Unset):
+        body (CreateAuthDeviceTokenBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -146,14 +145,14 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAuthDeviceTokenBody | Unset = UNSET,
+    body: CreateAuthDeviceTokenBody,
 ) -> CreateAuthDeviceTokenResponse200 | None:
     """Mint a long-lived "trust this device" token
 
      Requires an existing session (e.g. right after a WebAuthn assertion).
 
     Args:
-        body (CreateAuthDeviceTokenBody | Unset):
+        body (CreateAuthDeviceTokenBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

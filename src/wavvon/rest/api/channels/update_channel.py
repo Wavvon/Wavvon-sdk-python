@@ -6,12 +6,16 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.update_channel_body import UpdateChannelBody
 from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
+    *,
+    body: UpdateChannelBody,
 ) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
         "method": "patch",
@@ -20,6 +24,11 @@ def _get_kwargs(
         ),
     }
 
+    _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -50,11 +59,13 @@ def sync_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
+    body: UpdateChannelBody,
 ) -> Response[Any]:
     """Update channel (manage_channels)
 
     Args:
         channel_id (str):
+        body (UpdateChannelBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -66,6 +77,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         channel_id=channel_id,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -79,11 +91,13 @@ async def asyncio_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
+    body: UpdateChannelBody,
 ) -> Response[Any]:
     """Update channel (manage_channels)
 
     Args:
         channel_id (str):
+        body (UpdateChannelBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -95,6 +109,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         channel_id=channel_id,
+        body=body,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)

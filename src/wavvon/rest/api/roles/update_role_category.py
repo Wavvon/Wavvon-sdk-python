@@ -8,13 +8,13 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.role_category import RoleCategory
 from ...models.update_role_category_body import UpdateRoleCategoryBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     category_id: str,
     *,
-    body: UpdateRoleCategoryBody | Unset = UNSET,
+    body: UpdateRoleCategoryBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -25,8 +25,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -63,13 +62,13 @@ def sync_detailed(
     category_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateRoleCategoryBody | Unset = UNSET,
+    body: UpdateRoleCategoryBody,
 ) -> Response[RoleCategory]:
     """Update a role category (manage_roles)
 
     Args:
         category_id (str):
-        body (UpdateRoleCategoryBody | Unset):
+        body (UpdateRoleCategoryBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -95,13 +94,13 @@ def sync(
     category_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateRoleCategoryBody | Unset = UNSET,
+    body: UpdateRoleCategoryBody,
 ) -> RoleCategory | None:
     """Update a role category (manage_roles)
 
     Args:
         category_id (str):
-        body (UpdateRoleCategoryBody | Unset):
+        body (UpdateRoleCategoryBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -122,13 +121,13 @@ async def asyncio_detailed(
     category_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateRoleCategoryBody | Unset = UNSET,
+    body: UpdateRoleCategoryBody,
 ) -> Response[RoleCategory]:
     """Update a role category (manage_roles)
 
     Args:
         category_id (str):
-        body (UpdateRoleCategoryBody | Unset):
+        body (UpdateRoleCategoryBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -152,13 +151,13 @@ async def asyncio(
     category_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateRoleCategoryBody | Unset = UNSET,
+    body: UpdateRoleCategoryBody,
 ) -> RoleCategory | None:
     """Update a role category (manage_roles)
 
     Args:
         category_id (str):
-        body (UpdateRoleCategoryBody | Unset):
+        body (UpdateRoleCategoryBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

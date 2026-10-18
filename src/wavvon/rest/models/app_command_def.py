@@ -6,22 +6,20 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.set_me_app_commands_body_commands_item_scope import (
-    SetMeAppCommandsBodyCommandsItemScope,
-)
+from ..models.app_command_def_scope import AppCommandDefScope
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="SetMeAppCommandsBodyCommandsItem")
+T = TypeVar("T", bound="AppCommandDef")
 
 
 @_attrs_define
-class SetMeAppCommandsBodyCommandsItem:
+class AppCommandDef:
     """
     Attributes:
         name (str):
         description (str):
         args (str | Unset):
-        scope (SetMeAppCommandsBodyCommandsItemScope | Unset):
+        scope (AppCommandDefScope | Unset):
         privileged (bool | Unset):
         cooldown_seconds (int | Unset): Per-user, per-command cooldown in seconds (default 3, 0 = none)
     """
@@ -29,7 +27,7 @@ class SetMeAppCommandsBodyCommandsItem:
     name: str
     description: str
     args: str | Unset = UNSET
-    scope: SetMeAppCommandsBodyCommandsItemScope | Unset = UNSET
+    scope: AppCommandDefScope | Unset = UNSET
     privileged: bool | Unset = UNSET
     cooldown_seconds: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -78,17 +76,17 @@ class SetMeAppCommandsBodyCommandsItem:
         args = d.pop("args", UNSET)
 
         _scope = d.pop("scope", UNSET)
-        scope: SetMeAppCommandsBodyCommandsItemScope | Unset
+        scope: AppCommandDefScope | Unset
         if isinstance(_scope, Unset):
             scope = UNSET
         else:
-            scope = SetMeAppCommandsBodyCommandsItemScope(_scope)
+            scope = AppCommandDefScope(_scope)
 
         privileged = d.pop("privileged", UNSET)
 
         cooldown_seconds = d.pop("cooldown_seconds", UNSET)
 
-        set_me_app_commands_body_commands_item = cls(
+        app_command_def = cls(
             name=name,
             description=description,
             args=args,
@@ -97,8 +95,8 @@ class SetMeAppCommandsBodyCommandsItem:
             cooldown_seconds=cooldown_seconds,
         )
 
-        set_me_app_commands_body_commands_item.additional_properties = d
-        return set_me_app_commands_body_commands_item
+        app_command_def.additional_properties = d
+        return app_command_def
 
     @property
     def additional_keys(self) -> list[str]:

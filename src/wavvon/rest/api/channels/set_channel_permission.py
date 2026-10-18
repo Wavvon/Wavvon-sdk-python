@@ -7,14 +7,14 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.set_channel_permission_body import SetChannelPermissionBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     role_id: str,
     *,
-    body: SetChannelPermissionBody | Unset = UNSET,
+    body: SetChannelPermissionBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -26,8 +26,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -66,7 +65,7 @@ def sync_detailed(
     role_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: SetChannelPermissionBody | Unset = UNSET,
+    body: SetChannelPermissionBody,
 ) -> Response[Any]:
     """Replace a role's permission overwrites on a channel (manage_roles)
 
@@ -76,7 +75,7 @@ def sync_detailed(
     Args:
         channel_id (str):
         role_id (str):
-        body (SetChannelPermissionBody | Unset):
+        body (SetChannelPermissionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -104,7 +103,7 @@ async def asyncio_detailed(
     role_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: SetChannelPermissionBody | Unset = UNSET,
+    body: SetChannelPermissionBody,
 ) -> Response[Any]:
     """Replace a role's permission overwrites on a channel (manage_roles)
 
@@ -114,7 +113,7 @@ async def asyncio_detailed(
     Args:
         channel_id (str):
         role_id (str):
-        body (SetChannelPermissionBody | Unset):
+        body (SetChannelPermissionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

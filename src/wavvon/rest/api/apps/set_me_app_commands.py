@@ -6,12 +6,12 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.set_me_app_commands_body import SetMeAppCommandsBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: SetMeAppCommandsBody | Unset = UNSET,
+    body: SetMeAppCommandsBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -20,8 +20,7 @@ def _get_kwargs(
         "url": "/me/app/commands",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -58,12 +57,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetMeAppCommandsBody | Unset = UNSET,
+    body: SetMeAppCommandsBody,
 ) -> Response[Any]:
     """Replace the caller's slash command list (apps.register)
 
     Args:
-        body (SetMeAppCommandsBody | Unset):
+        body (SetMeAppCommandsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -87,12 +86,12 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetMeAppCommandsBody | Unset = UNSET,
+    body: SetMeAppCommandsBody,
 ) -> Response[Any]:
     """Replace the caller's slash command list (apps.register)
 
     Args:
-        body (SetMeAppCommandsBody | Unset):
+        body (SetMeAppCommandsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -22,19 +22,16 @@ from .rest.api.apps import (
 )
 from .rest.client import Client as RestClient
 from .rest.models.ack_me_events_body import AckMeEventsBody
+from .rest.models.app_command_def import AppCommandDef
+from .rest.models.app_subscription import AppSubscription as AppSubscription
 from .rest.models.set_me_app_commands_body import SetMeAppCommandsBody
-from .rest.models.set_me_app_commands_body_commands_item import SetMeAppCommandsBodyCommandsItem
 from .rest.models.set_me_app_profile_body import SetMeAppProfileBody
 from .rest.models.set_me_app_subscriptions_body import SetMeAppSubscriptionsBody
-from .rest.models.set_me_app_subscriptions_body_subscriptions_item import (
-    SetMeAppSubscriptionsBodySubscriptionsItem,
-)
 from .rest.types import Response
 from .retry import RetryOptions, fetch_with_retry
 
 AppProfile = SetMeAppProfileBody
-AppCommand = SetMeAppCommandsBodyCommandsItem
-AppSubscription = SetMeAppSubscriptionsBodySubscriptionsItem
+AppCommand = AppCommandDef
 
 SessionState = Literal["signed-out", "authenticating", "ready"]
 

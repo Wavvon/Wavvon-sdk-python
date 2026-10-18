@@ -12,13 +12,13 @@ from ...models.set_admin_outgoing_webhook_subscriptions_body import (
 from ...models.set_admin_outgoing_webhook_subscriptions_response_200 import (
     SetAdminOutgoingWebhookSubscriptionsResponse200,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     id: str,
     *,
-    body: SetAdminOutgoingWebhookSubscriptionsBody | Unset = UNSET,
+    body: SetAdminOutgoingWebhookSubscriptionsBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -29,8 +29,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -69,7 +68,7 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: SetAdminOutgoingWebhookSubscriptionsBody | Unset = UNSET,
+    body: SetAdminOutgoingWebhookSubscriptionsBody,
 ) -> Response[SetAdminOutgoingWebhookSubscriptionsResponse200]:
     """Replace an outgoing webhook's event subscriptions (admin)
 
@@ -77,7 +76,7 @@ def sync_detailed(
 
     Args:
         id (str):
-        body (SetAdminOutgoingWebhookSubscriptionsBody | Unset):
+        body (SetAdminOutgoingWebhookSubscriptionsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -103,7 +102,7 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: SetAdminOutgoingWebhookSubscriptionsBody | Unset = UNSET,
+    body: SetAdminOutgoingWebhookSubscriptionsBody,
 ) -> SetAdminOutgoingWebhookSubscriptionsResponse200 | None:
     """Replace an outgoing webhook's event subscriptions (admin)
 
@@ -111,7 +110,7 @@ def sync(
 
     Args:
         id (str):
-        body (SetAdminOutgoingWebhookSubscriptionsBody | Unset):
+        body (SetAdminOutgoingWebhookSubscriptionsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -132,7 +131,7 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: SetAdminOutgoingWebhookSubscriptionsBody | Unset = UNSET,
+    body: SetAdminOutgoingWebhookSubscriptionsBody,
 ) -> Response[SetAdminOutgoingWebhookSubscriptionsResponse200]:
     """Replace an outgoing webhook's event subscriptions (admin)
 
@@ -140,7 +139,7 @@ async def asyncio_detailed(
 
     Args:
         id (str):
-        body (SetAdminOutgoingWebhookSubscriptionsBody | Unset):
+        body (SetAdminOutgoingWebhookSubscriptionsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -164,7 +163,7 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: SetAdminOutgoingWebhookSubscriptionsBody | Unset = UNSET,
+    body: SetAdminOutgoingWebhookSubscriptionsBody,
 ) -> SetAdminOutgoingWebhookSubscriptionsResponse200 | None:
     """Replace an outgoing webhook's event subscriptions (admin)
 
@@ -172,7 +171,7 @@ async def asyncio(
 
     Args:
         id (str):
-        body (SetAdminOutgoingWebhookSubscriptionsBody | Unset):
+        body (SetAdminOutgoingWebhookSubscriptionsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

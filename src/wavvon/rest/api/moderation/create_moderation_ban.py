@@ -7,12 +7,12 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_moderation_ban_body import CreateModerationBanBody
 from ...models.create_moderation_ban_response_201 import CreateModerationBanResponse201
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateModerationBanBody | Unset = UNSET,
+    body: CreateModerationBanBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -21,8 +21,7 @@ def _get_kwargs(
         "url": "/moderation/bans",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -66,7 +65,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateModerationBanBody | Unset = UNSET,
+    body: CreateModerationBanBody,
 ) -> Response[Any | CreateModerationBanResponse201]:
     """Ban a user (moderation.ban.temporary or .permanent)
 
@@ -78,7 +77,7 @@ def sync_detailed(
     Both still require out-ranking the target.
 
     Args:
-        body (CreateModerationBanBody | Unset):
+        body (CreateModerationBanBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -102,7 +101,7 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateModerationBanBody | Unset = UNSET,
+    body: CreateModerationBanBody,
 ) -> Any | CreateModerationBanResponse201 | None:
     """Ban a user (moderation.ban.temporary or .permanent)
 
@@ -114,7 +113,7 @@ def sync(
     Both still require out-ranking the target.
 
     Args:
-        body (CreateModerationBanBody | Unset):
+        body (CreateModerationBanBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -133,7 +132,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateModerationBanBody | Unset = UNSET,
+    body: CreateModerationBanBody,
 ) -> Response[Any | CreateModerationBanResponse201]:
     """Ban a user (moderation.ban.temporary or .permanent)
 
@@ -145,7 +144,7 @@ async def asyncio_detailed(
     Both still require out-ranking the target.
 
     Args:
-        body (CreateModerationBanBody | Unset):
+        body (CreateModerationBanBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -167,7 +166,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateModerationBanBody | Unset = UNSET,
+    body: CreateModerationBanBody,
 ) -> Any | CreateModerationBanResponse201 | None:
     """Ban a user (moderation.ban.temporary or .permanent)
 
@@ -179,7 +178,7 @@ async def asyncio(
     Both still require out-ranking the target.
 
     Args:
-        body (CreateModerationBanBody | Unset):
+        body (CreateModerationBanBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

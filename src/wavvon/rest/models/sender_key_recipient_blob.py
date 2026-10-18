@@ -6,11 +6,11 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="SetConversationSenderKeysBodyRecipientsItem")
+T = TypeVar("T", bound="SenderKeyRecipientBlob")
 
 
 @_attrs_define
-class SetConversationSenderKeysBodyRecipientsItem:
+class SenderKeyRecipientBlob:
     """
     Attributes:
         recipient_pubkey (str):
@@ -58,15 +58,15 @@ class SetConversationSenderKeysBodyRecipientsItem:
 
         iteration = d.pop("iteration")
 
-        set_conversation_sender_keys_body_recipients_item = cls(
+        sender_key_recipient_blob = cls(
             recipient_pubkey=recipient_pubkey,
             wrapped_key_hex=wrapped_key_hex,
             wrap_nonce_hex=wrap_nonce_hex,
             iteration=iteration,
         )
 
-        set_conversation_sender_keys_body_recipients_item.additional_properties = d
-        return set_conversation_sender_keys_body_recipients_item
+        sender_key_recipient_blob.additional_properties = d
+        return sender_key_recipient_blob
 
     @property
     def additional_keys(self) -> list[str]:

@@ -6,8 +6,6 @@ from typing import Any, Self, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="AckMeEventsBody")
 
 
@@ -15,29 +13,29 @@ T = TypeVar("T", bound="AckMeEventsBody")
 class AckMeEventsBody:
     """
     Attributes:
-        ids (list[str] | Unset):
+        ids (list[str]):
     """
 
-    ids: list[str] | Unset = UNSET
+    ids: list[str]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        ids: list[str] | Unset = UNSET
-        if not isinstance(self.ids, Unset):
-            ids = self.ids
+        ids = self.ids
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if ids is not UNSET:
-            field_dict["ids"] = ids
+        field_dict.update(
+            {
+                "ids": ids,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        ids = cast(list[str], d.pop("ids", UNSET))
+        ids = cast(list[str], d.pop("ids"))
 
         ack_me_events_body = cls(
             ids=ids,

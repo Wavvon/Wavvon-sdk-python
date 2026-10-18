@@ -9,9 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.create_federation_dm_member_change_body_signer_cert import (
-        CreateFederationDmMemberChangeBodySignerCert,
-    )
+    from ..models.subkey_cert import SubkeyCert
 
 
 T = TypeVar("T", bound="CreateFederationDmMemberChangeBody")
@@ -27,8 +25,7 @@ class CreateFederationDmMemberChangeBody:
         signature (str):
         added (list[str] | Unset):
         removed (list[str] | Unset):
-        signer_cert (CreateFederationDmMemberChangeBodySignerCert | Unset): When the signing key is not the actor's own,
-            the master-signed cert tying the two.
+        signer_cert (SubkeyCert | Unset):
     """
 
     conversation_id: str
@@ -37,7 +34,7 @@ class CreateFederationDmMemberChangeBody:
     signature: str
     added: list[str] | Unset = UNSET
     removed: list[str] | Unset = UNSET
-    signer_cert: CreateFederationDmMemberChangeBodySignerCert | Unset = UNSET
+    signer_cert: SubkeyCert | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -82,9 +79,7 @@ class CreateFederationDmMemberChangeBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.create_federation_dm_member_change_body_signer_cert import (
-            CreateFederationDmMemberChangeBodySignerCert,
-        )
+        from ..models.subkey_cert import SubkeyCert
 
         d = dict(src_dict)
         conversation_id = d.pop("conversation_id")
@@ -100,13 +95,11 @@ class CreateFederationDmMemberChangeBody:
         removed = cast(list[str], d.pop("removed", UNSET))
 
         _signer_cert = d.pop("signer_cert", UNSET)
-        signer_cert: CreateFederationDmMemberChangeBodySignerCert | Unset
+        signer_cert: SubkeyCert | Unset
         if isinstance(_signer_cert, Unset):
             signer_cert = UNSET
         else:
-            signer_cert = CreateFederationDmMemberChangeBodySignerCert.from_dict(
-                _signer_cert
-            )
+            signer_cert = SubkeyCert.from_dict(_signer_cert)
 
         create_federation_dm_member_change_body = cls(
             conversation_id=conversation_id,

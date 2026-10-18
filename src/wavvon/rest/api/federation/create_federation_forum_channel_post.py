@@ -10,13 +10,13 @@ from ...models.create_federation_forum_channel_post_body import (
     CreateFederationForumChannelPostBody,
 )
 from ...models.post_detail import PostDetail
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     *,
-    body: CreateFederationForumChannelPostBody | Unset = UNSET,
+    body: CreateFederationForumChannelPostBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -27,8 +27,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -81,7 +80,7 @@ def sync_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateFederationForumChannelPostBody | Unset = UNSET,
+    body: CreateFederationForumChannelPostBody,
 ) -> Response[Any | PostDetail]:
     """A peer hub creates a post in a shared forum channel
 
@@ -89,7 +88,7 @@ def sync_detailed(
 
     Args:
         channel_id (str):
-        body (CreateFederationForumChannelPostBody | Unset):
+        body (CreateFederationForumChannelPostBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -115,7 +114,7 @@ def sync(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateFederationForumChannelPostBody | Unset = UNSET,
+    body: CreateFederationForumChannelPostBody,
 ) -> Any | PostDetail | None:
     """A peer hub creates a post in a shared forum channel
 
@@ -123,7 +122,7 @@ def sync(
 
     Args:
         channel_id (str):
-        body (CreateFederationForumChannelPostBody | Unset):
+        body (CreateFederationForumChannelPostBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -144,7 +143,7 @@ async def asyncio_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateFederationForumChannelPostBody | Unset = UNSET,
+    body: CreateFederationForumChannelPostBody,
 ) -> Response[Any | PostDetail]:
     """A peer hub creates a post in a shared forum channel
 
@@ -152,7 +151,7 @@ async def asyncio_detailed(
 
     Args:
         channel_id (str):
-        body (CreateFederationForumChannelPostBody | Unset):
+        body (CreateFederationForumChannelPostBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -176,7 +175,7 @@ async def asyncio(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateFederationForumChannelPostBody | Unset = UNSET,
+    body: CreateFederationForumChannelPostBody,
 ) -> Any | PostDetail | None:
     """A peer hub creates a post in a shared forum channel
 
@@ -184,7 +183,7 @@ async def asyncio(
 
     Args:
         channel_id (str):
-        body (CreateFederationForumChannelPostBody | Unset):
+        body (CreateFederationForumChannelPostBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

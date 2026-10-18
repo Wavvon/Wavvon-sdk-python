@@ -7,13 +7,13 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_channel_ban_body import CreateChannelBanBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     *,
-    body: CreateChannelBanBody | Unset = UNSET,
+    body: CreateChannelBanBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -24,8 +24,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,7 +59,7 @@ def sync_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelBanBody | Unset = UNSET,
+    body: CreateChannelBanBody,
 ) -> Response[Any]:
     """Ban a user from a channel (ban_members)
 
@@ -70,7 +69,7 @@ def sync_detailed(
 
     Args:
         channel_id (str):
-        body (CreateChannelBanBody | Unset):
+        body (CreateChannelBanBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -96,7 +95,7 @@ async def asyncio_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelBanBody | Unset = UNSET,
+    body: CreateChannelBanBody,
 ) -> Response[Any]:
     """Ban a user from a channel (ban_members)
 
@@ -106,7 +105,7 @@ async def asyncio_detailed(
 
     Args:
         channel_id (str):
-        body (CreateChannelBanBody | Unset):
+        body (CreateChannelBanBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

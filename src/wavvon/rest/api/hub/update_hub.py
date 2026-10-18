@@ -6,12 +6,12 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.update_hub_body import UpdateHubBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: UpdateHubBody | Unset = UNSET,
+    body: UpdateHubBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -20,8 +20,7 @@ def _get_kwargs(
         "url": "/hub",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -55,12 +54,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateHubBody | Unset = UNSET,
+    body: UpdateHubBody,
 ) -> Response[Any]:
     """Update hub name / icon (admin)
 
     Args:
-        body (UpdateHubBody | Unset):
+        body (UpdateHubBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -84,12 +83,12 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateHubBody | Unset = UNSET,
+    body: UpdateHubBody,
 ) -> Response[Any]:
     """Update hub name / icon (admin)
 
     Args:
-        body (UpdateHubBody | Unset):
+        body (UpdateHubBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

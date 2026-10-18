@@ -6,12 +6,12 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_federation_badge_offer_body import CreateFederationBadgeOfferBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateFederationBadgeOfferBody | Unset = UNSET,
+    body: CreateFederationBadgeOfferBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -20,8 +20,7 @@ def _get_kwargs(
         "url": "/federation/badge-offer",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -58,14 +57,14 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateFederationBadgeOfferBody | Unset = UNSET,
+    body: CreateFederationBadgeOfferBody,
 ) -> Response[Any]:
     """Receive a badge offer from another hub
 
      Hub-to-hub. The Ed25519 signature over the payload is the credential; no Bearer token.
 
     Args:
-        body (CreateFederationBadgeOfferBody | Unset):
+        body (CreateFederationBadgeOfferBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -89,14 +88,14 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateFederationBadgeOfferBody | Unset = UNSET,
+    body: CreateFederationBadgeOfferBody,
 ) -> Response[Any]:
     """Receive a badge offer from another hub
 
      Hub-to-hub. The Ed25519 signature over the payload is the credential; no Bearer token.
 
     Args:
-        body (CreateFederationBadgeOfferBody | Unset):
+        body (CreateFederationBadgeOfferBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

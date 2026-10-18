@@ -7,13 +7,13 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_channel_poll_body import CreateChannelPollBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     *,
-    body: CreateChannelPollBody | Unset = UNSET,
+    body: CreateChannelPollBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -24,8 +24,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,7 +59,7 @@ def sync_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelPollBody | Unset = UNSET,
+    body: CreateChannelPollBody,
 ) -> Response[Any]:
     """Create a poll in a channel (send_messages)
 
@@ -68,7 +67,7 @@ def sync_detailed(
 
     Args:
         channel_id (str):
-        body (CreateChannelPollBody | Unset):
+        body (CreateChannelPollBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -94,7 +93,7 @@ async def asyncio_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelPollBody | Unset = UNSET,
+    body: CreateChannelPollBody,
 ) -> Response[Any]:
     """Create a poll in a channel (send_messages)
 
@@ -102,7 +101,7 @@ async def asyncio_detailed(
 
     Args:
         channel_id (str):
-        body (CreateChannelPollBody | Unset):
+        body (CreateChannelPollBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -15,16 +15,20 @@ T = TypeVar("T", bound="VerifyChallengeBody")
 class VerifyChallengeBody:
     """
     Attributes:
-        challenge_id (str):
+        id (str):
+        pubkey (str):
         answer (str | Unset): Numeric answer for puzzle mode; omit for click-only
     """
 
-    challenge_id: str
+    id: str
+    pubkey: str
     answer: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        challenge_id = self.challenge_id
+        id = self.id
+
+        pubkey = self.pubkey
 
         answer = self.answer
 
@@ -32,7 +36,8 @@ class VerifyChallengeBody:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "challenge_id": challenge_id,
+                "id": id,
+                "pubkey": pubkey,
             }
         )
         if answer is not UNSET:
@@ -43,12 +48,15 @@ class VerifyChallengeBody:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        challenge_id = d.pop("challenge_id")
+        id = d.pop("id")
+
+        pubkey = d.pop("pubkey")
 
         answer = d.pop("answer", UNSET)
 
         verify_challenge_body = cls(
-            challenge_id=challenge_id,
+            id=id,
+            pubkey=pubkey,
             answer=answer,
         )
 

@@ -8,13 +8,13 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.forum_tag import ForumTag
 from ...models.update_tag_body import UpdateTagBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     tag_id: str,
     *,
-    body: UpdateTagBody | Unset = UNSET,
+    body: UpdateTagBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -25,8 +25,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -67,7 +66,7 @@ def sync_detailed(
     tag_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateTagBody | Unset = UNSET,
+    body: UpdateTagBody,
 ) -> Response[Any | ForumTag]:
     """Edit a tag definition (manage_posts)
 
@@ -77,7 +76,7 @@ def sync_detailed(
 
     Args:
         tag_id (str):
-        body (UpdateTagBody | Unset):
+        body (UpdateTagBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -103,7 +102,7 @@ def sync(
     tag_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateTagBody | Unset = UNSET,
+    body: UpdateTagBody,
 ) -> Any | ForumTag | None:
     """Edit a tag definition (manage_posts)
 
@@ -113,7 +112,7 @@ def sync(
 
     Args:
         tag_id (str):
-        body (UpdateTagBody | Unset):
+        body (UpdateTagBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,7 +133,7 @@ async def asyncio_detailed(
     tag_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateTagBody | Unset = UNSET,
+    body: UpdateTagBody,
 ) -> Response[Any | ForumTag]:
     """Edit a tag definition (manage_posts)
 
@@ -144,7 +143,7 @@ async def asyncio_detailed(
 
     Args:
         tag_id (str):
-        body (UpdateTagBody | Unset):
+        body (UpdateTagBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -168,7 +167,7 @@ async def asyncio(
     tag_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateTagBody | Unset = UNSET,
+    body: UpdateTagBody,
 ) -> Any | ForumTag | None:
     """Edit a tag definition (manage_posts)
 
@@ -178,7 +177,7 @@ async def asyncio(
 
     Args:
         tag_id (str):
-        body (UpdateTagBody | Unset):
+        body (UpdateTagBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

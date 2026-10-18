@@ -6,29 +6,54 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="VerifyAuthBodySubkeyCert")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="CreateModerationVoiceMuteBody")
 
 
 @_attrs_define
-class VerifyAuthBodySubkeyCert:
-    """Multi-device: links a device subkey to a master key"""
+class CreateModerationVoiceMuteBody:
+    """
+    Attributes:
+        target_public_key (str):
+        reason (str | Unset):
+    """
 
+    target_public_key: str
+    reason: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        target_public_key = self.target_public_key
+
+        reason = self.reason
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "target_public_key": target_public_key,
+            }
+        )
+        if reason is not UNSET:
+            field_dict["reason"] = reason
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        verify_auth_body_subkey_cert = cls()
+        target_public_key = d.pop("target_public_key")
 
-        verify_auth_body_subkey_cert.additional_properties = d
-        return verify_auth_body_subkey_cert
+        reason = d.pop("reason", UNSET)
+
+        create_moderation_voice_mute_body = cls(
+            target_public_key=target_public_key,
+            reason=reason,
+        )
+
+        create_moderation_voice_mute_body.additional_properties = d
+        return create_moderation_voice_mute_body
 
     @property
     def additional_keys(self) -> list[str]:

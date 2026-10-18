@@ -8,12 +8,12 @@ from ...client import AuthenticatedClient, Client
 from ...models.update_admin_settings_moderation_body import (
     UpdateAdminSettingsModerationBody,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: UpdateAdminSettingsModerationBody | Unset = UNSET,
+    body: UpdateAdminSettingsModerationBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -22,8 +22,7 @@ def _get_kwargs(
         "url": "/admin/settings/moderation",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -57,12 +56,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateAdminSettingsModerationBody | Unset = UNSET,
+    body: UpdateAdminSettingsModerationBody,
 ) -> Response[Any]:
     """Set the auto-moderation webhook URL and HMAC secret (admin)
 
     Args:
-        body (UpdateAdminSettingsModerationBody | Unset):
+        body (UpdateAdminSettingsModerationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -86,12 +85,12 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateAdminSettingsModerationBody | Unset = UNSET,
+    body: UpdateAdminSettingsModerationBody,
 ) -> Response[Any]:
     """Set the auto-moderation webhook URL and HMAC secret (admin)
 
     Args:
-        body (UpdateAdminSettingsModerationBody | Unset):
+        body (UpdateAdminSettingsModerationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

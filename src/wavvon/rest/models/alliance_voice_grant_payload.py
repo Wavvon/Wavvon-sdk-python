@@ -8,11 +8,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="VerifyAuthBodyAllianceVoiceGrantPayload")
+T = TypeVar("T", bound="AllianceVoiceGrantPayload")
 
 
 @_attrs_define
-class VerifyAuthBodyAllianceVoiceGrantPayload:
+class AllianceVoiceGrantPayload:
     """
     Attributes:
         alliance_id (str):
@@ -109,7 +109,7 @@ class VerifyAuthBodyAllianceVoiceGrantPayload:
 
         display_name = _parse_display_name(d.pop("display_name", UNSET))
 
-        verify_auth_body_alliance_voice_grant_payload = cls(
+        alliance_voice_grant_payload = cls(
             alliance_id=alliance_id,
             owner_hub_pubkey=owner_hub_pubkey,
             channel_id=channel_id,
@@ -121,8 +121,8 @@ class VerifyAuthBodyAllianceVoiceGrantPayload:
             display_name=display_name,
         )
 
-        verify_auth_body_alliance_voice_grant_payload.additional_properties = d
-        return verify_auth_body_alliance_voice_grant_payload
+        alliance_voice_grant_payload.additional_properties = d
+        return alliance_voice_grant_payload
 
     @property
     def additional_keys(self) -> list[str]:

@@ -6,32 +6,42 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="RotateRecoveryKeyBodyAttestationsItem")
+T = TypeVar("T", bound="ClaimIdentityPairingBody")
 
 
 @_attrs_define
-class RotateRecoveryKeyBodyAttestationsItem:
+class ClaimIdentityPairingBody:
     """
     Attributes:
-        attester (str):
-        signature (str):
+        pairing_token (str):
+        subkey_pubkey (str):
+        device_label (str):
+        proof (str):
     """
 
-    attester: str
-    signature: str
+    pairing_token: str
+    subkey_pubkey: str
+    device_label: str
+    proof: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        attester = self.attester
+        pairing_token = self.pairing_token
 
-        signature = self.signature
+        subkey_pubkey = self.subkey_pubkey
+
+        device_label = self.device_label
+
+        proof = self.proof
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "attester": attester,
-                "signature": signature,
+                "pairing_token": pairing_token,
+                "subkey_pubkey": subkey_pubkey,
+                "device_label": device_label,
+                "proof": proof,
             }
         )
 
@@ -40,17 +50,23 @@ class RotateRecoveryKeyBodyAttestationsItem:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        attester = d.pop("attester")
+        pairing_token = d.pop("pairing_token")
 
-        signature = d.pop("signature")
+        subkey_pubkey = d.pop("subkey_pubkey")
 
-        rotate_recovery_key_body_attestations_item = cls(
-            attester=attester,
-            signature=signature,
+        device_label = d.pop("device_label")
+
+        proof = d.pop("proof")
+
+        claim_identity_pairing_body = cls(
+            pairing_token=pairing_token,
+            subkey_pubkey=subkey_pubkey,
+            device_label=device_label,
+            proof=proof,
         )
 
-        rotate_recovery_key_body_attestations_item.additional_properties = d
-        return rotate_recovery_key_body_attestations_item
+        claim_identity_pairing_body.additional_properties = d
+        return claim_identity_pairing_body
 
     @property
     def additional_keys(self) -> list[str]:

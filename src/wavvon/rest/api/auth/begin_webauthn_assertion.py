@@ -9,12 +9,12 @@ from ...models.begin_webauthn_assertion_body import BeginWebauthnAssertionBody
 from ...models.begin_webauthn_assertion_response_200 import (
     BeginWebauthnAssertionResponse200,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: BeginWebauthnAssertionBody | Unset = UNSET,
+    body: BeginWebauthnAssertionBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -23,8 +23,7 @@ def _get_kwargs(
         "url": "/auth/webauthn/assert/begin",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -64,12 +63,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: BeginWebauthnAssertionBody | Unset = UNSET,
+    body: BeginWebauthnAssertionBody,
 ) -> Response[Any | BeginWebauthnAssertionResponse200]:
     """Start WebAuthn passkey authentication (login)
 
     Args:
-        body (BeginWebauthnAssertionBody | Unset):
+        body (BeginWebauthnAssertionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -93,12 +92,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: BeginWebauthnAssertionBody | Unset = UNSET,
+    body: BeginWebauthnAssertionBody,
 ) -> Any | BeginWebauthnAssertionResponse200 | None:
     """Start WebAuthn passkey authentication (login)
 
     Args:
-        body (BeginWebauthnAssertionBody | Unset):
+        body (BeginWebauthnAssertionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -117,12 +116,12 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: BeginWebauthnAssertionBody | Unset = UNSET,
+    body: BeginWebauthnAssertionBody,
 ) -> Response[Any | BeginWebauthnAssertionResponse200]:
     """Start WebAuthn passkey authentication (login)
 
     Args:
-        body (BeginWebauthnAssertionBody | Unset):
+        body (BeginWebauthnAssertionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -144,12 +143,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: BeginWebauthnAssertionBody | Unset = UNSET,
+    body: BeginWebauthnAssertionBody,
 ) -> Any | BeginWebauthnAssertionResponse200 | None:
     """Start WebAuthn passkey authentication (login)
 
     Args:
-        body (BeginWebauthnAssertionBody | Unset):
+        body (BeginWebauthnAssertionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

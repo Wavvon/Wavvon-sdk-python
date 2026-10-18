@@ -9,9 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.create_channel_poll_body_options_item import (
-        CreateChannelPollBodyOptionsItem,
-    )
+    from ..models.poll_option import PollOption
 
 
 T = TypeVar("T", bound="CreateChannelPollBody")
@@ -22,13 +20,13 @@ class CreateChannelPollBody:
     """
     Attributes:
         question (str):
-        options (list[CreateChannelPollBodyOptionsItem]):
+        options (list[PollOption]):
         ends_at (int | None | Unset):
         max_choices (int | Unset):  Default: 1.
     """
 
     question: str
-    options: list[CreateChannelPollBodyOptionsItem]
+    options: list[PollOption]
     ends_at: int | None | Unset = UNSET
     max_choices: int | Unset = 1
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -66,9 +64,7 @@ class CreateChannelPollBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.create_channel_poll_body_options_item import (
-            CreateChannelPollBodyOptionsItem,
-        )
+        from ..models.poll_option import PollOption
 
         d = dict(src_dict)
         question = d.pop("question")
@@ -76,7 +72,7 @@ class CreateChannelPollBody:
         options = []
         _options = d.pop("options")
         for options_item_data in _options:
-            options_item = CreateChannelPollBodyOptionsItem.from_dict(options_item_data)
+            options_item = PollOption.from_dict(options_item_data)
 
             options.append(options_item)
 

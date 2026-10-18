@@ -7,12 +7,12 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.conversation import Conversation
 from ...models.create_conversation_body import CreateConversationBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateConversationBody | Unset = UNSET,
+    body: CreateConversationBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -21,8 +21,7 @@ def _get_kwargs(
         "url": "/conversations",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -63,12 +62,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateConversationBody | Unset = UNSET,
+    body: CreateConversationBody,
 ) -> Response[Conversation]:
     """Create a DM conversation
 
     Args:
-        body (CreateConversationBody | Unset):
+        body (CreateConversationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -92,12 +91,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateConversationBody | Unset = UNSET,
+    body: CreateConversationBody,
 ) -> Conversation | None:
     """Create a DM conversation
 
     Args:
-        body (CreateConversationBody | Unset):
+        body (CreateConversationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -116,12 +115,12 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateConversationBody | Unset = UNSET,
+    body: CreateConversationBody,
 ) -> Response[Conversation]:
     """Create a DM conversation
 
     Args:
-        body (CreateConversationBody | Unset):
+        body (CreateConversationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -143,12 +142,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateConversationBody | Unset = UNSET,
+    body: CreateConversationBody,
 ) -> Conversation | None:
     """Create a DM conversation
 
     Args:
-        body (CreateConversationBody | Unset):
+        body (CreateConversationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

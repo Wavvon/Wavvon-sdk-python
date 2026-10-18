@@ -1,37 +1,61 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar
+from typing import Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="CreateConversationMessageBodyPlaintextSignerCert")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="WebhookSubscriptionDto")
 
 
 @_attrs_define
-class CreateConversationMessageBodyPlaintextSignerCert:
-    """When the signing key is not the sender's canonical key: the master-signed cert tying the two. Only on a hub
-    advertising `dms.plaintext.signercert`.
-
+class WebhookSubscriptionDto:
+    """
+    Attributes:
+        event (str):
+        channels (list[str] | Unset):
     """
 
+    event: str
+    channels: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        event = self.event
+
+        channels: list[str] | Unset = UNSET
+        if not isinstance(self.channels, Unset):
+            channels = self.channels
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "event": event,
+            }
+        )
+        if channels is not UNSET:
+            field_dict["channels"] = channels
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        create_conversation_message_body_plaintext_signer_cert = cls()
+        event = d.pop("event")
 
-        create_conversation_message_body_plaintext_signer_cert.additional_properties = d
-        return create_conversation_message_body_plaintext_signer_cert
+        channels = cast(list[str], d.pop("channels", UNSET))
+
+        webhook_subscription_dto = cls(
+            event=event,
+            channels=channels,
+        )
+
+        webhook_subscription_dto.additional_properties = d
+        return webhook_subscription_dto
 
     @property
     def additional_keys(self) -> list[str]:

@@ -7,13 +7,13 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.review_admin_report_body import ReviewAdminReportBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     id: str,
     *,
-    body: ReviewAdminReportBody | Unset = UNSET,
+    body: ReviewAdminReportBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -24,8 +24,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,13 +59,13 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: ReviewAdminReportBody | Unset = UNSET,
+    body: ReviewAdminReportBody,
 ) -> Response[Any]:
     """Review a report — dismiss, delete the message, or ban the sender (admin)
 
     Args:
         id (str):
-        body (ReviewAdminReportBody | Unset):
+        body (ReviewAdminReportBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -92,13 +91,13 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: ReviewAdminReportBody | Unset = UNSET,
+    body: ReviewAdminReportBody,
 ) -> Response[Any]:
     """Review a report — dismiss, delete the message, or ban the sender (admin)
 
     Args:
         id (str):
-        body (ReviewAdminReportBody | Unset):
+        body (ReviewAdminReportBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

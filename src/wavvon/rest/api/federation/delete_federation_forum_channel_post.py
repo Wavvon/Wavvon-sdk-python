@@ -9,14 +9,14 @@ from ...client import AuthenticatedClient, Client
 from ...models.delete_federation_forum_channel_post_body import (
     DeleteFederationForumChannelPostBody,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     post_id: str,
     *,
-    body: DeleteFederationForumChannelPostBody | Unset = UNSET,
+    body: DeleteFederationForumChannelPostBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -28,8 +28,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -68,7 +67,7 @@ def sync_detailed(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: DeleteFederationForumChannelPostBody | Unset = UNSET,
+    body: DeleteFederationForumChannelPostBody,
 ) -> Response[Any]:
     """A peer hub retracts one of its own users' posts
 
@@ -78,7 +77,7 @@ def sync_detailed(
     Args:
         channel_id (str):
         post_id (str):
-        body (DeleteFederationForumChannelPostBody | Unset):
+        body (DeleteFederationForumChannelPostBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -106,7 +105,7 @@ async def asyncio_detailed(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: DeleteFederationForumChannelPostBody | Unset = UNSET,
+    body: DeleteFederationForumChannelPostBody,
 ) -> Response[Any]:
     """A peer hub retracts one of its own users' posts
 
@@ -116,7 +115,7 @@ async def asyncio_detailed(
     Args:
         channel_id (str):
         post_id (str):
-        body (DeleteFederationForumChannelPostBody | Unset):
+        body (DeleteFederationForumChannelPostBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

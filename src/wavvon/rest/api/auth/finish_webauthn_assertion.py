@@ -9,12 +9,12 @@ from ...models.finish_webauthn_assertion_body import FinishWebauthnAssertionBody
 from ...models.finish_webauthn_assertion_response_200 import (
     FinishWebauthnAssertionResponse200,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: FinishWebauthnAssertionBody | Unset = UNSET,
+    body: FinishWebauthnAssertionBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -23,8 +23,7 @@ def _get_kwargs(
         "url": "/auth/webauthn/assert/finish",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -64,12 +63,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: FinishWebauthnAssertionBody | Unset = UNSET,
+    body: FinishWebauthnAssertionBody,
 ) -> Response[Any | FinishWebauthnAssertionResponse200]:
     """Complete WebAuthn assertion and issue a session token
 
     Args:
-        body (FinishWebauthnAssertionBody | Unset):
+        body (FinishWebauthnAssertionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -93,12 +92,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: FinishWebauthnAssertionBody | Unset = UNSET,
+    body: FinishWebauthnAssertionBody,
 ) -> Any | FinishWebauthnAssertionResponse200 | None:
     """Complete WebAuthn assertion and issue a session token
 
     Args:
-        body (FinishWebauthnAssertionBody | Unset):
+        body (FinishWebauthnAssertionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -117,12 +116,12 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: FinishWebauthnAssertionBody | Unset = UNSET,
+    body: FinishWebauthnAssertionBody,
 ) -> Response[Any | FinishWebauthnAssertionResponse200]:
     """Complete WebAuthn assertion and issue a session token
 
     Args:
-        body (FinishWebauthnAssertionBody | Unset):
+        body (FinishWebauthnAssertionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -144,12 +143,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: FinishWebauthnAssertionBody | Unset = UNSET,
+    body: FinishWebauthnAssertionBody,
 ) -> Any | FinishWebauthnAssertionResponse200 | None:
     """Complete WebAuthn assertion and issue a session token
 
     Args:
-        body (FinishWebauthnAssertionBody | Unset):
+        body (FinishWebauthnAssertionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

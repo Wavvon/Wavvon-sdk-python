@@ -1,11 +1,18 @@
 """Contains all the data models used in inputs/outputs"""
 
+from .accept_pending_alliance_invite_body import AcceptPendingAllianceInviteBody
 from .ack_me_events_body import AckMeEventsBody
 from .alliance_info import AllianceInfo
+from .alliance_voice_grant import AllianceVoiceGrant
+from .alliance_voice_grant_payload import AllianceVoiceGrantPayload
+from .app_command_def import AppCommandDef
+from .app_command_def_scope import AppCommandDefScope
 from .app_registration import AppRegistration
 from .app_registration_commands_item import AppRegistrationCommandsItem
+from .app_subscription import AppSubscription
 from .attachment import Attachment
 from .attest_recovery_rotation_request_body import AttestRecoveryRotationRequestBody
+from .attestation_input import AttestationInput
 from .badge_payload import BadgePayload
 from .begin_webauthn_assertion_body import BeginWebauthnAssertionBody
 from .begin_webauthn_assertion_response_200 import BeginWebauthnAssertionResponse200
@@ -25,6 +32,8 @@ from .certification import Certification
 from .challenge_prompt import ChallengePrompt
 from .challenge_prompt_mode import ChallengePromptMode
 from .channel import Channel
+from .claim_identity_pairing_body import ClaimIdentityPairingBody
+from .complete_identity_pairing_body import CompleteIdentityPairingBody
 from .conversation import Conversation
 from .create_admin_banlist_override_body import CreateAdminBanlistOverrideBody
 from .create_admin_banlist_override_body_override_type import (
@@ -54,11 +63,18 @@ from .create_alliance_channel_body_forum_remote_write import (
 from .create_alliance_channel_body_voice_remote_join import (
     CreateAllianceChannelBodyVoiceRemoteJoin,
 )
+from .create_alliance_channel_message_body import CreateAllianceChannelMessageBody
 from .create_alliance_channel_post_body import CreateAllianceChannelPostBody
+from .create_alliance_channel_post_body_attachments_item import (
+    CreateAllianceChannelPostBodyAttachmentsItem,
+)
 from .create_alliance_channel_post_reaction_body import (
     CreateAllianceChannelPostReactionBody,
 )
 from .create_alliance_channel_post_reply_body import CreateAllianceChannelPostReplyBody
+from .create_alliance_channel_post_reply_body_attachments_item import (
+    CreateAllianceChannelPostReplyBodyAttachmentsItem,
+)
 from .create_alliance_push_invite_body import CreateAlliancePushInviteBody
 from .create_alliance_voice_grant_body import CreateAllianceVoiceGrantBody
 from .create_alliance_voice_grant_response_200 import (
@@ -79,28 +95,31 @@ from .create_channel_body import CreateChannelBody
 from .create_channel_message_body import CreateChannelMessageBody
 from .create_channel_message_reaction_body import CreateChannelMessageReactionBody
 from .create_channel_poll_body import CreateChannelPollBody
-from .create_channel_poll_body_options_item import CreateChannelPollBodyOptionsItem
 from .create_channel_post_body import CreateChannelPostBody
+from .create_channel_post_body_attachments_item import (
+    CreateChannelPostBodyAttachmentsItem,
+)
 from .create_channel_post_reaction_body import CreateChannelPostReactionBody
 from .create_channel_post_reply_body import CreateChannelPostReplyBody
+from .create_channel_post_reply_body_attachments_item import (
+    CreateChannelPostReplyBodyAttachmentsItem,
+)
 from .create_channel_post_reply_reaction_body import CreateChannelPostReplyReactionBody
 from .create_channel_tag_body import CreateChannelTagBody
 from .create_channel_voice_mute_body import CreateChannelVoiceMuteBody
 from .create_conversation_body import CreateConversationBody
+from .create_conversation_body_member_hubs import CreateConversationBodyMemberHubs
+from .create_conversation_body_member_masters import CreateConversationBodyMemberMasters
 from .create_conversation_member_body import CreateConversationMemberBody
 from .create_conversation_message_body import CreateConversationMessageBody
-from .create_conversation_message_body_plaintext_signer_cert import (
-    CreateConversationMessageBodyPlaintextSignerCert,
-)
 from .create_event_body import CreateEventBody
-from .create_event_slot_body import CreateEventSlotBody
 from .create_event_slot_response_201 import CreateEventSlotResponse201
 from .create_event_squad_room_body import CreateEventSquadRoomBody
+from .create_federation_alliance_invite_body import CreateFederationAllianceInviteBody
+from .create_federation_alliance_member_body import CreateFederationAllianceMemberBody
 from .create_federation_badge_offer_body import CreateFederationBadgeOfferBody
+from .create_federation_dm_body import CreateFederationDmBody
 from .create_federation_dm_member_change_body import CreateFederationDmMemberChangeBody
-from .create_federation_dm_member_change_body_signer_cert import (
-    CreateFederationDmMemberChangeBodySignerCert,
-)
 from .create_federation_forum_channel_post_body import (
     CreateFederationForumChannelPostBody,
 )
@@ -110,15 +129,24 @@ from .create_federation_forum_channel_post_reaction_body import (
 from .create_federation_forum_channel_post_reply_body import (
     CreateFederationForumChannelPostReplyBody,
 )
+from .create_federation_peer_body import CreateFederationPeerBody
 from .create_friend_body import CreateFriendBody
+from .create_hub_icon_body import CreateHubIconBody
+from .create_identity_designation_body import CreateIdentityDesignationBody
+from .create_identity_pairing_offer_body import CreateIdentityPairingOfferBody
+from .create_identity_revocation_body import CreateIdentityRevocationBody
 from .create_invite_body import CreateInviteBody
 from .create_moderation_ban_body import CreateModerationBanBody
 from .create_moderation_ban_response_201 import CreateModerationBanResponse201
+from .create_moderation_mute_body import CreateModerationMuteBody
+from .create_moderation_voice_mute_body import CreateModerationVoiceMuteBody
 from .create_role_body import CreateRoleBody
 from .create_role_category_body import CreateRoleCategoryBody
+from .create_slot_request import CreateSlotRequest
 from .create_soundboard_sound_body import CreateSoundboardSoundBody
 from .create_soundboard_sound_response_201 import CreateSoundboardSoundResponse201
 from .delete_admin_banlist_sources_body import DeleteAdminBanlistSourcesBody
+from .delete_federation_alliance_member_body import DeleteFederationAllianceMemberBody
 from .delete_federation_forum_channel_post_body import (
     DeleteFederationForumChannelPostBody,
 )
@@ -136,6 +164,10 @@ from .dm_message_group_encrypted_envelope_type_0 import (
 from .dm_message_group_encrypted_envelope_type_0_signer_cert import (
     DmMessageGroupEncryptedEnvelopeType0SignerCert,
 )
+from .embed import Embed
+from .embed_field import EmbedField
+from .embed_footer import EmbedFooter
+from .encrypted_dm_envelope import EncryptedDmEnvelope
 from .execute_webhook_body import ExecuteWebhookBody
 from .execute_webhook_body_embeds import ExecuteWebhookBodyEmbeds
 from .execute_webhook_response_200 import ExecuteWebhookResponse200
@@ -146,6 +178,7 @@ from .explain_user_permissions_response_200_sources_item import (
 from .explain_user_permissions_response_200_sources_item_kind import (
     ExplainUserPermissionsResponse200SourcesItemKind,
 )
+from .favorite_hub import FavoriteHub
 from .federation_join_alliance_body import FederationJoinAllianceBody
 from .federation_join_alliance_response_200 import FederationJoinAllianceResponse200
 from .finish_webauthn_assertion_body import FinishWebauthnAssertionBody
@@ -161,6 +194,7 @@ from .finish_webauthn_registration_response_200 import (
     FinishWebauthnRegistrationResponse200,
 )
 from .forum_tag import ForumTag
+from .game_launch_card import GameLaunchCard
 from .get_admin_settings_banlist_response_200 import GetAdminSettingsBanlistResponse200
 from .get_admin_settings_banlist_response_200_sources_item import (
     GetAdminSettingsBanlistResponse200SourcesItem,
@@ -199,6 +233,7 @@ from .get_user_profile_response_200_badges_item import (
     GetUserProfileResponse200BadgesItem,
 )
 from .get_user_profile_response_200_roles_item import GetUserProfileResponse200RolesItem
+from .group_encrypted_envelope import GroupEncryptedEnvelope
 from .hub_info import HubInfo
 from .hub_info_badges_item import HubInfoBadgesItem
 from .hub_info_cert_requirement import HubInfoCertRequirement
@@ -209,6 +244,8 @@ from .invite import Invite
 from .invite_status import InviteStatus
 from .issue_admin_badge_body import IssueAdminBadgeBody
 from .issue_admin_badge_response_201 import IssueAdminBadgeResponse201
+from .join_alliance_with_invite_body import JoinAllianceWithInviteBody
+from .kick_user_body import KickUserBody
 from .leave_voice_body import LeaveVoiceBody
 from .list_admin_audit_log_response_200 import ListAdminAuditLogResponse200
 from .list_admin_audit_log_response_200_entries_item import (
@@ -346,10 +383,13 @@ from .member_admin_info import MemberAdminInfo
 from .message import Message
 from .message_embeds_item import MessageEmbedsItem
 from .message_game import MessageGame
+from .poll_option import PollOption
 from .post_detail import PostDetail
 from .post_summary import PostSummary
 from .post_summary_attachments_item import PostSummaryAttachmentsItem
 from .post_summary_tags_item import PostSummaryTagsItem
+from .pow_proof import PowProof
+from .public_hub_entry import PublicHubEntry
 from .raise_channel_hand_response_201 import RaiseChannelHandResponse201
 from .reaction import Reaction
 from .redeem_auth_device_token_body import RedeemAuthDeviceTokenBody
@@ -358,6 +398,7 @@ from .reindex_admin_search_response_202 import ReindexAdminSearchResponse202
 from .reindex_admin_search_response_202_status import (
     ReindexAdminSearchResponse202Status,
 )
+from .reorder_channels_body import ReorderChannelsBody
 from .reply_context import ReplyContext
 from .reply_view import ReplyView
 from .reply_view_attachments_item import ReplyViewAttachmentsItem
@@ -370,9 +411,6 @@ from .rotate_admin_outgoing_webhook_secret_response_200 import (
     RotateAdminOutgoingWebhookSecretResponse200,
 )
 from .rotate_recovery_key_body import RotateRecoveryKeyBody
-from .rotate_recovery_key_body_attestations_item import (
-    RotateRecoveryKeyBodyAttestationsItem,
-)
 from .rotate_recovery_key_response_201 import RotateRecoveryKeyResponse201
 from .rotate_recovery_key_response_201_status import RotateRecoveryKeyResponse201Status
 from .rsvp_event_body import RsvpEventBody
@@ -382,50 +420,45 @@ from .search_channel_posts_response_200_results_item import (
     SearchChannelPostsResponse200ResultsItem,
 )
 from .search_response_200_item import SearchResponse200Item
+from .sender_key_recipient_blob import SenderKeyRecipientBlob
 from .set_admin_outgoing_webhook_subscriptions_body import (
     SetAdminOutgoingWebhookSubscriptionsBody,
-)
-from .set_admin_outgoing_webhook_subscriptions_body_subscriptions_item import (
-    SetAdminOutgoingWebhookSubscriptionsBodySubscriptionsItem,
 )
 from .set_admin_outgoing_webhook_subscriptions_response_200 import (
     SetAdminOutgoingWebhookSubscriptionsResponse200,
 )
+from .set_admin_survey_body import SetAdminSurveyBody
 from .set_alliance_people_visibility_body import SetAlliancePeopleVisibilityBody
 from .set_channel_permission_body import SetChannelPermissionBody
+from .set_channel_talk_power_body import SetChannelTalkPowerBody
 from .set_conversation_sender_keys_body import SetConversationSenderKeysBody
-from .set_conversation_sender_keys_body_recipients_item import (
-    SetConversationSenderKeysBodyRecipientsItem,
-)
-from .set_conversation_sender_keys_body_signer_cert import (
-    SetConversationSenderKeysBodySignerCert,
-)
 from .set_event_body import SetEventBody
 from .set_hub_settings_challenge_body import SetHubSettingsChallengeBody
 from .set_hub_settings_challenge_body_challenge_mode import (
     SetHubSettingsChallengeBodyChallengeMode,
 )
 from .set_hub_settings_lobby_body import SetHubSettingsLobbyBody
+from .set_identity_dh_key_body import SetIdentityDhKeyBody
 from .set_identity_dm_blocks_body import SetIdentityDmBlocksBody
+from .set_identity_prefs_body import SetIdentityPrefsBody
 from .set_me_app_commands_body import SetMeAppCommandsBody
-from .set_me_app_commands_body_commands_item import SetMeAppCommandsBodyCommandsItem
-from .set_me_app_commands_body_commands_item_scope import (
-    SetMeAppCommandsBodyCommandsItemScope,
-)
 from .set_me_app_profile_body import SetMeAppProfileBody
-from .set_me_app_profile_body_game import SetMeAppProfileBodyGame
 from .set_me_app_subscriptions_body import SetMeAppSubscriptionsBody
-from .set_me_app_subscriptions_body_subscriptions_item import (
-    SetMeAppSubscriptionsBodySubscriptionsItem,
-)
 from .set_me_app_subscriptions_response_200 import SetMeAppSubscriptionsResponse200
+from .set_profile_body import SetProfileBody
 from .set_recovery_contacts_body import SetRecoveryContactsBody
+from .sign_admin_directory_listing_body import SignAdminDirectoryListingBody
 from .signed_member_change import SignedMemberChange
-from .signed_member_change_signer_cert import SignedMemberChangeSignerCert
 from .start_screenshare_body import StartScreenshareBody
 from .start_screenshare_response_200 import StartScreenshareResponse200
 from .stop_screenshare_body import StopScreenshareBody
+from .subkey_cert import SubkeyCert
 from .submit_lobby_pow_body import SubmitLobbyPowBody
+from .submit_survey_body import SubmitSurveyBody
+from .survey_answer_input import SurveyAnswerInput
+from .survey_choice_admin import SurveyChoiceAdmin
+from .survey_question_admin import SurveyQuestionAdmin
+from .timeout_user_body import TimeoutUserBody
 from .update_admin_banlist_sources_body import UpdateAdminBanlistSourcesBody
 from .update_admin_banlist_sources_body_policy import (
     UpdateAdminBanlistSourcesBodyPolicy,
@@ -446,37 +479,43 @@ from .update_admin_settings_listing_body import UpdateAdminSettingsListingBody
 from .update_admin_settings_moderation_body import UpdateAdminSettingsModerationBody
 from .update_admin_settings_pow_body import UpdateAdminSettingsPowBody
 from .update_admin_settings_tags_body import UpdateAdminSettingsTagsBody
+from .update_channel_body import UpdateChannelBody
 from .update_channel_message_body import UpdateChannelMessageBody
 from .update_channel_post_body import UpdateChannelPostBody
 from .update_channel_post_reply_body import UpdateChannelPostReplyBody
 from .update_event_slot_body import UpdateEventSlotBody
 from .update_event_slot_response_200 import UpdateEventSlotResponse200
 from .update_hub_body import UpdateHubBody
+from .update_hub_icon_body import UpdateHubIconBody
 from .update_me_body import UpdateMeBody
 from .update_me_credential_body import UpdateMeCredentialBody
+from .update_role_body import UpdateRoleBody
 from .update_role_category_body import UpdateRoleCategoryBody
 from .update_tag_body import UpdateTagBody
 from .upload_channel_file_body import UploadChannelFileBody
 from .upload_channel_file_response_201 import UploadChannelFileResponse201
 from .user_info import UserInfo
 from .verify_auth_body import VerifyAuthBody
-from .verify_auth_body_alliance_voice_grant import VerifyAuthBodyAllianceVoiceGrant
-from .verify_auth_body_alliance_voice_grant_payload import (
-    VerifyAuthBodyAllianceVoiceGrantPayload,
-)
-from .verify_auth_body_subkey_cert import VerifyAuthBodySubkeyCert
 from .verify_auth_response_200 import VerifyAuthResponse200
 from .verify_auth_response_200_scope import VerifyAuthResponse200Scope
 from .verify_challenge_body import VerifyChallengeBody
 from .vote_poll_body import VotePollBody
+from .webhook_subscription_dto import WebhookSubscriptionDto
 
 __all__ = (
+    "AcceptPendingAllianceInviteBody",
     "AckMeEventsBody",
     "AllianceInfo",
+    "AllianceVoiceGrant",
+    "AllianceVoiceGrantPayload",
+    "AppCommandDef",
+    "AppCommandDefScope",
     "AppRegistration",
     "AppRegistrationCommandsItem",
+    "AppSubscription",
     "Attachment",
     "AttestRecoveryRotationRequestBody",
+    "AttestationInput",
     "BadgePayload",
     "BeginWebauthnAssertionBody",
     "BeginWebauthnAssertionResponse200",
@@ -490,6 +529,8 @@ __all__ = (
     "ChallengePrompt",
     "ChallengePromptMode",
     "Channel",
+    "ClaimIdentityPairingBody",
+    "CompleteIdentityPairingBody",
     "Conversation",
     "CreateAdminBanlistOverrideBody",
     "CreateAdminBanlistOverrideBodyOverrideType",
@@ -507,9 +548,12 @@ __all__ = (
     "CreateAllianceChannelBody",
     "CreateAllianceChannelBodyForumRemoteWrite",
     "CreateAllianceChannelBodyVoiceRemoteJoin",
+    "CreateAllianceChannelMessageBody",
     "CreateAllianceChannelPostBody",
+    "CreateAllianceChannelPostBodyAttachmentsItem",
     "CreateAllianceChannelPostReactionBody",
     "CreateAllianceChannelPostReplyBody",
+    "CreateAllianceChannelPostReplyBodyAttachmentsItem",
     "CreateAlliancePushInviteBody",
     "CreateAllianceVoiceGrantBody",
     "CreateAllianceVoiceGrantResponse200",
@@ -524,36 +568,48 @@ __all__ = (
     "CreateChannelMessageBody",
     "CreateChannelMessageReactionBody",
     "CreateChannelPollBody",
-    "CreateChannelPollBodyOptionsItem",
     "CreateChannelPostBody",
+    "CreateChannelPostBodyAttachmentsItem",
     "CreateChannelPostReactionBody",
     "CreateChannelPostReplyBody",
+    "CreateChannelPostReplyBodyAttachmentsItem",
     "CreateChannelPostReplyReactionBody",
     "CreateChannelTagBody",
     "CreateChannelVoiceMuteBody",
     "CreateConversationBody",
+    "CreateConversationBodyMemberHubs",
+    "CreateConversationBodyMemberMasters",
     "CreateConversationMemberBody",
     "CreateConversationMessageBody",
-    "CreateConversationMessageBodyPlaintextSignerCert",
     "CreateEventBody",
-    "CreateEventSlotBody",
     "CreateEventSlotResponse201",
     "CreateEventSquadRoomBody",
+    "CreateFederationAllianceInviteBody",
+    "CreateFederationAllianceMemberBody",
     "CreateFederationBadgeOfferBody",
+    "CreateFederationDmBody",
     "CreateFederationDmMemberChangeBody",
-    "CreateFederationDmMemberChangeBodySignerCert",
     "CreateFederationForumChannelPostBody",
     "CreateFederationForumChannelPostReactionBody",
     "CreateFederationForumChannelPostReplyBody",
+    "CreateFederationPeerBody",
     "CreateFriendBody",
+    "CreateHubIconBody",
+    "CreateIdentityDesignationBody",
+    "CreateIdentityPairingOfferBody",
+    "CreateIdentityRevocationBody",
     "CreateInviteBody",
     "CreateModerationBanBody",
     "CreateModerationBanResponse201",
+    "CreateModerationMuteBody",
+    "CreateModerationVoiceMuteBody",
     "CreateRoleBody",
     "CreateRoleCategoryBody",
+    "CreateSlotRequest",
     "CreateSoundboardSoundBody",
     "CreateSoundboardSoundResponse201",
     "DeleteAdminBanlistSourcesBody",
+    "DeleteFederationAllianceMemberBody",
     "DeleteFederationForumChannelPostBody",
     "DeleteFederationForumChannelPostReplyBody",
     "DmMessage",
@@ -561,12 +617,17 @@ __all__ = (
     "DmMessageEncryptedEnvelopeType0SignerCert",
     "DmMessageGroupEncryptedEnvelopeType0",
     "DmMessageGroupEncryptedEnvelopeType0SignerCert",
+    "Embed",
+    "EmbedField",
+    "EmbedFooter",
+    "EncryptedDmEnvelope",
     "ExecuteWebhookBody",
     "ExecuteWebhookBodyEmbeds",
     "ExecuteWebhookResponse200",
     "ExplainUserPermissionsResponse200",
     "ExplainUserPermissionsResponse200SourcesItem",
     "ExplainUserPermissionsResponse200SourcesItemKind",
+    "FavoriteHub",
     "FederationJoinAllianceBody",
     "FederationJoinAllianceResponse200",
     "FinishWebauthnAssertionBody",
@@ -576,6 +637,7 @@ __all__ = (
     "FinishWebauthnRegistrationBodyCredential",
     "FinishWebauthnRegistrationResponse200",
     "ForumTag",
+    "GameLaunchCard",
     "GetAdminSettingsBanlistResponse200",
     "GetAdminSettingsBanlistResponse200SourcesItem",
     "GetAdminSettingsPowResponse200",
@@ -598,6 +660,7 @@ __all__ = (
     "GetUserProfileResponse200",
     "GetUserProfileResponse200BadgesItem",
     "GetUserProfileResponse200RolesItem",
+    "GroupEncryptedEnvelope",
     "HubInfo",
     "HubInfoBadgesItem",
     "HubInfoCertRequirement",
@@ -608,6 +671,8 @@ __all__ = (
     "InviteStatus",
     "IssueAdminBadgeBody",
     "IssueAdminBadgeResponse201",
+    "JoinAllianceWithInviteBody",
+    "KickUserBody",
     "LeaveVoiceBody",
     "ListAdminAuditLogResponse200",
     "ListAdminAuditLogResponse200EntriesItem",
@@ -679,16 +744,20 @@ __all__ = (
     "Message",
     "MessageEmbedsItem",
     "MessageGame",
+    "PollOption",
     "PostDetail",
     "PostSummary",
     "PostSummaryAttachmentsItem",
     "PostSummaryTagsItem",
+    "PowProof",
+    "PublicHubEntry",
     "RaiseChannelHandResponse201",
     "Reaction",
     "RedeemAuthDeviceTokenBody",
     "RedeemAuthDeviceTokenResponse200",
     "ReindexAdminSearchResponse202",
     "ReindexAdminSearchResponse202Status",
+    "ReorderChannelsBody",
     "ReplyContext",
     "ReplyView",
     "ReplyViewAttachmentsItem",
@@ -699,7 +768,6 @@ __all__ = (
     "RoleCategory",
     "RotateAdminOutgoingWebhookSecretResponse200",
     "RotateRecoveryKeyBody",
-    "RotateRecoveryKeyBodyAttestationsItem",
     "RotateRecoveryKeyResponse201",
     "RotateRecoveryKeyResponse201Status",
     "RsvpEventBody",
@@ -707,34 +775,39 @@ __all__ = (
     "SearchChannelPostsResponse200",
     "SearchChannelPostsResponse200ResultsItem",
     "SearchResponse200Item",
+    "SenderKeyRecipientBlob",
     "SetAdminOutgoingWebhookSubscriptionsBody",
-    "SetAdminOutgoingWebhookSubscriptionsBodySubscriptionsItem",
     "SetAdminOutgoingWebhookSubscriptionsResponse200",
+    "SetAdminSurveyBody",
     "SetAlliancePeopleVisibilityBody",
     "SetChannelPermissionBody",
+    "SetChannelTalkPowerBody",
     "SetConversationSenderKeysBody",
-    "SetConversationSenderKeysBodyRecipientsItem",
-    "SetConversationSenderKeysBodySignerCert",
     "SetEventBody",
     "SetHubSettingsChallengeBody",
     "SetHubSettingsChallengeBodyChallengeMode",
     "SetHubSettingsLobbyBody",
+    "SetIdentityDhKeyBody",
     "SetIdentityDmBlocksBody",
+    "SetIdentityPrefsBody",
     "SetMeAppCommandsBody",
-    "SetMeAppCommandsBodyCommandsItem",
-    "SetMeAppCommandsBodyCommandsItemScope",
     "SetMeAppProfileBody",
-    "SetMeAppProfileBodyGame",
     "SetMeAppSubscriptionsBody",
-    "SetMeAppSubscriptionsBodySubscriptionsItem",
     "SetMeAppSubscriptionsResponse200",
+    "SetProfileBody",
     "SetRecoveryContactsBody",
+    "SignAdminDirectoryListingBody",
     "SignedMemberChange",
-    "SignedMemberChangeSignerCert",
     "StartScreenshareBody",
     "StartScreenshareResponse200",
     "StopScreenshareBody",
+    "SubkeyCert",
     "SubmitLobbyPowBody",
+    "SubmitSurveyBody",
+    "SurveyAnswerInput",
+    "SurveyChoiceAdmin",
+    "SurveyQuestionAdmin",
+    "TimeoutUserBody",
     "UpdateAdminBanlistSourcesBody",
     "UpdateAdminBanlistSourcesBodyPolicy",
     "UpdateAdminOutgoingWebhookBody",
@@ -747,25 +820,26 @@ __all__ = (
     "UpdateAdminSettingsModerationBody",
     "UpdateAdminSettingsPowBody",
     "UpdateAdminSettingsTagsBody",
+    "UpdateChannelBody",
     "UpdateChannelMessageBody",
     "UpdateChannelPostBody",
     "UpdateChannelPostReplyBody",
     "UpdateEventSlotBody",
     "UpdateEventSlotResponse200",
     "UpdateHubBody",
+    "UpdateHubIconBody",
     "UpdateMeBody",
     "UpdateMeCredentialBody",
+    "UpdateRoleBody",
     "UpdateRoleCategoryBody",
     "UpdateTagBody",
     "UploadChannelFileBody",
     "UploadChannelFileResponse201",
     "UserInfo",
     "VerifyAuthBody",
-    "VerifyAuthBodyAllianceVoiceGrant",
-    "VerifyAuthBodyAllianceVoiceGrantPayload",
-    "VerifyAuthBodySubkeyCert",
     "VerifyAuthResponse200",
     "VerifyAuthResponse200Scope",
     "VerifyChallengeBody",
     "VotePollBody",
+    "WebhookSubscriptionDto",
 )

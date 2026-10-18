@@ -8,14 +8,14 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.update_event_slot_body import UpdateEventSlotBody
 from ...models.update_event_slot_response_200 import UpdateEventSlotResponse200
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     event_id: str,
     slot_id: str,
     *,
-    body: UpdateEventSlotBody | Unset = UNSET,
+    body: UpdateEventSlotBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -27,8 +27,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -70,7 +69,7 @@ def sync_detailed(
     slot_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateEventSlotBody | Unset = UNSET,
+    body: UpdateEventSlotBody,
 ) -> Response[Any | UpdateEventSlotResponse200]:
     """Rename or resize a slot (creator or admin)
 
@@ -79,7 +78,7 @@ def sync_detailed(
     Args:
         event_id (str):
         slot_id (str):
-        body (UpdateEventSlotBody | Unset):
+        body (UpdateEventSlotBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -107,7 +106,7 @@ def sync(
     slot_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateEventSlotBody | Unset = UNSET,
+    body: UpdateEventSlotBody,
 ) -> Any | UpdateEventSlotResponse200 | None:
     """Rename or resize a slot (creator or admin)
 
@@ -116,7 +115,7 @@ def sync(
     Args:
         event_id (str):
         slot_id (str):
-        body (UpdateEventSlotBody | Unset):
+        body (UpdateEventSlotBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,7 +138,7 @@ async def asyncio_detailed(
     slot_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateEventSlotBody | Unset = UNSET,
+    body: UpdateEventSlotBody,
 ) -> Response[Any | UpdateEventSlotResponse200]:
     """Rename or resize a slot (creator or admin)
 
@@ -148,7 +147,7 @@ async def asyncio_detailed(
     Args:
         event_id (str):
         slot_id (str):
-        body (UpdateEventSlotBody | Unset):
+        body (UpdateEventSlotBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -174,7 +173,7 @@ async def asyncio(
     slot_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: UpdateEventSlotBody | Unset = UNSET,
+    body: UpdateEventSlotBody,
 ) -> Any | UpdateEventSlotResponse200 | None:
     """Rename or resize a slot (creator or admin)
 
@@ -183,7 +182,7 @@ async def asyncio(
     Args:
         event_id (str):
         slot_id (str):
-        body (UpdateEventSlotBody | Unset):
+        body (UpdateEventSlotBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

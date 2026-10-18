@@ -6,12 +6,12 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.set_recovery_contacts_body import SetRecoveryContactsBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: SetRecoveryContactsBody | Unset = UNSET,
+    body: SetRecoveryContactsBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -20,8 +20,7 @@ def _get_kwargs(
         "url": "/recovery/contacts",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -55,7 +54,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetRecoveryContactsBody | Unset = UNSET,
+    body: SetRecoveryContactsBody,
 ) -> Response[Any]:
     """Replace the caller's recovery contact list
 
@@ -63,7 +62,7 @@ def sync_detailed(
     contact.
 
     Args:
-        body (SetRecoveryContactsBody | Unset):
+        body (SetRecoveryContactsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -87,7 +86,7 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetRecoveryContactsBody | Unset = UNSET,
+    body: SetRecoveryContactsBody,
 ) -> Response[Any]:
     """Replace the caller's recovery contact list
 
@@ -95,7 +94,7 @@ async def asyncio_detailed(
     contact.
 
     Args:
-        body (SetRecoveryContactsBody | Unset):
+        body (SetRecoveryContactsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

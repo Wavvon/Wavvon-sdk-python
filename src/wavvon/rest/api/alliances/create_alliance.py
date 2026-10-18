@@ -7,12 +7,12 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.alliance_info import AllianceInfo
 from ...models.create_alliance_body import CreateAllianceBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateAllianceBody | Unset = UNSET,
+    body: CreateAllianceBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -21,8 +21,7 @@ def _get_kwargs(
         "url": "/alliances",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -58,12 +57,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAllianceBody | Unset = UNSET,
+    body: CreateAllianceBody,
 ) -> Response[AllianceInfo]:
     """Create an alliance (manage_hub)
 
     Args:
-        body (CreateAllianceBody | Unset):
+        body (CreateAllianceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -87,12 +86,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAllianceBody | Unset = UNSET,
+    body: CreateAllianceBody,
 ) -> AllianceInfo | None:
     """Create an alliance (manage_hub)
 
     Args:
-        body (CreateAllianceBody | Unset):
+        body (CreateAllianceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -111,12 +110,12 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAllianceBody | Unset = UNSET,
+    body: CreateAllianceBody,
 ) -> Response[AllianceInfo]:
     """Create an alliance (manage_hub)
 
     Args:
-        body (CreateAllianceBody | Unset):
+        body (CreateAllianceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -138,12 +137,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAllianceBody | Unset = UNSET,
+    body: CreateAllianceBody,
 ) -> AllianceInfo | None:
     """Create an alliance (manage_hub)
 
     Args:
-        body (CreateAllianceBody | Unset):
+        body (CreateAllianceBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

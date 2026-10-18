@@ -15,20 +15,16 @@ T = TypeVar("T", bound="SetHubSettingsLobbyBody")
 class SetHubSettingsLobbyBody:
     """
     Attributes:
-        enabled (bool | Unset):
-        min_security_level (int | Unset):
+        lobby_enabled (bool):
         welcome_md (None | str | Unset):
     """
 
-    enabled: bool | Unset = UNSET
-    min_security_level: int | Unset = UNSET
+    lobby_enabled: bool
     welcome_md: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        enabled = self.enabled
-
-        min_security_level = self.min_security_level
+        lobby_enabled = self.lobby_enabled
 
         welcome_md: None | str | Unset
         if isinstance(self.welcome_md, Unset):
@@ -38,11 +34,11 @@ class SetHubSettingsLobbyBody:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if enabled is not UNSET:
-            field_dict["enabled"] = enabled
-        if min_security_level is not UNSET:
-            field_dict["min_security_level"] = min_security_level
+        field_dict.update(
+            {
+                "lobby_enabled": lobby_enabled,
+            }
+        )
         if welcome_md is not UNSET:
             field_dict["welcome_md"] = welcome_md
 
@@ -51,9 +47,7 @@ class SetHubSettingsLobbyBody:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        enabled = d.pop("enabled", UNSET)
-
-        min_security_level = d.pop("min_security_level", UNSET)
+        lobby_enabled = d.pop("lobby_enabled")
 
         def _parse_welcome_md(data: object) -> None | str | Unset:
             if data is None:
@@ -65,8 +59,7 @@ class SetHubSettingsLobbyBody:
         welcome_md = _parse_welcome_md(d.pop("welcome_md", UNSET))
 
         set_hub_settings_lobby_body = cls(
-            enabled=enabled,
-            min_security_level=min_security_level,
+            lobby_enabled=lobby_enabled,
             welcome_md=welcome_md,
         )
 

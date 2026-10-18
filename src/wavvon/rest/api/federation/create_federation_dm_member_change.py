@@ -8,12 +8,12 @@ from ...client import AuthenticatedClient, Client
 from ...models.create_federation_dm_member_change_body import (
     CreateFederationDmMemberChangeBody,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateFederationDmMemberChangeBody | Unset = UNSET,
+    body: CreateFederationDmMemberChangeBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -22,8 +22,7 @@ def _get_kwargs(
         "url": "/federation/dm-member-change",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -66,7 +65,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateFederationDmMemberChangeBody | Unset = UNSET,
+    body: CreateFederationDmMemberChangeBody,
 ) -> Response[Any]:
     """Receive a signed group membership change from a peer hub
 
@@ -77,7 +76,7 @@ def sync_detailed(
     roster.
 
     Args:
-        body (CreateFederationDmMemberChangeBody | Unset):
+        body (CreateFederationDmMemberChangeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -101,7 +100,7 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateFederationDmMemberChangeBody | Unset = UNSET,
+    body: CreateFederationDmMemberChangeBody,
 ) -> Response[Any]:
     """Receive a signed group membership change from a peer hub
 
@@ -112,7 +111,7 @@ async def asyncio_detailed(
     roster.
 
     Args:
-        body (CreateFederationDmMemberChangeBody | Unset):
+        body (CreateFederationDmMemberChangeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

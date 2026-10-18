@@ -7,13 +7,13 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.vote_poll_body import VotePollBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     poll_id: str,
     *,
-    body: VotePollBody | Unset = UNSET,
+    body: VotePollBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -24,8 +24,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -63,13 +62,13 @@ def sync_detailed(
     poll_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: VotePollBody | Unset = UNSET,
+    body: VotePollBody,
 ) -> Response[Any]:
     """Cast or replace the caller's vote
 
     Args:
         poll_id (str):
-        body (VotePollBody | Unset):
+        body (VotePollBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -95,13 +94,13 @@ async def asyncio_detailed(
     poll_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: VotePollBody | Unset = UNSET,
+    body: VotePollBody,
 ) -> Response[Any]:
     """Cast or replace the caller's vote
 
     Args:
         poll_id (str):
-        body (VotePollBody | Unset):
+        body (VotePollBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

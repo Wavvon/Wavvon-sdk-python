@@ -8,13 +8,13 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_channel_tag_body import CreateChannelTagBody
 from ...models.forum_tag import ForumTag
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     *,
-    body: CreateChannelTagBody | Unset = UNSET,
+    body: CreateChannelTagBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -25,8 +25,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -67,13 +66,13 @@ def sync_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelTagBody | Unset = UNSET,
+    body: CreateChannelTagBody,
 ) -> Response[Any | ForumTag]:
     """Create a tag definition (manage_posts)
 
     Args:
         channel_id (str):
-        body (CreateChannelTagBody | Unset):
+        body (CreateChannelTagBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -99,13 +98,13 @@ def sync(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelTagBody | Unset = UNSET,
+    body: CreateChannelTagBody,
 ) -> Any | ForumTag | None:
     """Create a tag definition (manage_posts)
 
     Args:
         channel_id (str):
-        body (CreateChannelTagBody | Unset):
+        body (CreateChannelTagBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -126,13 +125,13 @@ async def asyncio_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelTagBody | Unset = UNSET,
+    body: CreateChannelTagBody,
 ) -> Response[Any | ForumTag]:
     """Create a tag definition (manage_posts)
 
     Args:
         channel_id (str):
-        body (CreateChannelTagBody | Unset):
+        body (CreateChannelTagBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -156,13 +155,13 @@ async def asyncio(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelTagBody | Unset = UNSET,
+    body: CreateChannelTagBody,
 ) -> Any | ForumTag | None:
     """Create a tag definition (manage_posts)
 
     Args:
         channel_id (str):
-        body (CreateChannelTagBody | Unset):
+        body (CreateChannelTagBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

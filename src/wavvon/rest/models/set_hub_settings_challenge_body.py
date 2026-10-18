@@ -9,7 +9,6 @@ from attrs import field as _attrs_field
 from ..models.set_hub_settings_challenge_body_challenge_mode import (
     SetHubSettingsChallengeBodyChallengeMode,
 )
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="SetHubSettingsChallengeBody")
 
@@ -18,37 +17,42 @@ T = TypeVar("T", bound="SetHubSettingsChallengeBody")
 class SetHubSettingsChallengeBody:
     """
     Attributes:
-        challenge_mode (SetHubSettingsChallengeBodyChallengeMode | Unset):
+        challenge_mode (SetHubSettingsChallengeBodyChallengeMode):
+        challenge_difficulty (str):
     """
 
-    challenge_mode: SetHubSettingsChallengeBodyChallengeMode | Unset = UNSET
+    challenge_mode: SetHubSettingsChallengeBodyChallengeMode
+    challenge_difficulty: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        challenge_mode: str | Unset = UNSET
-        if not isinstance(self.challenge_mode, Unset):
-            challenge_mode = self.challenge_mode.value
+        challenge_mode = self.challenge_mode.value
+
+        challenge_difficulty = self.challenge_difficulty
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if challenge_mode is not UNSET:
-            field_dict["challenge_mode"] = challenge_mode
+        field_dict.update(
+            {
+                "challenge_mode": challenge_mode,
+                "challenge_difficulty": challenge_difficulty,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        _challenge_mode = d.pop("challenge_mode", UNSET)
-        challenge_mode: SetHubSettingsChallengeBodyChallengeMode | Unset
-        if isinstance(_challenge_mode, Unset):
-            challenge_mode = UNSET
-        else:
-            challenge_mode = SetHubSettingsChallengeBodyChallengeMode(_challenge_mode)
+        challenge_mode = SetHubSettingsChallengeBodyChallengeMode(
+            d.pop("challenge_mode")
+        )
+
+        challenge_difficulty = d.pop("challenge_difficulty")
 
         set_hub_settings_challenge_body = cls(
             challenge_mode=challenge_mode,
+            challenge_difficulty=challenge_difficulty,
         )
 
         set_hub_settings_challenge_body.additional_properties = d

@@ -5,16 +5,28 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.delete_federation_alliance_member_body import (
+    DeleteFederationAllianceMemberBody,
+)
 from ...types import Response
 
 
-def _get_kwargs() -> dict[str, Any]:
+def _get_kwargs(
+    *,
+    body: DeleteFederationAllianceMemberBody,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
         "method": "delete",
         "url": "/federation/alliance-member",
     }
 
+    _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -44,12 +56,16 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    body: DeleteFederationAllianceMemberBody,
 ) -> Response[Any]:
     """A hub tells the other members that it is leaving the alliance
 
      Removes the **calling** hub's own membership row and nothing else, so the authenticated peer is the
     whole authorisation. Without it a departure was local: the partners kept the row, kept calling the
     hub, and kept letting it read what the alliance shares.
+
+    Args:
+        body (DeleteFederationAllianceMemberBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -59,7 +75,9 @@ def sync_detailed(
         Response[Any]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        body=body,
+    )
 
     response = client.get_httpx_client().request(
         **kwargs,
@@ -71,12 +89,16 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    body: DeleteFederationAllianceMemberBody,
 ) -> Response[Any]:
     """A hub tells the other members that it is leaving the alliance
 
      Removes the **calling** hub's own membership row and nothing else, so the authenticated peer is the
     whole authorisation. Without it a departure was local: the partners kept the row, kept calling the
     hub, and kept letting it read what the alliance shares.
+
+    Args:
+        body (DeleteFederationAllianceMemberBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -86,7 +108,9 @@ async def asyncio_detailed(
         Response[Any]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        body=body,
+    )
 
     response = await client.get_async_httpx_client().request(**kwargs)
 

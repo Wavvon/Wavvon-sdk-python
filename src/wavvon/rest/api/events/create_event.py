@@ -6,12 +6,12 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_event_body import CreateEventBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateEventBody | Unset = UNSET,
+    body: CreateEventBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -20,8 +20,7 @@ def _get_kwargs(
         "url": "/events",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -55,14 +54,14 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateEventBody | Unset = UNSET,
+    body: CreateEventBody,
 ) -> Response[Any]:
     """Create an event (create_events)
 
      Also posts a system card message into the target channel.
 
     Args:
-        body (CreateEventBody | Unset):
+        body (CreateEventBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -86,14 +85,14 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateEventBody | Unset = UNSET,
+    body: CreateEventBody,
 ) -> Response[Any]:
     """Create an event (create_events)
 
      Also posts a system card message into the target channel.
 
     Args:
-        body (CreateEventBody | Unset):
+        body (CreateEventBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

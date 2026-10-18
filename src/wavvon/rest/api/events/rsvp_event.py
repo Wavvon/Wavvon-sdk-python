@@ -7,13 +7,13 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.rsvp_event_body import RsvpEventBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     event_id: str,
     *,
-    body: RsvpEventBody | Unset = UNSET,
+    body: RsvpEventBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -24,8 +24,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,13 +59,13 @@ def sync_detailed(
     event_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: RsvpEventBody | Unset = UNSET,
+    body: RsvpEventBody,
 ) -> Response[Any]:
     """RSVP to an event (upserts the caller's status)
 
     Args:
         event_id (str):
-        body (RsvpEventBody | Unset):
+        body (RsvpEventBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -92,13 +91,13 @@ async def asyncio_detailed(
     event_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: RsvpEventBody | Unset = UNSET,
+    body: RsvpEventBody,
 ) -> Response[Any]:
     """RSVP to an event (upserts the caller's status)
 
     Args:
         event_id (str):
-        body (RsvpEventBody | Unset):
+        body (RsvpEventBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

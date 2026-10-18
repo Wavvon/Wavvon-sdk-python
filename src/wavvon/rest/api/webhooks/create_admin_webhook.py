@@ -7,12 +7,12 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_admin_webhook_body import CreateAdminWebhookBody
 from ...models.create_admin_webhook_response_201 import CreateAdminWebhookResponse201
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateAdminWebhookBody | Unset = UNSET,
+    body: CreateAdminWebhookBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -21,8 +21,7 @@ def _get_kwargs(
         "url": "/admin/webhooks",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -58,14 +57,14 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminWebhookBody | Unset = UNSET,
+    body: CreateAdminWebhookBody,
 ) -> Response[CreateAdminWebhookResponse201]:
     """Create an incoming webhook for a channel (admin)
 
      The returned `webhook_url` embeds the secret token and is shown **once** — only its hash is stored.
 
     Args:
-        body (CreateAdminWebhookBody | Unset):
+        body (CreateAdminWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -89,14 +88,14 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminWebhookBody | Unset = UNSET,
+    body: CreateAdminWebhookBody,
 ) -> CreateAdminWebhookResponse201 | None:
     """Create an incoming webhook for a channel (admin)
 
      The returned `webhook_url` embeds the secret token and is shown **once** — only its hash is stored.
 
     Args:
-        body (CreateAdminWebhookBody | Unset):
+        body (CreateAdminWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -115,14 +114,14 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminWebhookBody | Unset = UNSET,
+    body: CreateAdminWebhookBody,
 ) -> Response[CreateAdminWebhookResponse201]:
     """Create an incoming webhook for a channel (admin)
 
      The returned `webhook_url` embeds the secret token and is shown **once** — only its hash is stored.
 
     Args:
-        body (CreateAdminWebhookBody | Unset):
+        body (CreateAdminWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -144,14 +143,14 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminWebhookBody | Unset = UNSET,
+    body: CreateAdminWebhookBody,
 ) -> CreateAdminWebhookResponse201 | None:
     """Create an incoming webhook for a channel (admin)
 
      The returned `webhook_url` embeds the secret token and is shown **once** — only its hash is stored.
 
     Args:
-        body (CreateAdminWebhookBody | Unset):
+        body (CreateAdminWebhookBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

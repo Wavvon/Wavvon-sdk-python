@@ -6,33 +6,67 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="SetConversationSenderKeysBodySignerCert")
+T = TypeVar("T", bound="CreateChannelPostBodyAttachmentsItem")
 
 
 @_attrs_define
-class SetConversationSenderKeysBodySignerCert:
-    """Present when a paired device's subkey signed the distribution. The signature is then checked against
-    signer_cert.subkey_pubkey, and the cert's master against the authenticated session. Absent means the canonical key
-    signed for itself.
-
+class CreateChannelPostBodyAttachmentsItem:
+    """
+    Attributes:
+        url (str):
+        name (str):
+        mime (str):
+        size (int):
     """
 
+    url: str
+    name: str
+    mime: str
+    size: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        url = self.url
+
+        name = self.name
+
+        mime = self.mime
+
+        size = self.size
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "url": url,
+                "name": name,
+                "mime": mime,
+                "size": size,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        set_conversation_sender_keys_body_signer_cert = cls()
+        url = d.pop("url")
 
-        set_conversation_sender_keys_body_signer_cert.additional_properties = d
-        return set_conversation_sender_keys_body_signer_cert
+        name = d.pop("name")
+
+        mime = d.pop("mime")
+
+        size = d.pop("size")
+
+        create_channel_post_body_attachments_item = cls(
+            url=url,
+            name=name,
+            mime=mime,
+            size=size,
+        )
+
+        create_channel_post_body_attachments_item.additional_properties = d
+        return create_channel_post_body_attachments_item
 
     @property
     def additional_keys(self) -> list[str]:

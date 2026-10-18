@@ -9,14 +9,14 @@ from ...client import AuthenticatedClient, Client
 from ...models.create_federation_forum_channel_post_reaction_body import (
     CreateFederationForumChannelPostReactionBody,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     post_id: str,
     *,
-    body: CreateFederationForumChannelPostReactionBody | Unset = UNSET,
+    body: CreateFederationForumChannelPostReactionBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -28,8 +28,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -68,14 +67,14 @@ def sync_detailed(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateFederationForumChannelPostReactionBody | Unset = UNSET,
+    body: CreateFederationForumChannelPostReactionBody,
 ) -> Response[Any]:
     """A peer hub adds one of its users' reactions to a post
 
     Args:
         channel_id (str):
         post_id (str):
-        body (CreateFederationForumChannelPostReactionBody | Unset):
+        body (CreateFederationForumChannelPostReactionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -103,14 +102,14 @@ async def asyncio_detailed(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateFederationForumChannelPostReactionBody | Unset = UNSET,
+    body: CreateFederationForumChannelPostReactionBody,
 ) -> Response[Any]:
     """A peer hub adds one of its users' reactions to a post
 
     Args:
         channel_id (str):
         post_id (str):
-        body (CreateFederationForumChannelPostReactionBody | Unset):
+        body (CreateFederationForumChannelPostReactionBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

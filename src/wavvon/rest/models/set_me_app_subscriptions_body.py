@@ -7,9 +7,7 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.set_me_app_subscriptions_body_subscriptions_item import (
-        SetMeAppSubscriptionsBodySubscriptionsItem,
-    )
+    from ..models.app_subscription import AppSubscription
 
 
 T = TypeVar("T", bound="SetMeAppSubscriptionsBody")
@@ -19,10 +17,10 @@ T = TypeVar("T", bound="SetMeAppSubscriptionsBody")
 class SetMeAppSubscriptionsBody:
     """
     Attributes:
-        subscriptions (list[SetMeAppSubscriptionsBodySubscriptionsItem]):
+        subscriptions (list[AppSubscription]):
     """
 
-    subscriptions: list[SetMeAppSubscriptionsBodySubscriptionsItem]
+    subscriptions: list[AppSubscription]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -43,17 +41,13 @@ class SetMeAppSubscriptionsBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.set_me_app_subscriptions_body_subscriptions_item import (
-            SetMeAppSubscriptionsBodySubscriptionsItem,
-        )
+        from ..models.app_subscription import AppSubscription
 
         d = dict(src_dict)
         subscriptions = []
         _subscriptions = d.pop("subscriptions")
         for subscriptions_item_data in _subscriptions:
-            subscriptions_item = SetMeAppSubscriptionsBodySubscriptionsItem.from_dict(
-                subscriptions_item_data
-            )
+            subscriptions_item = AppSubscription.from_dict(subscriptions_item_data)
 
             subscriptions.append(subscriptions_item)
 

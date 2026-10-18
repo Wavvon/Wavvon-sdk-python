@@ -6,15 +6,15 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.create_event_slot_body import CreateEventSlotBody
 from ...models.create_event_slot_response_201 import CreateEventSlotResponse201
-from ...types import UNSET, Response, Unset
+from ...models.create_slot_request import CreateSlotRequest
+from ...types import Response
 
 
 def _get_kwargs(
     event_id: str,
     *,
-    body: CreateEventSlotBody | Unset = UNSET,
+    body: CreateSlotRequest,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -25,8 +25,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -63,13 +62,13 @@ def sync_detailed(
     event_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateEventSlotBody | Unset = UNSET,
+    body: CreateSlotRequest,
 ) -> Response[CreateEventSlotResponse201]:
     """Create a sign-up slot for an event (creator or admin)
 
     Args:
         event_id (str):
-        body (CreateEventSlotBody | Unset):
+        body (CreateSlotRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -95,13 +94,13 @@ def sync(
     event_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateEventSlotBody | Unset = UNSET,
+    body: CreateSlotRequest,
 ) -> CreateEventSlotResponse201 | None:
     """Create a sign-up slot for an event (creator or admin)
 
     Args:
         event_id (str):
-        body (CreateEventSlotBody | Unset):
+        body (CreateSlotRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -122,13 +121,13 @@ async def asyncio_detailed(
     event_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateEventSlotBody | Unset = UNSET,
+    body: CreateSlotRequest,
 ) -> Response[CreateEventSlotResponse201]:
     """Create a sign-up slot for an event (creator or admin)
 
     Args:
         event_id (str):
-        body (CreateEventSlotBody | Unset):
+        body (CreateSlotRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -152,13 +151,13 @@ async def asyncio(
     event_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateEventSlotBody | Unset = UNSET,
+    body: CreateSlotRequest,
 ) -> CreateEventSlotResponse201 | None:
     """Create a sign-up slot for an event (creator or admin)
 
     Args:
         event_id (str):
-        body (CreateEventSlotBody | Unset):
+        body (CreateSlotRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

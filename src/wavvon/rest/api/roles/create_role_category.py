@@ -7,12 +7,12 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_role_category_body import CreateRoleCategoryBody
 from ...models.role_category import RoleCategory
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: CreateRoleCategoryBody | Unset = UNSET,
+    body: CreateRoleCategoryBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -21,8 +21,7 @@ def _get_kwargs(
         "url": "/role-categories",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -58,12 +57,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateRoleCategoryBody | Unset = UNSET,
+    body: CreateRoleCategoryBody,
 ) -> Response[RoleCategory]:
     """Create a role category (manage_roles)
 
     Args:
-        body (CreateRoleCategoryBody | Unset):
+        body (CreateRoleCategoryBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -87,12 +86,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateRoleCategoryBody | Unset = UNSET,
+    body: CreateRoleCategoryBody,
 ) -> RoleCategory | None:
     """Create a role category (manage_roles)
 
     Args:
-        body (CreateRoleCategoryBody | Unset):
+        body (CreateRoleCategoryBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -111,12 +110,12 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateRoleCategoryBody | Unset = UNSET,
+    body: CreateRoleCategoryBody,
 ) -> Response[RoleCategory]:
     """Create a role category (manage_roles)
 
     Args:
-        body (CreateRoleCategoryBody | Unset):
+        body (CreateRoleCategoryBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -138,12 +137,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: CreateRoleCategoryBody | Unset = UNSET,
+    body: CreateRoleCategoryBody,
 ) -> RoleCategory | None:
     """Create a role category (manage_roles)
 
     Args:
-        body (CreateRoleCategoryBody | Unset):
+        body (CreateRoleCategoryBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

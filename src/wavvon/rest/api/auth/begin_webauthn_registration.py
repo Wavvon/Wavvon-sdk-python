@@ -9,12 +9,12 @@ from ...models.begin_webauthn_registration_body import BeginWebauthnRegistration
 from ...models.begin_webauthn_registration_response_200 import (
     BeginWebauthnRegistrationResponse200,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: BeginWebauthnRegistrationBody | Unset = UNSET,
+    body: BeginWebauthnRegistrationBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -23,8 +23,7 @@ def _get_kwargs(
         "url": "/auth/webauthn/begin",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -60,14 +59,14 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: BeginWebauthnRegistrationBody | Unset = UNSET,
+    body: BeginWebauthnRegistrationBody,
 ) -> Response[BeginWebauthnRegistrationResponse200]:
     """Start WebAuthn passkey registration
 
      Excludes credentials the user already has so re-registering the same authenticator is blocked.
 
     Args:
-        body (BeginWebauthnRegistrationBody | Unset):
+        body (BeginWebauthnRegistrationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -91,14 +90,14 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: BeginWebauthnRegistrationBody | Unset = UNSET,
+    body: BeginWebauthnRegistrationBody,
 ) -> BeginWebauthnRegistrationResponse200 | None:
     """Start WebAuthn passkey registration
 
      Excludes credentials the user already has so re-registering the same authenticator is blocked.
 
     Args:
-        body (BeginWebauthnRegistrationBody | Unset):
+        body (BeginWebauthnRegistrationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -117,14 +116,14 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: BeginWebauthnRegistrationBody | Unset = UNSET,
+    body: BeginWebauthnRegistrationBody,
 ) -> Response[BeginWebauthnRegistrationResponse200]:
     """Start WebAuthn passkey registration
 
      Excludes credentials the user already has so re-registering the same authenticator is blocked.
 
     Args:
-        body (BeginWebauthnRegistrationBody | Unset):
+        body (BeginWebauthnRegistrationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -146,14 +145,14 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: BeginWebauthnRegistrationBody | Unset = UNSET,
+    body: BeginWebauthnRegistrationBody,
 ) -> BeginWebauthnRegistrationResponse200 | None:
     """Start WebAuthn passkey registration
 
      Excludes credentials the user already has so re-registering the same authenticator is blocked.
 
     Args:
-        body (BeginWebauthnRegistrationBody | Unset):
+        body (BeginWebauthnRegistrationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

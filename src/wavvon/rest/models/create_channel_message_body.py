@@ -10,6 +10,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.attachment import Attachment
+    from ..models.game_launch_card import GameLaunchCard
 
 
 T = TypeVar("T", bound="CreateChannelMessageBody")
@@ -22,11 +23,13 @@ class CreateChannelMessageBody:
         content (str):
         attachments (list[Attachment] | Unset):
         reply_to (str | Unset): Message ID being replied to
+        game (GameLaunchCard | Unset):
     """
 
     content: str
     attachments: list[Attachment] | Unset = UNSET
     reply_to: str | Unset = UNSET
+    game: GameLaunchCard | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -41,6 +44,10 @@ class CreateChannelMessageBody:
 
         reply_to = self.reply_to
 
+        game: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.game, Unset):
+            game = self.game.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -52,12 +59,15 @@ class CreateChannelMessageBody:
             field_dict["attachments"] = attachments
         if reply_to is not UNSET:
             field_dict["reply_to"] = reply_to
+        if game is not UNSET:
+            field_dict["game"] = game
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.attachment import Attachment
+        from ..models.game_launch_card import GameLaunchCard
 
         d = dict(src_dict)
         content = d.pop("content")
@@ -73,10 +83,18 @@ class CreateChannelMessageBody:
 
         reply_to = d.pop("reply_to", UNSET)
 
+        _game = d.pop("game", UNSET)
+        game: GameLaunchCard | Unset
+        if isinstance(_game, Unset):
+            game = UNSET
+        else:
+            game = GameLaunchCard.from_dict(_game)
+
         create_channel_message_body = cls(
             content=content,
             attachments=attachments,
             reply_to=reply_to,
+            game=game,
         )
 
         create_channel_message_body.additional_properties = d

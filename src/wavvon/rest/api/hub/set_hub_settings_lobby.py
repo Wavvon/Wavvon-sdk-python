@@ -6,12 +6,12 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.set_hub_settings_lobby_body import SetHubSettingsLobbyBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: SetHubSettingsLobbyBody | Unset = UNSET,
+    body: SetHubSettingsLobbyBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -20,8 +20,7 @@ def _get_kwargs(
         "url": "/hub/settings/lobby",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -55,12 +54,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetHubSettingsLobbyBody | Unset = UNSET,
+    body: SetHubSettingsLobbyBody,
 ) -> Response[Any]:
     """Update lobby / security level settings (admin)
 
     Args:
-        body (SetHubSettingsLobbyBody | Unset):
+        body (SetHubSettingsLobbyBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -84,12 +83,12 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetHubSettingsLobbyBody | Unset = UNSET,
+    body: SetHubSettingsLobbyBody,
 ) -> Response[Any]:
     """Update lobby / security level settings (admin)
 
     Args:
-        body (SetHubSettingsLobbyBody | Unset):
+        body (SetHubSettingsLobbyBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -9,12 +9,12 @@ from ...models.finish_webauthn_registration_body import FinishWebauthnRegistrati
 from ...models.finish_webauthn_registration_response_200 import (
     FinishWebauthnRegistrationResponse200,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: FinishWebauthnRegistrationBody | Unset = UNSET,
+    body: FinishWebauthnRegistrationBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -23,8 +23,7 @@ def _get_kwargs(
         "url": "/auth/webauthn/finish",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -64,12 +63,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: FinishWebauthnRegistrationBody | Unset = UNSET,
+    body: FinishWebauthnRegistrationBody,
 ) -> Response[Any | FinishWebauthnRegistrationResponse200]:
     """Complete WebAuthn passkey registration and issue a session token
 
     Args:
-        body (FinishWebauthnRegistrationBody | Unset):
+        body (FinishWebauthnRegistrationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -93,12 +92,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: FinishWebauthnRegistrationBody | Unset = UNSET,
+    body: FinishWebauthnRegistrationBody,
 ) -> Any | FinishWebauthnRegistrationResponse200 | None:
     """Complete WebAuthn passkey registration and issue a session token
 
     Args:
-        body (FinishWebauthnRegistrationBody | Unset):
+        body (FinishWebauthnRegistrationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -117,12 +116,12 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: FinishWebauthnRegistrationBody | Unset = UNSET,
+    body: FinishWebauthnRegistrationBody,
 ) -> Response[Any | FinishWebauthnRegistrationResponse200]:
     """Complete WebAuthn passkey registration and issue a session token
 
     Args:
-        body (FinishWebauthnRegistrationBody | Unset):
+        body (FinishWebauthnRegistrationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -144,12 +143,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: FinishWebauthnRegistrationBody | Unset = UNSET,
+    body: FinishWebauthnRegistrationBody,
 ) -> Any | FinishWebauthnRegistrationResponse200 | None:
     """Complete WebAuthn passkey registration and issue a session token
 
     Args:
-        body (FinishWebauthnRegistrationBody | Unset):
+        body (FinishWebauthnRegistrationBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

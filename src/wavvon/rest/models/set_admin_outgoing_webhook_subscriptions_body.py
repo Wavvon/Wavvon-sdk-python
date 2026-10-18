@@ -7,9 +7,7 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.set_admin_outgoing_webhook_subscriptions_body_subscriptions_item import (
-        SetAdminOutgoingWebhookSubscriptionsBodySubscriptionsItem,
-    )
+    from ..models.webhook_subscription_dto import WebhookSubscriptionDto
 
 
 T = TypeVar("T", bound="SetAdminOutgoingWebhookSubscriptionsBody")
@@ -19,10 +17,10 @@ T = TypeVar("T", bound="SetAdminOutgoingWebhookSubscriptionsBody")
 class SetAdminOutgoingWebhookSubscriptionsBody:
     """
     Attributes:
-        subscriptions (list[SetAdminOutgoingWebhookSubscriptionsBodySubscriptionsItem]):
+        subscriptions (list[WebhookSubscriptionDto]):
     """
 
-    subscriptions: list[SetAdminOutgoingWebhookSubscriptionsBodySubscriptionsItem]
+    subscriptions: list[WebhookSubscriptionDto]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -43,18 +41,14 @@ class SetAdminOutgoingWebhookSubscriptionsBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.set_admin_outgoing_webhook_subscriptions_body_subscriptions_item import (
-            SetAdminOutgoingWebhookSubscriptionsBodySubscriptionsItem,
-        )
+        from ..models.webhook_subscription_dto import WebhookSubscriptionDto
 
         d = dict(src_dict)
         subscriptions = []
         _subscriptions = d.pop("subscriptions")
         for subscriptions_item_data in _subscriptions:
-            subscriptions_item = (
-                SetAdminOutgoingWebhookSubscriptionsBodySubscriptionsItem.from_dict(
-                    subscriptions_item_data
-                )
+            subscriptions_item = WebhookSubscriptionDto.from_dict(
+                subscriptions_item_data
             )
 
             subscriptions.append(subscriptions_item)

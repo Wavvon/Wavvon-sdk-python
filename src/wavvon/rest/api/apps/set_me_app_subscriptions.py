@@ -9,12 +9,12 @@ from ...models.set_me_app_subscriptions_body import SetMeAppSubscriptionsBody
 from ...models.set_me_app_subscriptions_response_200 import (
     SetMeAppSubscriptionsResponse200,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: SetMeAppSubscriptionsBody | Unset = UNSET,
+    body: SetMeAppSubscriptionsBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -23,8 +23,7 @@ def _get_kwargs(
         "url": "/me/app/subscriptions",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -68,7 +67,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetMeAppSubscriptionsBody | Unset = UNSET,
+    body: SetMeAppSubscriptionsBody,
 ) -> Response[Any | SetMeAppSubscriptionsResponse200]:
     """Replace the caller's hub-event subscriptions (apps.register)
 
@@ -76,7 +75,7 @@ def sync_detailed(
     once. Delivery is filtered by the subscriber's own read access to the channel the event happened in.
 
     Args:
-        body (SetMeAppSubscriptionsBody | Unset):
+        body (SetMeAppSubscriptionsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -100,7 +99,7 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: SetMeAppSubscriptionsBody | Unset = UNSET,
+    body: SetMeAppSubscriptionsBody,
 ) -> Any | SetMeAppSubscriptionsResponse200 | None:
     """Replace the caller's hub-event subscriptions (apps.register)
 
@@ -108,7 +107,7 @@ def sync(
     once. Delivery is filtered by the subscriber's own read access to the channel the event happened in.
 
     Args:
-        body (SetMeAppSubscriptionsBody | Unset):
+        body (SetMeAppSubscriptionsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -127,7 +126,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetMeAppSubscriptionsBody | Unset = UNSET,
+    body: SetMeAppSubscriptionsBody,
 ) -> Response[Any | SetMeAppSubscriptionsResponse200]:
     """Replace the caller's hub-event subscriptions (apps.register)
 
@@ -135,7 +134,7 @@ async def asyncio_detailed(
     once. Delivery is filtered by the subscriber's own read access to the channel the event happened in.
 
     Args:
-        body (SetMeAppSubscriptionsBody | Unset):
+        body (SetMeAppSubscriptionsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -157,7 +156,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: SetMeAppSubscriptionsBody | Unset = UNSET,
+    body: SetMeAppSubscriptionsBody,
 ) -> Any | SetMeAppSubscriptionsResponse200 | None:
     """Replace the caller's hub-event subscriptions (apps.register)
 
@@ -165,7 +164,7 @@ async def asyncio(
     once. Delivery is filtered by the subscriber's own read access to the channel the event happened in.
 
     Args:
-        body (SetMeAppSubscriptionsBody | Unset):
+        body (SetMeAppSubscriptionsBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

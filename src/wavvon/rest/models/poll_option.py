@@ -6,29 +6,51 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="SignedMemberChangeSignerCert")
+T = TypeVar("T", bound="PollOption")
 
 
 @_attrs_define
-class SignedMemberChangeSignerCert:
-    """When the signing key is not the actor's own, the master-signed cert tying the two."""
+class PollOption:
+    """
+    Attributes:
+        id (str):
+        text (str):
+    """
 
+    id: str
+    text: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        id = self.id
+
+        text = self.text
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "id": id,
+                "text": text,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        signed_member_change_signer_cert = cls()
+        id = d.pop("id")
 
-        signed_member_change_signer_cert.additional_properties = d
-        return signed_member_change_signer_cert
+        text = d.pop("text")
+
+        poll_option = cls(
+            id=id,
+            text=text,
+        )
+
+        poll_option.additional_properties = d
+        return poll_option
 
     @property
     def additional_keys(self) -> list[str]:

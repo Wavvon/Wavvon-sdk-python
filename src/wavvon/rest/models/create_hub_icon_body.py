@@ -1,61 +1,56 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar, cast
+from typing import Any, Self, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-T = TypeVar("T", bound="SetAdminOutgoingWebhookSubscriptionsBodySubscriptionsItem")
+T = TypeVar("T", bound="CreateHubIconBody")
 
 
 @_attrs_define
-class SetAdminOutgoingWebhookSubscriptionsBodySubscriptionsItem:
+class CreateHubIconBody:
     """
     Attributes:
-        event (str):
-        channels (list[str] | Unset):
+        name (str):
+        svg_content (str):
     """
 
-    event: str
-    channels: list[str] | Unset = UNSET
+    name: str
+    svg_content: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        event = self.event
+        name = self.name
 
-        channels: list[str] | Unset = UNSET
-        if not isinstance(self.channels, Unset):
-            channels = self.channels
+        svg_content = self.svg_content
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "event": event,
+                "name": name,
+                "svg_content": svg_content,
             }
         )
-        if channels is not UNSET:
-            field_dict["channels"] = channels
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        event = d.pop("event")
+        name = d.pop("name")
 
-        channels = cast(list[str], d.pop("channels", UNSET))
+        svg_content = d.pop("svg_content")
 
-        set_admin_outgoing_webhook_subscriptions_body_subscriptions_item = cls(
-            event=event,
-            channels=channels,
+        create_hub_icon_body = cls(
+            name=name,
+            svg_content=svg_content,
         )
 
-        set_admin_outgoing_webhook_subscriptions_body_subscriptions_item.additional_properties = d
-        return set_admin_outgoing_webhook_subscriptions_body_subscriptions_item
+        create_hub_icon_body.additional_properties = d
+        return create_hub_icon_body
 
     @property
     def additional_keys(self) -> list[str]:

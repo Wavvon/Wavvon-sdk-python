@@ -8,13 +8,13 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_channel_message_body import CreateChannelMessageBody
 from ...models.message import Message
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     channel_id: str,
     *,
-    body: CreateChannelMessageBody | Unset = UNSET,
+    body: CreateChannelMessageBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -25,8 +25,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -68,13 +67,13 @@ def sync_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelMessageBody | Unset = UNSET,
+    body: CreateChannelMessageBody,
 ) -> Response[Message]:
     """Send a message
 
     Args:
         channel_id (str):
-        body (CreateChannelMessageBody | Unset):
+        body (CreateChannelMessageBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -100,13 +99,13 @@ def sync(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelMessageBody | Unset = UNSET,
+    body: CreateChannelMessageBody,
 ) -> Message | None:
     """Send a message
 
     Args:
         channel_id (str):
-        body (CreateChannelMessageBody | Unset):
+        body (CreateChannelMessageBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -127,13 +126,13 @@ async def asyncio_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelMessageBody | Unset = UNSET,
+    body: CreateChannelMessageBody,
 ) -> Response[Message]:
     """Send a message
 
     Args:
         channel_id (str):
-        body (CreateChannelMessageBody | Unset):
+        body (CreateChannelMessageBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -157,13 +156,13 @@ async def asyncio(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateChannelMessageBody | Unset = UNSET,
+    body: CreateChannelMessageBody,
 ) -> Message | None:
     """Send a message
 
     Args:
         channel_id (str):
-        body (CreateChannelMessageBody | Unset):
+        body (CreateChannelMessageBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

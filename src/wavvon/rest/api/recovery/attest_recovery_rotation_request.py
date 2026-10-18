@@ -9,13 +9,13 @@ from ...client import AuthenticatedClient, Client
 from ...models.attest_recovery_rotation_request_body import (
     AttestRecoveryRotationRequestBody,
 )
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     id: str,
     *,
-    body: AttestRecoveryRotationRequestBody | Unset = UNSET,
+    body: AttestRecoveryRotationRequestBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -26,8 +26,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -71,7 +70,7 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: AttestRecoveryRotationRequestBody | Unset = UNSET,
+    body: AttestRecoveryRotationRequestBody,
 ) -> Response[Any]:
     """A recovery contact vouches for an open rotation request
 
@@ -82,7 +81,7 @@ def sync_detailed(
 
     Args:
         id (str):
-        body (AttestRecoveryRotationRequestBody | Unset):
+        body (AttestRecoveryRotationRequestBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -108,7 +107,7 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: AttestRecoveryRotationRequestBody | Unset = UNSET,
+    body: AttestRecoveryRotationRequestBody,
 ) -> Response[Any]:
     """A recovery contact vouches for an open rotation request
 
@@ -119,7 +118,7 @@ async def asyncio_detailed(
 
     Args:
         id (str):
-        body (AttestRecoveryRotationRequestBody | Unset):
+        body (AttestRecoveryRotationRequestBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

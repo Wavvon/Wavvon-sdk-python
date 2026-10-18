@@ -9,12 +9,8 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.set_conversation_sender_keys_body_recipients_item import (
-        SetConversationSenderKeysBodyRecipientsItem,
-    )
-    from ..models.set_conversation_sender_keys_body_signer_cert import (
-        SetConversationSenderKeysBodySignerCert,
-    )
+    from ..models.sender_key_recipient_blob import SenderKeyRecipientBlob
+    from ..models.subkey_cert import SubkeyCert
 
 
 T = TypeVar("T", bound="SetConversationSenderKeysBody")
@@ -25,17 +21,15 @@ class SetConversationSenderKeysBody:
     """
     Attributes:
         sender_key_version (int):
-        recipients (list[SetConversationSenderKeysBodyRecipientsItem]):
+        recipients (list[SenderKeyRecipientBlob]):
         signature_hex (str): Ed25519 signature over canonical bytes
-        signer_cert (SetConversationSenderKeysBodySignerCert | Unset): Present when a paired device's subkey signed the
-            distribution. The signature is then checked against signer_cert.subkey_pubkey, and the cert's master against the
-            authenticated session. Absent means the canonical key signed for itself.
+        signer_cert (SubkeyCert | Unset):
     """
 
     sender_key_version: int
-    recipients: list[SetConversationSenderKeysBodyRecipientsItem]
+    recipients: list[SenderKeyRecipientBlob]
     signature_hex: str
-    signer_cert: SetConversationSenderKeysBodySignerCert | Unset = UNSET
+    signer_cert: SubkeyCert | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -68,12 +62,8 @@ class SetConversationSenderKeysBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.set_conversation_sender_keys_body_recipients_item import (
-            SetConversationSenderKeysBodyRecipientsItem,
-        )
-        from ..models.set_conversation_sender_keys_body_signer_cert import (
-            SetConversationSenderKeysBodySignerCert,
-        )
+        from ..models.sender_key_recipient_blob import SenderKeyRecipientBlob
+        from ..models.subkey_cert import SubkeyCert
 
         d = dict(src_dict)
         sender_key_version = d.pop("sender_key_version")
@@ -81,22 +71,18 @@ class SetConversationSenderKeysBody:
         recipients = []
         _recipients = d.pop("recipients")
         for recipients_item_data in _recipients:
-            recipients_item = SetConversationSenderKeysBodyRecipientsItem.from_dict(
-                recipients_item_data
-            )
+            recipients_item = SenderKeyRecipientBlob.from_dict(recipients_item_data)
 
             recipients.append(recipients_item)
 
         signature_hex = d.pop("signature_hex")
 
         _signer_cert = d.pop("signer_cert", UNSET)
-        signer_cert: SetConversationSenderKeysBodySignerCert | Unset
+        signer_cert: SubkeyCert | Unset
         if isinstance(_signer_cert, Unset):
             signer_cert = UNSET
         else:
-            signer_cert = SetConversationSenderKeysBodySignerCert.from_dict(
-                _signer_cert
-            )
+            signer_cert = SubkeyCert.from_dict(_signer_cert)
 
         set_conversation_sender_keys_body = cls(
             sender_key_version=sender_key_version,

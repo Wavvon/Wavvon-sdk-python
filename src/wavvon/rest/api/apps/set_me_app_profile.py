@@ -7,12 +7,12 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.app_registration import AppRegistration
 from ...models.set_me_app_profile_body import SetMeAppProfileBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: SetMeAppProfileBody | Unset = UNSET,
+    body: SetMeAppProfileBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -21,8 +21,7 @@ def _get_kwargs(
         "url": "/me/app/profile",
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -62,12 +61,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetMeAppProfileBody | Unset = UNSET,
+    body: SetMeAppProfileBody,
 ) -> Response[Any | AppRegistration]:
     """Register or replace the caller's app profile (apps.register)
 
     Args:
-        body (SetMeAppProfileBody | Unset):
+        body (SetMeAppProfileBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -91,12 +90,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: SetMeAppProfileBody | Unset = UNSET,
+    body: SetMeAppProfileBody,
 ) -> Any | AppRegistration | None:
     """Register or replace the caller's app profile (apps.register)
 
     Args:
-        body (SetMeAppProfileBody | Unset):
+        body (SetMeAppProfileBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -115,12 +114,12 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetMeAppProfileBody | Unset = UNSET,
+    body: SetMeAppProfileBody,
 ) -> Response[Any | AppRegistration]:
     """Register or replace the caller's app profile (apps.register)
 
     Args:
-        body (SetMeAppProfileBody | Unset):
+        body (SetMeAppProfileBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -142,12 +141,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: SetMeAppProfileBody | Unset = UNSET,
+    body: SetMeAppProfileBody,
 ) -> Any | AppRegistration | None:
     """Register or replace the caller's app profile (apps.register)
 
     Args:
-        body (SetMeAppProfileBody | Unset):
+        body (SetMeAppProfileBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

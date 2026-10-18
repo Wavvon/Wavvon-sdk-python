@@ -10,7 +10,7 @@ from ...models.create_alliance_channel_post_reply_body import (
     CreateAllianceChannelPostReplyBody,
 )
 from ...models.reply_view import ReplyView
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
@@ -18,7 +18,7 @@ def _get_kwargs(
     channel_id: str,
     post_id: str,
     *,
-    body: CreateAllianceChannelPostReplyBody | Unset = UNSET,
+    body: CreateAllianceChannelPostReplyBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -31,8 +31,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -75,7 +74,7 @@ def sync_detailed(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAllianceChannelPostReplyBody | Unset = UNSET,
+    body: CreateAllianceChannelPostReplyBody,
 ) -> Response[Any | ReplyView]:
     """Reply to a post in an alliance-shared forum channel
 
@@ -83,7 +82,7 @@ def sync_detailed(
         alliance_id (str):
         channel_id (str):
         post_id (str):
-        body (CreateAllianceChannelPostReplyBody | Unset):
+        body (CreateAllianceChannelPostReplyBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -113,7 +112,7 @@ def sync(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAllianceChannelPostReplyBody | Unset = UNSET,
+    body: CreateAllianceChannelPostReplyBody,
 ) -> Any | ReplyView | None:
     """Reply to a post in an alliance-shared forum channel
 
@@ -121,7 +120,7 @@ def sync(
         alliance_id (str):
         channel_id (str):
         post_id (str):
-        body (CreateAllianceChannelPostReplyBody | Unset):
+        body (CreateAllianceChannelPostReplyBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -146,7 +145,7 @@ async def asyncio_detailed(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAllianceChannelPostReplyBody | Unset = UNSET,
+    body: CreateAllianceChannelPostReplyBody,
 ) -> Response[Any | ReplyView]:
     """Reply to a post in an alliance-shared forum channel
 
@@ -154,7 +153,7 @@ async def asyncio_detailed(
         alliance_id (str):
         channel_id (str):
         post_id (str):
-        body (CreateAllianceChannelPostReplyBody | Unset):
+        body (CreateAllianceChannelPostReplyBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -182,7 +181,7 @@ async def asyncio(
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAllianceChannelPostReplyBody | Unset = UNSET,
+    body: CreateAllianceChannelPostReplyBody,
 ) -> Any | ReplyView | None:
     """Reply to a post in an alliance-shared forum channel
 
@@ -190,7 +189,7 @@ async def asyncio(
         alliance_id (str):
         channel_id (str):
         post_id (str):
-        body (CreateAllianceChannelPostReplyBody | Unset):
+        body (CreateAllianceChannelPostReplyBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

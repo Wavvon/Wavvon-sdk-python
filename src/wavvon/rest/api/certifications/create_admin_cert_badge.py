@@ -8,13 +8,13 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.certification import Certification
 from ...models.create_admin_cert_badge_body import CreateAdminCertBadgeBody
-from ...types import UNSET, Response, Unset
+from ...types import Response
 
 
 def _get_kwargs(
     pubkey: str,
     *,
-    body: CreateAdminCertBadgeBody | Unset = UNSET,
+    body: CreateAdminCertBadgeBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -25,8 +25,7 @@ def _get_kwargs(
         ),
     }
 
-    if not isinstance(body, Unset):
-        _kwargs["json"] = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -67,7 +66,7 @@ def sync_detailed(
     pubkey: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminCertBadgeBody | Unset = UNSET,
+    body: CreateAdminCertBadgeBody,
 ) -> Response[Any | Certification]:
     """Grant a named achievement badge to a user (admin)
 
@@ -76,7 +75,7 @@ def sync_detailed(
 
     Args:
         pubkey (str):
-        body (CreateAdminCertBadgeBody | Unset):
+        body (CreateAdminCertBadgeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -102,7 +101,7 @@ def sync(
     pubkey: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminCertBadgeBody | Unset = UNSET,
+    body: CreateAdminCertBadgeBody,
 ) -> Any | Certification | None:
     """Grant a named achievement badge to a user (admin)
 
@@ -111,7 +110,7 @@ def sync(
 
     Args:
         pubkey (str):
-        body (CreateAdminCertBadgeBody | Unset):
+        body (CreateAdminCertBadgeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -132,7 +131,7 @@ async def asyncio_detailed(
     pubkey: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminCertBadgeBody | Unset = UNSET,
+    body: CreateAdminCertBadgeBody,
 ) -> Response[Any | Certification]:
     """Grant a named achievement badge to a user (admin)
 
@@ -141,7 +140,7 @@ async def asyncio_detailed(
 
     Args:
         pubkey (str):
-        body (CreateAdminCertBadgeBody | Unset):
+        body (CreateAdminCertBadgeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -165,7 +164,7 @@ async def asyncio(
     pubkey: str,
     *,
     client: AuthenticatedClient | Client,
-    body: CreateAdminCertBadgeBody | Unset = UNSET,
+    body: CreateAdminCertBadgeBody,
 ) -> Any | Certification | None:
     """Grant a named achievement badge to a user (admin)
 
@@ -174,7 +173,7 @@ async def asyncio(
 
     Args:
         pubkey (str):
-        body (CreateAdminCertBadgeBody | Unset):
+        body (CreateAdminCertBadgeBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

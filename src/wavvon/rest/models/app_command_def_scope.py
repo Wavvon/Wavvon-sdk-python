@@ -1,7 +1,7 @@
 from enum import StrEnum
 
 
-class SetMeAppCommandsBodyCommandsItemScope(StrEnum):
+class AppCommandDefScope(StrEnum):
     CHANNEL = "channel"
     HUB = "hub"
 
