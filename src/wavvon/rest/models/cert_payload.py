@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar, cast
-from typing_extensions import Self
+from typing import Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -28,6 +27,9 @@ class CertPayload:
         issued_at (int | Unset):
         expires_at (int | Unset):
         capabilities (list[str] | Unset):
+        label (str | Unset): Badge display name; present means this cert is an achievement badge. Omitted unless set.
+        description (str | Unset): Omitted unless set.
+        icon (str | Unset): Emoji or short icon for the badge. Omitted unless set.
     """
 
     subject_kind: str | Unset = UNSET
@@ -40,6 +42,9 @@ class CertPayload:
     issued_at: int | Unset = UNSET
     expires_at: int | Unset = UNSET
     capabilities: list[str] | Unset = UNSET
+    label: str | Unset = UNSET
+    description: str | Unset = UNSET
+    icon: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -71,6 +76,12 @@ class CertPayload:
         if not isinstance(self.capabilities, Unset):
             capabilities = self.capabilities
 
+        label = self.label
+
+        description = self.description
+
+        icon = self.icon
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -94,6 +105,12 @@ class CertPayload:
             field_dict["expires_at"] = expires_at
         if capabilities is not UNSET:
             field_dict["capabilities"] = capabilities
+        if label is not UNSET:
+            field_dict["label"] = label
+        if description is not UNSET:
+            field_dict["description"] = description
+        if icon is not UNSET:
+            field_dict["icon"] = icon
 
         return field_dict
 
@@ -132,6 +149,12 @@ class CertPayload:
 
         capabilities = cast(list[str], d.pop("capabilities", UNSET))
 
+        label = d.pop("label", UNSET)
+
+        description = d.pop("description", UNSET)
+
+        icon = d.pop("icon", UNSET)
+
         cert_payload = cls(
             subject_kind=subject_kind,
             issuer_pubkey=issuer_pubkey,
@@ -143,6 +166,9 @@ class CertPayload:
             issued_at=issued_at,
             expires_at=expires_at,
             capabilities=capabilities,
+            label=label,
+            description=description,
+            icon=icon,
         )
 
         cert_payload.additional_properties = d

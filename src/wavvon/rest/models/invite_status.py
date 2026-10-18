@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class InviteStatus(str, Enum):
+class InviteStatus(StrEnum):
     EXPIRED = "expired"
     LIVE = "live"
     USED_UP = "used_up"

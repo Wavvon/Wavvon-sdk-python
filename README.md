@@ -10,7 +10,7 @@ makes a program an *app* is a role carrying `apps.register`. The design this
 package implements is
 [sdk.md](https://github.com/Wavvon/Wavvon-docs/blob/main/docs/sdk.md) (tier 1).
 
-- Python 3.10 or later, asyncio, fully typed (`py.typed`, checked with `mypy --strict`).
+- Python 3.11 or later, asyncio, fully typed (`py.typed`, checked with `mypy --strict`).
 - Depends on `httpx`, `websockets` and `cryptography`, plus `attrs`,
   `python-dateutil` and `typing-extensions` for the generated REST models.
 - Apache-2.0, so a closed-source program can use it.
@@ -128,7 +128,7 @@ Login, REST, the socket and polling need no capability.
 Every signed byte sequence is checked against the shared wire vectors in
 Wavvon-server (`crates/identity/wire-vectors.json`): the auth challenge, the
 Ed25519 dispatch signature, and the outgoing-webhook HKDF + HMAC. CI reads them
-from Wavvon-server `develop`.
+from Wavvon-server at commit `eb11d75657ee8362dd42a7982fc5b13a3dcc4e68`.
 
 The REST client was generated from Wavvon-docs at the commit in
 [src/wavvon/rest/SPEC_COMMIT](src/wavvon/rest/SPEC_COMMIT).

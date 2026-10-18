@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class CreateAllianceChannelBodyForumRemoteWrite(str, Enum):
+class CreateAllianceChannelBodyForumRemoteWrite(StrEnum):
     NONE = "none"
     POSTS_AND_REPLIES = "posts_and_replies"
     REPLIES_ONLY = "replies_only"

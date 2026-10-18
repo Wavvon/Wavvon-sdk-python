@@ -19,7 +19,6 @@ from .begin_webauthn_registration_response_200 import (
 from .begin_webauthn_registration_response_200_options import (
     BeginWebauthnRegistrationResponse200Options,
 )
-from .bot_channel_scope import BotChannelScope
 from .cert_payload import CertPayload
 from .cert_payload_standing import CertPayloadStanding
 from .certification import Certification
@@ -127,7 +126,16 @@ from .delete_federation_forum_channel_post_reply_body import (
     DeleteFederationForumChannelPostReplyBody,
 )
 from .dm_message import DmMessage
-from .error import Error
+from .dm_message_encrypted_envelope_type_0 import DmMessageEncryptedEnvelopeType0
+from .dm_message_encrypted_envelope_type_0_signer_cert import (
+    DmMessageEncryptedEnvelopeType0SignerCert,
+)
+from .dm_message_group_encrypted_envelope_type_0 import (
+    DmMessageGroupEncryptedEnvelopeType0,
+)
+from .dm_message_group_encrypted_envelope_type_0_signer_cert import (
+    DmMessageGroupEncryptedEnvelopeType0SignerCert,
+)
 from .execute_webhook_body import ExecuteWebhookBody
 from .execute_webhook_body_embeds import ExecuteWebhookBodyEmbeds
 from .execute_webhook_response_200 import ExecuteWebhookResponse200
@@ -192,7 +200,11 @@ from .get_user_profile_response_200_badges_item import (
 )
 from .get_user_profile_response_200_roles_item import GetUserProfileResponse200RolesItem
 from .hub_info import HubInfo
+from .hub_info_badges_item import HubInfoBadgesItem
+from .hub_info_cert_requirement import HubInfoCertRequirement
+from .hub_info_cert_requirement_require import HubInfoCertRequirementRequire
 from .hub_info_challenge_mode import HubInfoChallengeMode
+from .hub_info_rotation import HubInfoRotation
 from .invite import Invite
 from .invite_status import InviteStatus
 from .issue_admin_badge_body import IssueAdminBadgeBody
@@ -329,9 +341,15 @@ from .lobby_status_status import LobbyStatusStatus
 from .mark_soundboard_sound_played_body import MarkSoundboardSoundPlayedBody
 from .me_info import MeInfo
 from .me_info_approval_status import MeInfoApprovalStatus
+from .me_info_favorite_hubs_item import MeInfoFavoriteHubsItem
+from .member_admin_info import MemberAdminInfo
 from .message import Message
+from .message_embeds_item import MessageEmbedsItem
+from .message_game import MessageGame
 from .post_detail import PostDetail
 from .post_summary import PostSummary
+from .post_summary_attachments_item import PostSummaryAttachmentsItem
+from .post_summary_tags_item import PostSummaryTagsItem
 from .raise_channel_hand_response_201 import RaiseChannelHandResponse201
 from .reaction import Reaction
 from .redeem_auth_device_token_body import RedeemAuthDeviceTokenBody
@@ -342,6 +360,7 @@ from .reindex_admin_search_response_202_status import (
 )
 from .reply_context import ReplyContext
 from .reply_view import ReplyView
+from .reply_view_attachments_item import ReplyViewAttachmentsItem
 from .report_message_body import ReportMessageBody
 from .review_admin_report_body import ReviewAdminReportBody
 from .review_admin_report_body_action import ReviewAdminReportBodyAction
@@ -439,7 +458,7 @@ from .update_role_category_body import UpdateRoleCategoryBody
 from .update_tag_body import UpdateTagBody
 from .upload_channel_file_body import UploadChannelFileBody
 from .upload_channel_file_response_201 import UploadChannelFileResponse201
-from .user import User
+from .user_info import UserInfo
 from .verify_auth_body import VerifyAuthBody
 from .verify_auth_body_alliance_voice_grant import VerifyAuthBodyAllianceVoiceGrant
 from .verify_auth_body_alliance_voice_grant_payload import (
@@ -465,7 +484,6 @@ __all__ = (
     "BeginWebauthnRegistrationBody",
     "BeginWebauthnRegistrationResponse200",
     "BeginWebauthnRegistrationResponse200Options",
-    "BotChannelScope",
     "CertPayload",
     "CertPayloadStanding",
     "Certification",
@@ -539,7 +557,10 @@ __all__ = (
     "DeleteFederationForumChannelPostBody",
     "DeleteFederationForumChannelPostReplyBody",
     "DmMessage",
-    "Error",
+    "DmMessageEncryptedEnvelopeType0",
+    "DmMessageEncryptedEnvelopeType0SignerCert",
+    "DmMessageGroupEncryptedEnvelopeType0",
+    "DmMessageGroupEncryptedEnvelopeType0SignerCert",
     "ExecuteWebhookBody",
     "ExecuteWebhookBodyEmbeds",
     "ExecuteWebhookResponse200",
@@ -578,7 +599,11 @@ __all__ = (
     "GetUserProfileResponse200BadgesItem",
     "GetUserProfileResponse200RolesItem",
     "HubInfo",
+    "HubInfoBadgesItem",
+    "HubInfoCertRequirement",
+    "HubInfoCertRequirementRequire",
     "HubInfoChallengeMode",
+    "HubInfoRotation",
     "Invite",
     "InviteStatus",
     "IssueAdminBadgeBody",
@@ -649,9 +674,15 @@ __all__ = (
     "MarkSoundboardSoundPlayedBody",
     "MeInfo",
     "MeInfoApprovalStatus",
+    "MeInfoFavoriteHubsItem",
+    "MemberAdminInfo",
     "Message",
+    "MessageEmbedsItem",
+    "MessageGame",
     "PostDetail",
     "PostSummary",
+    "PostSummaryAttachmentsItem",
+    "PostSummaryTagsItem",
     "RaiseChannelHandResponse201",
     "Reaction",
     "RedeemAuthDeviceTokenBody",
@@ -660,6 +691,7 @@ __all__ = (
     "ReindexAdminSearchResponse202Status",
     "ReplyContext",
     "ReplyView",
+    "ReplyViewAttachmentsItem",
     "ReportMessageBody",
     "ReviewAdminReportBody",
     "ReviewAdminReportBodyAction",
@@ -727,7 +759,7 @@ __all__ = (
     "UpdateTagBody",
     "UploadChannelFileBody",
     "UploadChannelFileResponse201",
-    "User",
+    "UserInfo",
     "VerifyAuthBody",
     "VerifyAuthBodyAllianceVoiceGrant",
     "VerifyAuthBodyAllianceVoiceGrantPayload",

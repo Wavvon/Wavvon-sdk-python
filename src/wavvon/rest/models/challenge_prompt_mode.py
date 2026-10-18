@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ChallengePromptMode(str, Enum):
+class ChallengePromptMode(StrEnum):
     BOTH = "both"
     CLICK = "click"
     PUZZLE = "puzzle"

@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar, cast
-from typing_extensions import Self
+from typing import Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -21,6 +20,10 @@ class Role:
         permissions (list[str] | Unset):
         priority (int | Unset):
         display_separately (bool | Unset):
+        created_at (int | Unset):
+        color (None | str | Unset):
+        icon (None | str | Unset):
+        category_id (None | str | Unset):
     """
 
     id: str | Unset = UNSET
@@ -28,6 +31,10 @@ class Role:
     permissions: list[str] | Unset = UNSET
     priority: int | Unset = UNSET
     display_separately: bool | Unset = UNSET
+    created_at: int | Unset = UNSET
+    color: None | str | Unset = UNSET
+    icon: None | str | Unset = UNSET
+    category_id: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -43,6 +50,26 @@ class Role:
 
         display_separately = self.display_separately
 
+        created_at = self.created_at
+
+        color: None | str | Unset
+        if isinstance(self.color, Unset):
+            color = UNSET
+        else:
+            color = self.color
+
+        icon: None | str | Unset
+        if isinstance(self.icon, Unset):
+            icon = UNSET
+        else:
+            icon = self.icon
+
+        category_id: None | str | Unset
+        if isinstance(self.category_id, Unset):
+            category_id = UNSET
+        else:
+            category_id = self.category_id
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -56,6 +83,14 @@ class Role:
             field_dict["priority"] = priority
         if display_separately is not UNSET:
             field_dict["display_separately"] = display_separately
+        if created_at is not UNSET:
+            field_dict["created_at"] = created_at
+        if color is not UNSET:
+            field_dict["color"] = color
+        if icon is not UNSET:
+            field_dict["icon"] = icon
+        if category_id is not UNSET:
+            field_dict["category_id"] = category_id
 
         return field_dict
 
@@ -72,12 +107,45 @@ class Role:
 
         display_separately = d.pop("display_separately", UNSET)
 
+        created_at = d.pop("created_at", UNSET)
+
+        def _parse_color(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        color = _parse_color(d.pop("color", UNSET))
+
+        def _parse_icon(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        icon = _parse_icon(d.pop("icon", UNSET))
+
+        def _parse_category_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        category_id = _parse_category_id(d.pop("category_id", UNSET))
+
         role = cls(
             id=id,
             name=name,
             permissions=permissions,
             priority=priority,
             display_separately=display_separately,
+            created_at=created_at,
+            color=color,
+            icon=icon,
+            category_id=category_id,
         )
 
         role.additional_properties = d

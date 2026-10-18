@@ -4,7 +4,9 @@ from urllib.parse import quote
 
 import httpx
 
+from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.post_detail import PostDetail
 from ...models.update_channel_post_body import UpdateChannelPostBody
 from ...types import UNSET, Response, Unset
 
@@ -36,13 +38,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Any:
-    return None
+) -> PostDetail | None:
+    if response.status_code == 200:
+        response_200 = PostDetail.from_dict(response.json())
+
+        return response_200
+
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
 
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[Any]:
+) -> Response[PostDetail]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -57,7 +67,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: UpdateChannelPostBody | Unset = UNSET,
-) -> Response[Any]:
+) -> Response[PostDetail]:
     """Edit a post's title and/or body (author or manage_posts)
 
     Args:
@@ -70,7 +80,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[PostDetail]
     """
 
     kwargs = _get_kwargs(
@@ -86,13 +96,13 @@ def sync_detailed(
     return _build_response(client=client, response=response)
 
 
-async def asyncio_detailed(
+def sync(
     channel_id: str,
     post_id: str,
     *,
     client: AuthenticatedClient | Client,
     body: UpdateChannelPostBody | Unset = UNSET,
-) -> Response[Any]:
+) -> PostDetail | None:
     """Edit a post's title and/or body (author or manage_posts)
 
     Args:
@@ -105,7 +115,37 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        PostDetail
+    """
+
+    return sync_detailed(
+        channel_id=channel_id,
+        post_id=post_id,
+        client=client,
+        body=body,
+    ).parsed
+
+
+async def asyncio_detailed(
+    channel_id: str,
+    post_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: UpdateChannelPostBody | Unset = UNSET,
+) -> Response[PostDetail]:
+    """Edit a post's title and/or body (author or manage_posts)
+
+    Args:
+        channel_id (str):
+        post_id (str):
+        body (UpdateChannelPostBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[PostDetail]
     """
 
     kwargs = _get_kwargs(
@@ -117,3 +157,35 @@ async def asyncio_detailed(
     response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
+
+async def asyncio(
+    channel_id: str,
+    post_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: UpdateChannelPostBody | Unset = UNSET,
+) -> PostDetail | None:
+    """Edit a post's title and/or body (author or manage_posts)
+
+    Args:
+        channel_id (str):
+        post_id (str):
+        body (UpdateChannelPostBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        PostDetail
+    """
+
+    return (
+        await asyncio_detailed(
+            channel_id=channel_id,
+            post_id=post_id,
+            client=client,
+            body=body,
+        )
+    ).parsed

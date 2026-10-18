@@ -27,10 +27,10 @@ GitHub Actions workflow files: explain choices in the commit message.
 1. **Generated REST** - `src/wavvon/rest/`, from Wavvon-docs `openapi.yaml`
    by `scripts/generate.py` (openapi-python-client, pinned in the dev group).
    Committed; never edit by hand. `SPEC_COMMIT` records the docs commit:
-   `-dirty` means local edits, `+lax` means the script filled in response
-   descriptions the spec omits (openapi-python-client refuses a spec without
-   them). The script also rewrites `typing.Self` and `enum.StrEnum` so the
-   generated code imports on 3.10. Excluded from ruff and from mypy errors.
+   `-dirty` means local edits, `+refnull` means the script wrapped a
+   `{$ref, nullable: true}` in `anyOf` (OpenAPI 3.0 ignores `$ref` siblings, so
+   the model would reject the hub's `null`). Excluded from ruff and from mypy
+   errors.
 2. **Hand-written core** - `src/wavvon/`:
    `auth.py` challenge rules and login; `retry.py` backoff; `client.py`
    `WavvonClient` (the generated client over an httpx transport that adds the
@@ -87,7 +87,6 @@ report the doc bug to Wavvon-docs.
   base64url without padding); the HMAC key is the 32 HKDF bytes, not hex.
 - `GET /me/events` rows are never written by the hub today
   (Wavvon-server#170); `poll_events` follows the spec and nothing relies on it.
-- `POST /invites` accepts `grant_role_id`, which the spec's body omits.
 
 ## Smoke test
 

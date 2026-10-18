@@ -1,60 +1,67 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar, cast
-from typing_extensions import Self
+from typing import Any, Self, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="BotChannelScope")
+T = TypeVar("T", bound="PostSummaryTagsItem")
 
 
 @_attrs_define
-class BotChannelScope:
+class PostSummaryTagsItem:
     """
     Attributes:
-        bot_pubkey (str | Unset):
-        channel_ids (list[str] | Unset): Empty means hub-wide access.
+        id (str):
+        label (str):
+        color (str | Unset): Omitted unless set.
     """
 
-    bot_pubkey: str | Unset = UNSET
-    channel_ids: list[str] | Unset = UNSET
+    id: str
+    label: str
+    color: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        bot_pubkey = self.bot_pubkey
+        id = self.id
 
-        channel_ids: list[str] | Unset = UNSET
-        if not isinstance(self.channel_ids, Unset):
-            channel_ids = self.channel_ids
+        label = self.label
+
+        color = self.color
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if bot_pubkey is not UNSET:
-            field_dict["bot_pubkey"] = bot_pubkey
-        if channel_ids is not UNSET:
-            field_dict["channel_ids"] = channel_ids
+        field_dict.update(
+            {
+                "id": id,
+                "label": label,
+            }
+        )
+        if color is not UNSET:
+            field_dict["color"] = color
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        bot_pubkey = d.pop("bot_pubkey", UNSET)
+        id = d.pop("id")
 
-        channel_ids = cast(list[str], d.pop("channel_ids", UNSET))
+        label = d.pop("label")
 
-        bot_channel_scope = cls(
-            bot_pubkey=bot_pubkey,
-            channel_ids=channel_ids,
+        color = d.pop("color", UNSET)
+
+        post_summary_tags_item = cls(
+            id=id,
+            label=label,
+            color=color,
         )
 
-        bot_channel_scope.additional_properties = d
-        return bot_channel_scope
+        post_summary_tags_item.additional_properties = d
+        return post_summary_tags_item
 
     @property
     def additional_keys(self) -> list[str]:

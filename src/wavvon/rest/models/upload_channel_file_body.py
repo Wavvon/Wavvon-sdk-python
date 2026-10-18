@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from io import BytesIO
-from typing import Any, TypeVar
-from typing_extensions import Self
+from typing import Any, Self, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field

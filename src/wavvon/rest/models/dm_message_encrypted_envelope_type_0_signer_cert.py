@@ -1,49 +1,34 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
-from typing_extensions import Self
+from typing import Any, Self, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-T = TypeVar("T", bound="Error")
+T = TypeVar("T", bound="DmMessageEncryptedEnvelopeType0SignerCert")
 
 
 @_attrs_define
-class Error:
-    """
-    Attributes:
-        error (str | Unset):
-    """
+class DmMessageEncryptedEnvelopeType0SignerCert:
+    """Device subkey cert when a subkey signed. Omitted unless set."""
 
-    error: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        error = self.error
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if error is not UNSET:
-            field_dict["error"] = error
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        error = d.pop("error", UNSET)
+        dm_message_encrypted_envelope_type_0_signer_cert = cls()
 
-        error = cls(
-            error=error,
-        )
-
-        error.additional_properties = d
-        return error
+        dm_message_encrypted_envelope_type_0_signer_cert.additional_properties = d
+        return dm_message_encrypted_envelope_type_0_signer_cert
 
     @property
     def additional_keys(self) -> list[str]:

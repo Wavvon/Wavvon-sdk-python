@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ListAdminBanlistSourcesResponse200ItemPolicy(str, Enum):
+class ListAdminBanlistSourcesResponse200ItemPolicy(StrEnum):
     HARD_REJECT = "hard-reject"
     SOFT_FLAG = "soft-flag"
 

@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, cast
-from typing_extensions import Self
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -10,6 +9,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.post_summary_attachments_item import PostSummaryAttachmentsItem
+    from ..models.post_summary_tags_item import PostSummaryTagsItem
+    from ..models.reaction import Reaction
     from ..models.reply_view import ReplyView
 
 
@@ -32,6 +34,11 @@ class PostDetail:
         last_activity_at (int | Unset):
         is_deleted (bool | Unset):
         unread_reply_count (int | Unset): Replies after the viewer's read cursor. Omitted when unauthenticated.
+        reactions (list[Reaction] | Unset):
+        attachments (list[PostSummaryAttachmentsItem] | Unset):
+        author_hub (str | Unset): Origin hub public key (hex) when the post came in through the alliance forum write-
+            proxy. Hub-asserted, not proven: render it as mediated ("via HubName"). Omitted for local posts.
+        tags (list[PostSummaryTagsItem] | Unset):
         body (None | str | Unset):
         replies (list[ReplyView] | Unset):
         reply_cursor (str | Unset): Omitted when there are no more replies
@@ -49,6 +56,10 @@ class PostDetail:
     last_activity_at: int | Unset = UNSET
     is_deleted: bool | Unset = UNSET
     unread_reply_count: int | Unset = UNSET
+    reactions: list[Reaction] | Unset = UNSET
+    attachments: list[PostSummaryAttachmentsItem] | Unset = UNSET
+    author_hub: str | Unset = UNSET
+    tags: list[PostSummaryTagsItem] | Unset = UNSET
     body: None | str | Unset = UNSET
     replies: list[ReplyView] | Unset = UNSET
     reply_cursor: str | Unset = UNSET
@@ -86,6 +97,29 @@ class PostDetail:
         is_deleted = self.is_deleted
 
         unread_reply_count = self.unread_reply_count
+
+        reactions: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.reactions, Unset):
+            reactions = []
+            for reactions_item_data in self.reactions:
+                reactions_item = reactions_item_data.to_dict()
+                reactions.append(reactions_item)
+
+        attachments: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.attachments, Unset):
+            attachments = []
+            for attachments_item_data in self.attachments:
+                attachments_item = attachments_item_data.to_dict()
+                attachments.append(attachments_item)
+
+        author_hub = self.author_hub
+
+        tags: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.tags, Unset):
+            tags = []
+            for tags_item_data in self.tags:
+                tags_item = tags_item_data.to_dict()
+                tags.append(tags_item)
 
         body: None | str | Unset
         if isinstance(self.body, Unset):
@@ -129,6 +163,14 @@ class PostDetail:
             field_dict["is_deleted"] = is_deleted
         if unread_reply_count is not UNSET:
             field_dict["unread_reply_count"] = unread_reply_count
+        if reactions is not UNSET:
+            field_dict["reactions"] = reactions
+        if attachments is not UNSET:
+            field_dict["attachments"] = attachments
+        if author_hub is not UNSET:
+            field_dict["author_hub"] = author_hub
+        if tags is not UNSET:
+            field_dict["tags"] = tags
         if body is not UNSET:
             field_dict["body"] = body
         if replies is not UNSET:
@@ -140,6 +182,9 @@ class PostDetail:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.post_summary_attachments_item import PostSummaryAttachmentsItem
+        from ..models.post_summary_tags_item import PostSummaryTagsItem
+        from ..models.reaction import Reaction
         from ..models.reply_view import ReplyView
 
         d = dict(src_dict)
@@ -181,6 +226,37 @@ class PostDetail:
 
         unread_reply_count = d.pop("unread_reply_count", UNSET)
 
+        _reactions = d.pop("reactions", UNSET)
+        reactions: list[Reaction] | Unset = UNSET
+        if _reactions is not UNSET:
+            reactions = []
+            for reactions_item_data in _reactions:
+                reactions_item = Reaction.from_dict(reactions_item_data)
+
+                reactions.append(reactions_item)
+
+        _attachments = d.pop("attachments", UNSET)
+        attachments: list[PostSummaryAttachmentsItem] | Unset = UNSET
+        if _attachments is not UNSET:
+            attachments = []
+            for attachments_item_data in _attachments:
+                attachments_item = PostSummaryAttachmentsItem.from_dict(
+                    attachments_item_data
+                )
+
+                attachments.append(attachments_item)
+
+        author_hub = d.pop("author_hub", UNSET)
+
+        _tags = d.pop("tags", UNSET)
+        tags: list[PostSummaryTagsItem] | Unset = UNSET
+        if _tags is not UNSET:
+            tags = []
+            for tags_item_data in _tags:
+                tags_item = PostSummaryTagsItem.from_dict(tags_item_data)
+
+                tags.append(tags_item)
+
         def _parse_body(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -214,6 +290,10 @@ class PostDetail:
             last_activity_at=last_activity_at,
             is_deleted=is_deleted,
             unread_reply_count=unread_reply_count,
+            reactions=reactions,
+            attachments=attachments,
+            author_hub=author_hub,
+            tags=tags,
             body=body,
             replies=replies,
             reply_cursor=reply_cursor,

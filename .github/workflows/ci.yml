@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.10", "3.11", "3.12", "3.13"]
+        python: ["3.11", "3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
           repository: Wavvon/Wavvon-server
-          ref: develop
+          ref: eb11d75657ee8362dd42a7982fc5b13a3dcc4e68
           path: wavvon-server
           sparse-checkout: crates/identity/wire-vectors.json
           sparse-checkout-cone-mode: false

@@ -77,7 +77,7 @@ async def fetch_with_retry(
                 return res
             status = res.status_code
             await res.aclose()
-        except (httpx.TransportError, asyncio.TimeoutError) as e:
+        except (TimeoutError, httpx.TransportError) as e:
             error = e
         last_status, last_error = status, error
         if n >= o.max_attempts:

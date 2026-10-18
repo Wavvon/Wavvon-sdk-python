@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ListAdminReportsStatus(str, Enum):
+class ListAdminReportsStatus(StrEnum):
     PENDING = "pending"
     REVIEWED = "reviewed"
 

@@ -4,8 +4,10 @@ from urllib.parse import quote
 
 import httpx
 
+from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_conversation_message_body import CreateConversationMessageBody
+from ...models.dm_message import DmMessage
 from ...types import UNSET, Response, Unset
 
 
@@ -34,13 +36,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Any:
-    return None
+) -> DmMessage | None:
+    if response.status_code == 201:
+        response_201 = DmMessage.from_dict(response.json())
+
+        return response_201
+
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
 
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[Any]:
+) -> Response[DmMessage]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -54,7 +64,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: CreateConversationMessageBody | Unset = UNSET,
-) -> Response[Any]:
+) -> Response[DmMessage]:
     """Send a DM
 
     Args:
@@ -66,7 +76,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[DmMessage]
     """
 
     kwargs = _get_kwargs(
@@ -81,12 +91,12 @@ def sync_detailed(
     return _build_response(client=client, response=response)
 
 
-async def asyncio_detailed(
+def sync(
     conversation_id: str,
     *,
     client: AuthenticatedClient | Client,
     body: CreateConversationMessageBody | Unset = UNSET,
-) -> Response[Any]:
+) -> DmMessage | None:
     """Send a DM
 
     Args:
@@ -98,7 +108,34 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        DmMessage
+    """
+
+    return sync_detailed(
+        conversation_id=conversation_id,
+        client=client,
+        body=body,
+    ).parsed
+
+
+async def asyncio_detailed(
+    conversation_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: CreateConversationMessageBody | Unset = UNSET,
+) -> Response[DmMessage]:
+    """Send a DM
+
+    Args:
+        conversation_id (str):
+        body (CreateConversationMessageBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[DmMessage]
     """
 
     kwargs = _get_kwargs(
@@ -109,3 +146,32 @@ async def asyncio_detailed(
     response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
+
+async def asyncio(
+    conversation_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: CreateConversationMessageBody | Unset = UNSET,
+) -> DmMessage | None:
+    """Send a DM
+
+    Args:
+        conversation_id (str):
+        body (CreateConversationMessageBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        DmMessage
+    """
+
+    return (
+        await asyncio_detailed(
+            conversation_id=conversation_id,
+            client=client,
+            body=body,
+        )
+    ).parsed

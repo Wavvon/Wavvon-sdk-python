@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class CreateAllianceChannelBodyVoiceRemoteJoin(str, Enum):
+class CreateAllianceChannelBodyVoiceRemoteJoin(StrEnum):
     ALLOWED = "allowed"
     NONE = "none"
 

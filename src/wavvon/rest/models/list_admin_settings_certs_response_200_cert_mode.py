@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ListAdminSettingsCertsResponse200CertMode(str, Enum):
+class ListAdminSettingsCertsResponse200CertMode(StrEnum):
     ANY = "any"
     NONE = "none"
     TRUSTED = "trusted"

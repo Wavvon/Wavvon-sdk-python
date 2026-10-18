@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ReindexAdminSearchResponse202Status(str, Enum):
+class ReindexAdminSearchResponse202Status(StrEnum):
     ALREADY_RUNNING = "already_running"
     STARTED = "started"
 

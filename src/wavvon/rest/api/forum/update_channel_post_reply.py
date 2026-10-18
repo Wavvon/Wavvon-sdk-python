@@ -4,7 +4,9 @@ from urllib.parse import quote
 
 import httpx
 
+from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.reply_view import ReplyView
 from ...models.update_channel_post_reply_body import UpdateChannelPostReplyBody
 from ...types import UNSET, Response, Unset
 
@@ -38,13 +40,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Any:
-    return None
+) -> ReplyView | None:
+    if response.status_code == 200:
+        response_200 = ReplyView.from_dict(response.json())
+
+        return response_200
+
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
 
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[Any]:
+) -> Response[ReplyView]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -60,7 +70,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: UpdateChannelPostReplyBody | Unset = UNSET,
-) -> Response[Any]:
+) -> Response[ReplyView]:
     """Edit a reply (author or manage_posts)
 
     Args:
@@ -74,7 +84,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[ReplyView]
     """
 
     kwargs = _get_kwargs(
@@ -91,14 +101,14 @@ def sync_detailed(
     return _build_response(client=client, response=response)
 
 
-async def asyncio_detailed(
+def sync(
     channel_id: str,
     post_id: str,
     reply_id: str,
     *,
     client: AuthenticatedClient | Client,
     body: UpdateChannelPostReplyBody | Unset = UNSET,
-) -> Response[Any]:
+) -> ReplyView | None:
     """Edit a reply (author or manage_posts)
 
     Args:
@@ -112,7 +122,40 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        ReplyView
+    """
+
+    return sync_detailed(
+        channel_id=channel_id,
+        post_id=post_id,
+        reply_id=reply_id,
+        client=client,
+        body=body,
+    ).parsed
+
+
+async def asyncio_detailed(
+    channel_id: str,
+    post_id: str,
+    reply_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: UpdateChannelPostReplyBody | Unset = UNSET,
+) -> Response[ReplyView]:
+    """Edit a reply (author or manage_posts)
+
+    Args:
+        channel_id (str):
+        post_id (str):
+        reply_id (str):
+        body (UpdateChannelPostReplyBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[ReplyView]
     """
 
     kwargs = _get_kwargs(
@@ -125,3 +168,38 @@ async def asyncio_detailed(
     response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
+
+async def asyncio(
+    channel_id: str,
+    post_id: str,
+    reply_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: UpdateChannelPostReplyBody | Unset = UNSET,
+) -> ReplyView | None:
+    """Edit a reply (author or manage_posts)
+
+    Args:
+        channel_id (str):
+        post_id (str):
+        reply_id (str):
+        body (UpdateChannelPostReplyBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        ReplyView
+    """
+
+    return (
+        await asyncio_detailed(
+            channel_id=channel_id,
+            post_id=post_id,
+            reply_id=reply_id,
+            client=client,
+            body=body,
+        )
+    ).parsed

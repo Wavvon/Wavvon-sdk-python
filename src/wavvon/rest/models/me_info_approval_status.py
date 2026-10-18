@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class MeInfoApprovalStatus(str, Enum):
+class MeInfoApprovalStatus(StrEnum):
     APPROVED = "approved"
     PENDING = "pending"
 

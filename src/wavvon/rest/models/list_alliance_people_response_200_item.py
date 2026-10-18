@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar, cast
-from typing_extensions import Self
+from typing import Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,7 +16,7 @@ class ListAlliancePeopleResponse200Item:
     """
     Attributes:
         public_key (str): Roster pubkey on the owning hub
-        master_pubkey (str): Master key
+        master_pubkey (str): Master key, for DM routing
         display_name (None | str | Unset):
         avatar (None | str | Unset):
     """

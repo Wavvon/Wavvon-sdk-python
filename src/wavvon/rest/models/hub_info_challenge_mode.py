@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class HubInfoChallengeMode(str, Enum):
+class HubInfoChallengeMode(StrEnum):
     BOTH = "both"
     CLICK = "click"
     OFF = "off"

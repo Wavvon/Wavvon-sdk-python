@@ -1,16 +1,15 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, cast
-from typing_extensions import Self
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..models.me_info_approval_status import MeInfoApprovalStatus
-from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.me_info_favorite_hubs_item import MeInfoFavoriteHubsItem
     from ..models.role import Role
 
 
@@ -21,118 +20,233 @@ T = TypeVar("T", bound="MeInfo")
 class MeInfo:
     """
     Attributes:
-        public_key (str | Unset):
-        display_name (None | str | Unset):
-        avatar (None | str | Unset):
-        findable_by_allies (bool | Unset):
-        approval_status (MeInfoApprovalStatus | Unset):
-        roles (list[Role] | Unset):
+        public_key (str):
+        display_name (None | str):
+        avatar (None | str):
+        bio (None | str):
+        pronouns (None | str):
+        status_message (None | str):
+        activities (None | str):
+        accent_color (None | str):
+        cover (None | str):
+        favorite_hubs (list[MeInfoFavoriteHubsItem]):
+        show_hubs (bool):
+        findable_by_allies (bool):
+        approval_status (MeInfoApprovalStatus):
+        roles (list[Role]):
+        birthday (None | str):
+        name_color (None | str):
     """
 
-    public_key: str | Unset = UNSET
-    display_name: None | str | Unset = UNSET
-    avatar: None | str | Unset = UNSET
-    findable_by_allies: bool | Unset = UNSET
-    approval_status: MeInfoApprovalStatus | Unset = UNSET
-    roles: list[Role] | Unset = UNSET
+    public_key: str
+    display_name: None | str
+    avatar: None | str
+    bio: None | str
+    pronouns: None | str
+    status_message: None | str
+    activities: None | str
+    accent_color: None | str
+    cover: None | str
+    favorite_hubs: list[MeInfoFavoriteHubsItem]
+    show_hubs: bool
+    findable_by_allies: bool
+    approval_status: MeInfoApprovalStatus
+    roles: list[Role]
+    birthday: None | str
+    name_color: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         public_key = self.public_key
 
-        display_name: None | str | Unset
-        if isinstance(self.display_name, Unset):
-            display_name = UNSET
-        else:
-            display_name = self.display_name
+        display_name: None | str
+        display_name = self.display_name
 
-        avatar: None | str | Unset
-        if isinstance(self.avatar, Unset):
-            avatar = UNSET
-        else:
-            avatar = self.avatar
+        avatar: None | str
+        avatar = self.avatar
+
+        bio: None | str
+        bio = self.bio
+
+        pronouns: None | str
+        pronouns = self.pronouns
+
+        status_message: None | str
+        status_message = self.status_message
+
+        activities: None | str
+        activities = self.activities
+
+        accent_color: None | str
+        accent_color = self.accent_color
+
+        cover: None | str
+        cover = self.cover
+
+        favorite_hubs = []
+        for favorite_hubs_item_data in self.favorite_hubs:
+            favorite_hubs_item = favorite_hubs_item_data.to_dict()
+            favorite_hubs.append(favorite_hubs_item)
+
+        show_hubs = self.show_hubs
 
         findable_by_allies = self.findable_by_allies
 
-        approval_status: str | Unset = UNSET
-        if not isinstance(self.approval_status, Unset):
-            approval_status = self.approval_status.value
+        approval_status = self.approval_status.value
 
-        roles: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.roles, Unset):
-            roles = []
-            for roles_item_data in self.roles:
-                roles_item = roles_item_data.to_dict()
-                roles.append(roles_item)
+        roles = []
+        for roles_item_data in self.roles:
+            roles_item = roles_item_data.to_dict()
+            roles.append(roles_item)
+
+        birthday: None | str
+        birthday = self.birthday
+
+        name_color: None | str
+        name_color = self.name_color
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if public_key is not UNSET:
-            field_dict["public_key"] = public_key
-        if display_name is not UNSET:
-            field_dict["display_name"] = display_name
-        if avatar is not UNSET:
-            field_dict["avatar"] = avatar
-        if findable_by_allies is not UNSET:
-            field_dict["findable_by_allies"] = findable_by_allies
-        if approval_status is not UNSET:
-            field_dict["approval_status"] = approval_status
-        if roles is not UNSET:
-            field_dict["roles"] = roles
+        field_dict.update(
+            {
+                "public_key": public_key,
+                "display_name": display_name,
+                "avatar": avatar,
+                "bio": bio,
+                "pronouns": pronouns,
+                "status_message": status_message,
+                "activities": activities,
+                "accent_color": accent_color,
+                "cover": cover,
+                "favorite_hubs": favorite_hubs,
+                "show_hubs": show_hubs,
+                "findable_by_allies": findable_by_allies,
+                "approval_status": approval_status,
+                "roles": roles,
+                "birthday": birthday,
+                "name_color": name_color,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.me_info_favorite_hubs_item import MeInfoFavoriteHubsItem
         from ..models.role import Role
 
         d = dict(src_dict)
-        public_key = d.pop("public_key", UNSET)
+        public_key = d.pop("public_key")
 
-        def _parse_display_name(data: object) -> None | str | Unset:
+        def _parse_display_name(data: object) -> None | str:
             if data is None:
                 return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
+            return cast(None | str, data)
 
-        display_name = _parse_display_name(d.pop("display_name", UNSET))
+        display_name = _parse_display_name(d.pop("display_name"))
 
-        def _parse_avatar(data: object) -> None | str | Unset:
+        def _parse_avatar(data: object) -> None | str:
             if data is None:
                 return data
-            if isinstance(data, Unset):
+            return cast(None | str, data)
+
+        avatar = _parse_avatar(d.pop("avatar"))
+
+        def _parse_bio(data: object) -> None | str:
+            if data is None:
                 return data
-            return cast(None | str | Unset, data)
+            return cast(None | str, data)
 
-        avatar = _parse_avatar(d.pop("avatar", UNSET))
+        bio = _parse_bio(d.pop("bio"))
 
-        findable_by_allies = d.pop("findable_by_allies", UNSET)
+        def _parse_pronouns(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        _approval_status = d.pop("approval_status", UNSET)
-        approval_status: MeInfoApprovalStatus | Unset
-        if isinstance(_approval_status, Unset):
-            approval_status = UNSET
-        else:
-            approval_status = MeInfoApprovalStatus(_approval_status)
+        pronouns = _parse_pronouns(d.pop("pronouns"))
 
-        _roles = d.pop("roles", UNSET)
-        roles: list[Role] | Unset = UNSET
-        if _roles is not UNSET:
-            roles = []
-            for roles_item_data in _roles:
-                roles_item = Role.from_dict(roles_item_data)
+        def _parse_status_message(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-                roles.append(roles_item)
+        status_message = _parse_status_message(d.pop("status_message"))
+
+        def _parse_activities(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        activities = _parse_activities(d.pop("activities"))
+
+        def _parse_accent_color(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        accent_color = _parse_accent_color(d.pop("accent_color"))
+
+        def _parse_cover(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        cover = _parse_cover(d.pop("cover"))
+
+        favorite_hubs = []
+        _favorite_hubs = d.pop("favorite_hubs")
+        for favorite_hubs_item_data in _favorite_hubs:
+            favorite_hubs_item = MeInfoFavoriteHubsItem.from_dict(
+                favorite_hubs_item_data
+            )
+
+            favorite_hubs.append(favorite_hubs_item)
+
+        show_hubs = d.pop("show_hubs")
+
+        findable_by_allies = d.pop("findable_by_allies")
+
+        approval_status = MeInfoApprovalStatus(d.pop("approval_status"))
+
+        roles = []
+        _roles = d.pop("roles")
+        for roles_item_data in _roles:
+            roles_item = Role.from_dict(roles_item_data)
+
+            roles.append(roles_item)
+
+        def _parse_birthday(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        birthday = _parse_birthday(d.pop("birthday"))
+
+        def _parse_name_color(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        name_color = _parse_name_color(d.pop("name_color"))
 
         me_info = cls(
             public_key=public_key,
             display_name=display_name,
             avatar=avatar,
+            bio=bio,
+            pronouns=pronouns,
+            status_message=status_message,
+            activities=activities,
+            accent_color=accent_color,
+            cover=cover,
+            favorite_hubs=favorite_hubs,
+            show_hubs=show_hubs,
             findable_by_allies=findable_by_allies,
             approval_status=approval_status,
             roles=roles,
+            birthday=birthday,
+            name_color=name_color,
         )
 
         me_info.additional_properties = d

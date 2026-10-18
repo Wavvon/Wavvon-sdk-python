@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar, cast
-from typing_extensions import Self
+from typing import Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,12 +16,17 @@ class CreateInviteBody:
     """
     Attributes:
         max_uses (int | None | Unset):
-        expires_at (int | None | Unset):
+        expires_in_seconds (int | None | Unset): Lifetime in seconds from now. Omitted means no expiry, except as noted
+            under `grant_role_id`.
+        grant_role_id (None | str | Unset): Role granted to the joining member besides the everyone role. Must exist,
+            and the creator must be able to grant every permission it carries. A role that amounts to a takeover caps the
+            invite to one use and a short expiry.
         bound_pubkey (None | str | Unset): 64 hex characters. The only identity this invite admits.
     """
 
     max_uses: int | None | Unset = UNSET
-    expires_at: int | None | Unset = UNSET
+    expires_in_seconds: int | None | Unset = UNSET
+    grant_role_id: None | str | Unset = UNSET
     bound_pubkey: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -33,11 +37,17 @@ class CreateInviteBody:
         else:
             max_uses = self.max_uses
 
-        expires_at: int | None | Unset
-        if isinstance(self.expires_at, Unset):
-            expires_at = UNSET
+        expires_in_seconds: int | None | Unset
+        if isinstance(self.expires_in_seconds, Unset):
+            expires_in_seconds = UNSET
         else:
-            expires_at = self.expires_at
+            expires_in_seconds = self.expires_in_seconds
+
+        grant_role_id: None | str | Unset
+        if isinstance(self.grant_role_id, Unset):
+            grant_role_id = UNSET
+        else:
+            grant_role_id = self.grant_role_id
 
         bound_pubkey: None | str | Unset
         if isinstance(self.bound_pubkey, Unset):
@@ -50,8 +60,10 @@ class CreateInviteBody:
         field_dict.update({})
         if max_uses is not UNSET:
             field_dict["max_uses"] = max_uses
-        if expires_at is not UNSET:
-            field_dict["expires_at"] = expires_at
+        if expires_in_seconds is not UNSET:
+            field_dict["expires_in_seconds"] = expires_in_seconds
+        if grant_role_id is not UNSET:
+            field_dict["grant_role_id"] = grant_role_id
         if bound_pubkey is not UNSET:
             field_dict["bound_pubkey"] = bound_pubkey
 
@@ -70,14 +82,25 @@ class CreateInviteBody:
 
         max_uses = _parse_max_uses(d.pop("max_uses", UNSET))
 
-        def _parse_expires_at(data: object) -> int | None | Unset:
+        def _parse_expires_in_seconds(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(int | None | Unset, data)
 
-        expires_at = _parse_expires_at(d.pop("expires_at", UNSET))
+        expires_in_seconds = _parse_expires_in_seconds(
+            d.pop("expires_in_seconds", UNSET)
+        )
+
+        def _parse_grant_role_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        grant_role_id = _parse_grant_role_id(d.pop("grant_role_id", UNSET))
 
         def _parse_bound_pubkey(data: object) -> None | str | Unset:
             if data is None:
@@ -90,7 +113,8 @@ class CreateInviteBody:
 
         create_invite_body = cls(
             max_uses=max_uses,
-            expires_at=expires_at,
+            expires_in_seconds=expires_in_seconds,
+            grant_role_id=grant_role_id,
             bound_pubkey=bound_pubkey,
         )
 

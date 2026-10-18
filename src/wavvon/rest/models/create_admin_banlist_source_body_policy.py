@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class CreateAdminBanlistSourceBodyPolicy(str, Enum):
+class CreateAdminBanlistSourceBodyPolicy(StrEnum):
     HARD_REJECT = "hard-reject"
     SOFT_FLAG = "soft-flag"
 

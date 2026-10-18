@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ListEventsResponse200ItemMyRsvp(str, Enum):
+class ListEventsResponse200ItemMyRsvp(StrEnum):
     GOING = "going"
     MAYBE = "maybe"
     NOT_GOING = "not_going"

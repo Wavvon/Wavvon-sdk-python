@@ -38,7 +38,7 @@ def _get_kwargs(
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Any | None:
-    if response.status_code == 204:
+    if response.status_code == 200:
         return None
 
     if response.status_code == 400:

@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class CreateAdminBanlistOverrideBodyOverrideType(str, Enum):
+class CreateAdminBanlistOverrideBodyOverrideType(StrEnum):
     BLACKLIST = "blacklist"
     WHITELIST = "whitelist"
 

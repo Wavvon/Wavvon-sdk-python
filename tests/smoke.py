@@ -38,6 +38,7 @@ from wavvon import (
 from wavvon.rest.api.channels import list_channels
 from wavvon.rest.api.messages import create_channel_message
 from wavvon.rest.models.create_channel_message_body import CreateChannelMessageBody
+from wavvon.rest.types import UNSET
 
 
 def step(s: str) -> None:
@@ -48,8 +49,8 @@ def report_retry(i: RetryInfo) -> None:
     step(f"retrying after {i.status or 'network error'} (attempt {i.attempt})")
 
 
-async def wait_until(pred: Callable[[], Any], what: str, timeout: float = 10.0) -> Any:
-    deadline = time.monotonic() + timeout
+async def wait_until(pred: Callable[[], Any], what: str) -> Any:
+    deadline = time.monotonic() + 10.0
     while time.monotonic() < deadline:
         hit = pred()
         if hit:
@@ -117,9 +118,7 @@ async def main() -> None:
                 (
                     c.id
                     for c in channels
-                    if not c.is_category
-                    and isinstance(c.id, str)
-                    and c.additional_properties.get("channel_type", "text") == "text"
+                    if not c.is_category and isinstance(c.id, str) and c.channel_type in (UNSET, "text")
                 ),
                 None,
             )

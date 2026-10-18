@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class GetModerationHistoryResponse200EntriesItemPolicy(str, Enum):
+class GetModerationHistoryResponse200EntriesItemPolicy(StrEnum):
     HARD_REJECT = "hard-reject"
     SOFT_FLAG = "soft-flag"
 

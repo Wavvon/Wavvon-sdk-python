@@ -4,6 +4,7 @@ from urllib.parse import quote
 
 import httpx
 
+from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_channel_voice_mute_body import CreateChannelVoiceMuteBody
 from ...types import UNSET, Response, Unset
@@ -34,8 +35,14 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Any:
-    return None
+) -> Any | None:
+    if response.status_code == 201:
+        return None
+
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
 
 
 def _build_response(

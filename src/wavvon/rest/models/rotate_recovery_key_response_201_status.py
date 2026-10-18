@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class RotateRecoveryKeyResponse201Status(str, Enum):
+class RotateRecoveryKeyResponse201Status(StrEnum):
     PENDING = "pending"
     READY_FOR_REVIEW = "ready_for_review"
 

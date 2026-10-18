@@ -61,13 +61,12 @@ async def setup(hub_url: str, owner: WavvonClient, hub: subprocess.Popen[bytes])
 
     role_body = CreateRoleBody(name="Apps", priority=10, permissions=["apps.register"])
     role = ok(await create_role.asyncio_detailed(client=owner.rest, body=role_body))
-    # grant_role_id is accepted by the hub but missing from the spec's CreateInviteBody.
-    invite_body = CreateInviteBody.from_dict({"grant_role_id": role["id"], "max_uses": 1})
+    invite_body = CreateInviteBody(grant_role_id=role.id, max_uses=1)
     invite = ok(await create_invite.asyncio_detailed(client=owner.rest, body=invite_body))
     channel = ok(await create_channel.asyncio_detailed(client=owner.rest, body=CreateChannelBody(name="sdk-smoke")))
     print("smoke-local: role, invite and channel ready", flush=True)
     await owner.aclose()
-    return {"invite": invite["code"], "channel": channel["id"]}
+    return {"invite": invite.code, "channel": channel.id}
 
 
 def main() -> int:

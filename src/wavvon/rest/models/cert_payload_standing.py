@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class CertPayloadStanding(str, Enum):
+class CertPayloadStanding(StrEnum):
     GOOD = "good"
     REVOKED = "revoked"
 

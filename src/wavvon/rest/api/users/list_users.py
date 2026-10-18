@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.user import User
+from ...models.user_info import UserInfo
 from ...types import UNSET, Response, Unset
 
 
@@ -37,12 +37,12 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> list[User] | None:
+) -> list[UserInfo] | None:
     if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
         for response_200_item_data in _response_200:
-            response_200_item = User.from_dict(response_200_item_data)
+            response_200_item = UserInfo.from_dict(response_200_item_data)
 
             response_200.append(response_200_item)
 
@@ -56,7 +56,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[list[User]]:
+) -> Response[list[UserInfo]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -71,7 +71,7 @@ def sync_detailed(
     q: str | Unset = UNSET,
     limit: int | Unset = 200,
     cursor: str | Unset = UNSET,
-) -> Response[list[User]]:
+) -> Response[list[UserInfo]]:
     """List hub members (paginated)
 
      Members the hub knows, ordered by display name then public key. Page with `cursor` — pass the
@@ -88,7 +88,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list[User]]
+        Response[list[UserInfo]]
     """
 
     kwargs = _get_kwargs(
@@ -110,7 +110,7 @@ def sync(
     q: str | Unset = UNSET,
     limit: int | Unset = 200,
     cursor: str | Unset = UNSET,
-) -> list[User] | None:
+) -> list[UserInfo] | None:
     """List hub members (paginated)
 
      Members the hub knows, ordered by display name then public key. Page with `cursor` — pass the
@@ -127,7 +127,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list[User]
+        list[UserInfo]
     """
 
     return sync_detailed(
@@ -144,7 +144,7 @@ async def asyncio_detailed(
     q: str | Unset = UNSET,
     limit: int | Unset = 200,
     cursor: str | Unset = UNSET,
-) -> Response[list[User]]:
+) -> Response[list[UserInfo]]:
     """List hub members (paginated)
 
      Members the hub knows, ordered by display name then public key. Page with `cursor` — pass the
@@ -161,7 +161,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list[User]]
+        Response[list[UserInfo]]
     """
 
     kwargs = _get_kwargs(
@@ -181,7 +181,7 @@ async def asyncio(
     q: str | Unset = UNSET,
     limit: int | Unset = 200,
     cursor: str | Unset = UNSET,
-) -> list[User] | None:
+) -> list[UserInfo] | None:
     """List hub members (paginated)
 
      Members the hub knows, ordered by display name then public key. Page with `cursor` — pass the
@@ -198,7 +198,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list[User]
+        list[UserInfo]
     """
 
     return (

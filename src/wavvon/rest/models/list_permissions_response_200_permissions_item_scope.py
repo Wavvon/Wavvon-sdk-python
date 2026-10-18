@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ListPermissionsResponse200PermissionsItemScope(str, Enum):
+class ListPermissionsResponse200PermissionsItemScope(StrEnum):
     HUB = "hub"
     HUB_AND_CHANNEL = "hub_and_channel"
 

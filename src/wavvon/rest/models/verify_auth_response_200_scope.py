@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class VerifyAuthResponse200Scope(str, Enum):
+class VerifyAuthResponse200Scope(StrEnum):
     ALLIANCE_VOICE = "alliance_voice"
     LOBBY = "lobby"
     MEMBER = "member"

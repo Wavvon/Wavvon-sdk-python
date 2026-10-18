@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
-from typing_extensions import Self
+from typing import Any, Self, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -14,8 +13,8 @@ T = TypeVar("T", bound="AttestRecoveryRotationRequestBody")
 class AttestRecoveryRotationRequestBody:
     """
     Attributes:
-        attester (str): Contact's public key
-        signature (str): Ed25519 signature over the bundle
+        attester (str): Contact's public key, hex
+        signature (str): Ed25519 signature over the bundle, hex
     """
 
     attester: str

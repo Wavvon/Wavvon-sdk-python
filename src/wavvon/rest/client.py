@@ -1,6 +1,5 @@
 import ssl
-from typing import Any
-from typing_extensions import Self
+from typing import Any, Self
 
 import httpx
 from attrs import define, evolve, field

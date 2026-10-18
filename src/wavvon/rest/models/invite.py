@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar, cast
-from typing_extensions import Self
+from typing import Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -23,6 +22,7 @@ class Invite:
         uses (int | Unset):
         expires_at (int | None | Unset):
         created_at (int | Unset):
+        grant_role_id (None | str | Unset): Role granted on redemption besides everyone
         bound_pubkey (None | str | Unset): The one identity this invite admits, or null for a bearer code. Advertised as
             the `invites.bound` capability.
         status (InviteStatus | Unset): Whether this invite can still admit anyone, and if not, which of the two ways it
@@ -35,6 +35,7 @@ class Invite:
     uses: int | Unset = UNSET
     expires_at: int | None | Unset = UNSET
     created_at: int | Unset = UNSET
+    grant_role_id: None | str | Unset = UNSET
     bound_pubkey: None | str | Unset = UNSET
     status: InviteStatus | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -59,6 +60,12 @@ class Invite:
             expires_at = self.expires_at
 
         created_at = self.created_at
+
+        grant_role_id: None | str | Unset
+        if isinstance(self.grant_role_id, Unset):
+            grant_role_id = UNSET
+        else:
+            grant_role_id = self.grant_role_id
 
         bound_pubkey: None | str | Unset
         if isinstance(self.bound_pubkey, Unset):
@@ -85,6 +92,8 @@ class Invite:
             field_dict["expires_at"] = expires_at
         if created_at is not UNSET:
             field_dict["created_at"] = created_at
+        if grant_role_id is not UNSET:
+            field_dict["grant_role_id"] = grant_role_id
         if bound_pubkey is not UNSET:
             field_dict["bound_pubkey"] = bound_pubkey
         if status is not UNSET:
@@ -121,6 +130,15 @@ class Invite:
 
         created_at = d.pop("created_at", UNSET)
 
+        def _parse_grant_role_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        grant_role_id = _parse_grant_role_id(d.pop("grant_role_id", UNSET))
+
         def _parse_bound_pubkey(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -144,6 +162,7 @@ class Invite:
             uses=uses,
             expires_at=expires_at,
             created_at=created_at,
+            grant_role_id=grant_role_id,
             bound_pubkey=bound_pubkey,
             status=status,
         )

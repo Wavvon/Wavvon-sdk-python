@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ListAdminCertsResponse200ItemStanding(str, Enum):
+class ListAdminCertsResponse200ItemStanding(StrEnum):
     GOOD = "good"
     REVOKED = "revoked"
 

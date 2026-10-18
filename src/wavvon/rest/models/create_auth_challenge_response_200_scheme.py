@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class CreateAuthChallengeResponse200Scheme(str, Enum):
+class CreateAuthChallengeResponse200Scheme(StrEnum):
     TAGGED_V1 = "tagged-v1"
 
     def __str__(self) -> str:

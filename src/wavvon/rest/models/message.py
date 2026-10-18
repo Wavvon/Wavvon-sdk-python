@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, cast
-from typing_extensions import Self
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -11,6 +10,8 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.attachment import Attachment
+    from ..models.message_embeds_item import MessageEmbedsItem
+    from ..models.message_game import MessageGame
     from ..models.reaction import Reaction
     from ..models.reply_context import ReplyContext
 
@@ -31,10 +32,12 @@ class Message:
         edited_at (int | None | Unset):
         attachments (list[Attachment] | Unset):
         reactions (list[Reaction] | Unset):
-        reply_to (ReplyContext | Unset):
+        reply_to (None | ReplyContext | Unset):
         visible_to_pubkey (str | Unset): Omitted unless set. When present, only the named user should see this message
             (ephemeral bot replies).
         reply_count (int | Unset): Number of direct replies; non-zero only on thread roots.
+        embeds (list[MessageEmbedsItem] | Unset): Omitted unless set. Rich embeds authored by an app (docs/apps.md).
+        game (MessageGame | Unset): Omitted unless set. Game-modal launch card authored by an app (docs/apps.md).
     """
 
     id: str | Unset = UNSET
@@ -46,12 +49,16 @@ class Message:
     edited_at: int | None | Unset = UNSET
     attachments: list[Attachment] | Unset = UNSET
     reactions: list[Reaction] | Unset = UNSET
-    reply_to: ReplyContext | Unset = UNSET
+    reply_to: None | ReplyContext | Unset = UNSET
     visible_to_pubkey: str | Unset = UNSET
     reply_count: int | Unset = UNSET
+    embeds: list[MessageEmbedsItem] | Unset = UNSET
+    game: MessageGame | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.reply_context import ReplyContext
+
         id = self.id
 
         channel_id = self.channel_id
@@ -88,13 +95,28 @@ class Message:
                 reactions_item = reactions_item_data.to_dict()
                 reactions.append(reactions_item)
 
-        reply_to: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.reply_to, Unset):
+        reply_to: dict[str, Any] | None | Unset
+        if isinstance(self.reply_to, Unset):
+            reply_to = UNSET
+        elif isinstance(self.reply_to, ReplyContext):
             reply_to = self.reply_to.to_dict()
+        else:
+            reply_to = self.reply_to
 
         visible_to_pubkey = self.visible_to_pubkey
 
         reply_count = self.reply_count
+
+        embeds: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.embeds, Unset):
+            embeds = []
+            for embeds_item_data in self.embeds:
+                embeds_item = embeds_item_data.to_dict()
+                embeds.append(embeds_item)
+
+        game: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.game, Unset):
+            game = self.game.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -123,12 +145,18 @@ class Message:
             field_dict["visible_to_pubkey"] = visible_to_pubkey
         if reply_count is not UNSET:
             field_dict["reply_count"] = reply_count
+        if embeds is not UNSET:
+            field_dict["embeds"] = embeds
+        if game is not UNSET:
+            field_dict["game"] = game
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.attachment import Attachment
+        from ..models.message_embeds_item import MessageEmbedsItem
+        from ..models.message_game import MessageGame
         from ..models.reaction import Reaction
         from ..models.reply_context import ReplyContext
 
@@ -179,16 +207,42 @@ class Message:
 
                 reactions.append(reactions_item)
 
-        _reply_to = d.pop("reply_to", UNSET)
-        reply_to: ReplyContext | Unset
-        if isinstance(_reply_to, Unset):
-            reply_to = UNSET
-        else:
-            reply_to = ReplyContext.from_dict(_reply_to)
+        def _parse_reply_to(data: object) -> None | ReplyContext | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                reply_to_type_0 = ReplyContext.from_dict(data)
+
+                return reply_to_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | ReplyContext | Unset, data)
+
+        reply_to = _parse_reply_to(d.pop("reply_to", UNSET))
 
         visible_to_pubkey = d.pop("visible_to_pubkey", UNSET)
 
         reply_count = d.pop("reply_count", UNSET)
+
+        _embeds = d.pop("embeds", UNSET)
+        embeds: list[MessageEmbedsItem] | Unset = UNSET
+        if _embeds is not UNSET:
+            embeds = []
+            for embeds_item_data in _embeds:
+                embeds_item = MessageEmbedsItem.from_dict(embeds_item_data)
+
+                embeds.append(embeds_item)
+
+        _game = d.pop("game", UNSET)
+        game: MessageGame | Unset
+        if isinstance(_game, Unset):
+            game = UNSET
+        else:
+            game = MessageGame.from_dict(_game)
 
         message = cls(
             id=id,
@@ -203,6 +257,8 @@ class Message:
             reply_to=reply_to,
             visible_to_pubkey=visible_to_pubkey,
             reply_count=reply_count,
+            embeds=embeds,
+            game=game,
         )
 
         message.additional_properties = d

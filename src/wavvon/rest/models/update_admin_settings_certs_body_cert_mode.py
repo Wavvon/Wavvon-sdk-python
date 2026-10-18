@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class UpdateAdminSettingsCertsBodyCertMode(str, Enum):
+class UpdateAdminSettingsCertsBodyCertMode(StrEnum):
     ANY = "any"
     NONE = "none"
     TRUSTED = "trusted"

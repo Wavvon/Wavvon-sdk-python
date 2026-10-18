@@ -3,7 +3,9 @@ from typing import Any
 
 import httpx
 
+from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.me_info import MeInfo
 from ...models.update_me_body import UpdateMeBody
 from ...types import UNSET, Response, Unset
 
@@ -30,13 +32,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Any:
-    return None
+) -> MeInfo | None:
+    if response.status_code == 200:
+        response_200 = MeInfo.from_dict(response.json())
+
+        return response_200
+
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
 
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[Any]:
+) -> Response[MeInfo]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -49,7 +59,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: UpdateMeBody | Unset = UNSET,
-) -> Response[Any]:
+) -> Response[MeInfo]:
     """Update display name and avatar
 
     Args:
@@ -60,7 +70,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[MeInfo]
     """
 
     kwargs = _get_kwargs(
@@ -74,11 +84,11 @@ def sync_detailed(
     return _build_response(client=client, response=response)
 
 
-async def asyncio_detailed(
+def sync(
     *,
     client: AuthenticatedClient | Client,
     body: UpdateMeBody | Unset = UNSET,
-) -> Response[Any]:
+) -> MeInfo | None:
     """Update display name and avatar
 
     Args:
@@ -89,7 +99,31 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        MeInfo
+    """
+
+    return sync_detailed(
+        client=client,
+        body=body,
+    ).parsed
+
+
+async def asyncio_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+    body: UpdateMeBody | Unset = UNSET,
+) -> Response[MeInfo]:
+    """Update display name and avatar
+
+    Args:
+        body (UpdateMeBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[MeInfo]
     """
 
     kwargs = _get_kwargs(
@@ -99,3 +133,29 @@ async def asyncio_detailed(
     response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
+
+async def asyncio(
+    *,
+    client: AuthenticatedClient | Client,
+    body: UpdateMeBody | Unset = UNSET,
+) -> MeInfo | None:
+    """Update display name and avatar
+
+    Args:
+        body (UpdateMeBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        MeInfo
+    """
+
+    return (
+        await asyncio_detailed(
+            client=client,
+            body=body,
+        )
+    ).parsed

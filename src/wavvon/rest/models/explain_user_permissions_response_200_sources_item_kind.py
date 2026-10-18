@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ExplainUserPermissionsResponse200SourcesItemKind(str, Enum):
+class ExplainUserPermissionsResponse200SourcesItemKind(StrEnum):
     ALLOW = "allow"
     BASELINE = "baseline"
     DENY = "deny"

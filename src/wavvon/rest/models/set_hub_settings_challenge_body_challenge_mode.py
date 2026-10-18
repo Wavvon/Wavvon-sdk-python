@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class SetHubSettingsChallengeBodyChallengeMode(str, Enum):
+class SetHubSettingsChallengeBodyChallengeMode(StrEnum):
     BOTH = "both"
     CLICK = "click"
     OFF = "off"

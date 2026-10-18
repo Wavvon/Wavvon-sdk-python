@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class RsvpEventBodyStatus(str, Enum):
+class RsvpEventBodyStatus(StrEnum):
     GOING = "going"
     MAYBE = "maybe"
     NOT_GOING = "not_going"

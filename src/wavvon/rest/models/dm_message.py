@@ -1,16 +1,19 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, cast
-from typing_extensions import Self
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.attachment import Attachment
+    from ..models.dm_message_encrypted_envelope_type_0 import (
+        DmMessageEncryptedEnvelopeType0,
+    )
+    from ..models.dm_message_group_encrypted_envelope_type_0 import (
+        DmMessageGroupEncryptedEnvelopeType0,
+    )
 
 
 T = TypeVar("T", bound="DmMessage")
@@ -20,116 +23,181 @@ T = TypeVar("T", bound="DmMessage")
 class DmMessage:
     """
     Attributes:
-        id (str | Unset):
-        conversation_id (str | Unset):
-        sender (str | Unset):
-        sender_name (None | str | Unset):
-        content (str | Unset):
-        created_at (int | Unset):
-        attachments (list[Attachment] | Unset):
-        is_encrypted (bool | Unset):
-        delivery_failed (bool | Unset):
+        id (str):
+        conversation_id (str):
+        sender (str):
+        sender_name (None | str):
+        content (None | str):
+        created_at (int):
+        attachments (list[Attachment]):
+        delivery_failed (bool):
+        is_encrypted (bool):
+        encrypted_envelope (DmMessageEncryptedEnvelopeType0 | None): 1-on-1 encrypted envelope (docs/wire-format.md).
+        group_encrypted_envelope (DmMessageGroupEncryptedEnvelopeType0 | None): Group sender-key envelope (docs/wire-
+            format.md).
     """
 
-    id: str | Unset = UNSET
-    conversation_id: str | Unset = UNSET
-    sender: str | Unset = UNSET
-    sender_name: None | str | Unset = UNSET
-    content: str | Unset = UNSET
-    created_at: int | Unset = UNSET
-    attachments: list[Attachment] | Unset = UNSET
-    is_encrypted: bool | Unset = UNSET
-    delivery_failed: bool | Unset = UNSET
+    id: str
+    conversation_id: str
+    sender: str
+    sender_name: None | str
+    content: None | str
+    created_at: int
+    attachments: list[Attachment]
+    delivery_failed: bool
+    is_encrypted: bool
+    encrypted_envelope: DmMessageEncryptedEnvelopeType0 | None
+    group_encrypted_envelope: DmMessageGroupEncryptedEnvelopeType0 | None
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.dm_message_encrypted_envelope_type_0 import (
+            DmMessageEncryptedEnvelopeType0,
+        )
+        from ..models.dm_message_group_encrypted_envelope_type_0 import (
+            DmMessageGroupEncryptedEnvelopeType0,
+        )
+
         id = self.id
 
         conversation_id = self.conversation_id
 
         sender = self.sender
 
-        sender_name: None | str | Unset
-        if isinstance(self.sender_name, Unset):
-            sender_name = UNSET
-        else:
-            sender_name = self.sender_name
+        sender_name: None | str
+        sender_name = self.sender_name
 
+        content: None | str
         content = self.content
 
         created_at = self.created_at
 
-        attachments: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.attachments, Unset):
-            attachments = []
-            for attachments_item_data in self.attachments:
-                attachments_item = attachments_item_data.to_dict()
-                attachments.append(attachments_item)
-
-        is_encrypted = self.is_encrypted
+        attachments = []
+        for attachments_item_data in self.attachments:
+            attachments_item = attachments_item_data.to_dict()
+            attachments.append(attachments_item)
 
         delivery_failed = self.delivery_failed
 
+        is_encrypted = self.is_encrypted
+
+        encrypted_envelope: dict[str, Any] | None
+        if isinstance(self.encrypted_envelope, DmMessageEncryptedEnvelopeType0):
+            encrypted_envelope = self.encrypted_envelope.to_dict()
+        else:
+            encrypted_envelope = self.encrypted_envelope
+
+        group_encrypted_envelope: dict[str, Any] | None
+        if isinstance(
+            self.group_encrypted_envelope, DmMessageGroupEncryptedEnvelopeType0
+        ):
+            group_encrypted_envelope = self.group_encrypted_envelope.to_dict()
+        else:
+            group_encrypted_envelope = self.group_encrypted_envelope
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if conversation_id is not UNSET:
-            field_dict["conversation_id"] = conversation_id
-        if sender is not UNSET:
-            field_dict["sender"] = sender
-        if sender_name is not UNSET:
-            field_dict["sender_name"] = sender_name
-        if content is not UNSET:
-            field_dict["content"] = content
-        if created_at is not UNSET:
-            field_dict["created_at"] = created_at
-        if attachments is not UNSET:
-            field_dict["attachments"] = attachments
-        if is_encrypted is not UNSET:
-            field_dict["is_encrypted"] = is_encrypted
-        if delivery_failed is not UNSET:
-            field_dict["delivery_failed"] = delivery_failed
+        field_dict.update(
+            {
+                "id": id,
+                "conversation_id": conversation_id,
+                "sender": sender,
+                "sender_name": sender_name,
+                "content": content,
+                "created_at": created_at,
+                "attachments": attachments,
+                "delivery_failed": delivery_failed,
+                "is_encrypted": is_encrypted,
+                "encrypted_envelope": encrypted_envelope,
+                "group_encrypted_envelope": group_encrypted_envelope,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.attachment import Attachment
+        from ..models.dm_message_encrypted_envelope_type_0 import (
+            DmMessageEncryptedEnvelopeType0,
+        )
+        from ..models.dm_message_group_encrypted_envelope_type_0 import (
+            DmMessageGroupEncryptedEnvelopeType0,
+        )
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        conversation_id = d.pop("conversation_id", UNSET)
+        conversation_id = d.pop("conversation_id")
 
-        sender = d.pop("sender", UNSET)
+        sender = d.pop("sender")
 
-        def _parse_sender_name(data: object) -> None | str | Unset:
+        def _parse_sender_name(data: object) -> None | str:
             if data is None:
                 return data
-            if isinstance(data, Unset):
+            return cast(None | str, data)
+
+        sender_name = _parse_sender_name(d.pop("sender_name"))
+
+        def _parse_content(data: object) -> None | str:
+            if data is None:
                 return data
-            return cast(None | str | Unset, data)
+            return cast(None | str, data)
 
-        sender_name = _parse_sender_name(d.pop("sender_name", UNSET))
+        content = _parse_content(d.pop("content"))
 
-        content = d.pop("content", UNSET)
+        created_at = d.pop("created_at")
 
-        created_at = d.pop("created_at", UNSET)
+        attachments = []
+        _attachments = d.pop("attachments")
+        for attachments_item_data in _attachments:
+            attachments_item = Attachment.from_dict(attachments_item_data)
 
-        _attachments = d.pop("attachments", UNSET)
-        attachments: list[Attachment] | Unset = UNSET
-        if _attachments is not UNSET:
-            attachments = []
-            for attachments_item_data in _attachments:
-                attachments_item = Attachment.from_dict(attachments_item_data)
+            attachments.append(attachments_item)
 
-                attachments.append(attachments_item)
+        delivery_failed = d.pop("delivery_failed")
 
-        is_encrypted = d.pop("is_encrypted", UNSET)
+        is_encrypted = d.pop("is_encrypted")
 
-        delivery_failed = d.pop("delivery_failed", UNSET)
+        def _parse_encrypted_envelope(
+            data: object,
+        ) -> DmMessageEncryptedEnvelopeType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                encrypted_envelope_type_0 = DmMessageEncryptedEnvelopeType0.from_dict(
+                    data
+                )
+
+                return encrypted_envelope_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(DmMessageEncryptedEnvelopeType0 | None, data)
+
+        encrypted_envelope = _parse_encrypted_envelope(d.pop("encrypted_envelope"))
+
+        def _parse_group_encrypted_envelope(
+            data: object,
+        ) -> DmMessageGroupEncryptedEnvelopeType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                group_encrypted_envelope_type_0 = (
+                    DmMessageGroupEncryptedEnvelopeType0.from_dict(data)
+                )
+
+                return group_encrypted_envelope_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(DmMessageGroupEncryptedEnvelopeType0 | None, data)
+
+        group_encrypted_envelope = _parse_group_encrypted_envelope(
+            d.pop("group_encrypted_envelope")
+        )
 
         dm_message = cls(
             id=id,
@@ -139,8 +207,10 @@ class DmMessage:
             content=content,
             created_at=created_at,
             attachments=attachments,
-            is_encrypted=is_encrypted,
             delivery_failed=delivery_failed,
+            is_encrypted=is_encrypted,
+            encrypted_envelope=encrypted_envelope,
+            group_encrypted_envelope=group_encrypted_envelope,
         )
 
         dm_message.additional_properties = d

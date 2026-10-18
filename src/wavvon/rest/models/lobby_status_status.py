@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class LobbyStatusStatus(str, Enum):
+class LobbyStatusStatus(StrEnum):
     LOBBY = "lobby"
     MEMBER = "member"
     PROMOTED = "promoted"

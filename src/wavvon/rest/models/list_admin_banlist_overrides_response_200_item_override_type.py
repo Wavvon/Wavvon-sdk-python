@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ListAdminBanlistOverridesResponse200ItemOverrideType(str, Enum):
+class ListAdminBanlistOverridesResponse200ItemOverrideType(StrEnum):
     BLACKLIST = "blacklist"
     WHITELIST = "whitelist"
 

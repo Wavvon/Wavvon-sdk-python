@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ReviewAdminReportBodyAction(str, Enum):
+class ReviewAdminReportBodyAction(StrEnum):
     BAN_USER = "ban_user"
     DELETE_MESSAGE = "delete_message"
     DISMISS = "dismiss"
