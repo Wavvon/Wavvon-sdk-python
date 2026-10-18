@@ -101,3 +101,13 @@ project has had: run it when touching auth, the socket or webhooks.
 ## Git
 
 Work on `develop`; `main` is for releases. Commit in logical steps.
+
+## Releasing
+
+Bump `version` in `pyproject.toml` on `develop`, open a PR from `develop` to
+`main`; a maintainer merges it with a merge commit. `.github/workflows/release.yml`
+then builds and checks on `main`; the `publish` job runs in the GitHub
+environment `pypi`, which only `main` may use and which waits for a
+maintainer's approval in the Actions tab. PyPI trusted publishing is bound to
+that environment, so nothing outside it can publish; there is no token. After
+the upload the workflow tags `v<version>` and creates the GitHub release.
