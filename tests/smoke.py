@@ -7,7 +7,8 @@ by pytest: it needs a hub. scripts/smoke_local.py boots one and runs this.
     WAVVON_SMOKE_WEBHOOK_HOST   host the hub can reach this process at (default localhost)
 
 Authenticates as a fresh identity, posts a message, registers a slash command,
-invokes it, and checks that the verified invocation's reply lands in the channel.
+invokes it, checks that the verified invocation's reply lands in the channel, and
+polls the message back from GET /me/events.
 """
 
 from __future__ import annotations
@@ -124,6 +125,7 @@ async def main() -> None:
             )
             if not channel_id:
                 raise AssertionError("no text channel to post in")
+        await client.set_app_subscriptions([{"event": "message.created", "channels": [channel_id]}])
 
         text = f"hello from wavvon-sdk {time.time()}"
         body = CreateChannelMessageBody(content=text)
@@ -142,6 +144,17 @@ async def main() -> None:
         if reply.get("sender") != session.canonical_pubkey:
             raise AssertionError(f"reply sent by {reply.get('sender')}")
         step("verified the invocation and the reply landed")
+
+        polled = await client.poll_events()
+        ours = next(
+            (e for e in polled if e["event"] == "message.created" and e["payload"].get("content") == text), None
+        )
+        if not ours:
+            raise AssertionError(f"polling did not return our message: {[e['event'] for e in polled]}")
+        last = polled[-1]["seq"]
+        if any(e["seq"] <= last for e in await client.poll_events(cursor=last)):
+            raise AssertionError("the cursor did not page forward")
+        step(f"polled {len(polled)} events, ours at seq {ours['seq']}")
 
         if unknown:
             step(f"frames this SDK does not model (delivered as unknown): {', '.join(sorted(unknown))}")

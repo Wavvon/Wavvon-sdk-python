@@ -6,67 +6,62 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="ListMeEventsResponse200EventsItem")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="SelectOption")
 
 
 @_attrs_define
-class ListMeEventsResponse200EventsItem:
+class SelectOption:
     """
     Attributes:
-        id (str):
-        event_type (str):
-        payload (str): The event payload as a JSON-encoded string; parse it
-        created_at (int): Unix seconds
+        label (str):
+        value (str):
+        description (str | Unset):
     """
 
-    id: str
-    event_type: str
-    payload: str
-    created_at: int
+    label: str
+    value: str
+    description: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        id = self.id
+        label = self.label
 
-        event_type = self.event_type
+        value = self.value
 
-        payload = self.payload
-
-        created_at = self.created_at
+        description = self.description
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "id": id,
-                "event_type": event_type,
-                "payload": payload,
-                "created_at": created_at,
+                "label": label,
+                "value": value,
             }
         )
+        if description is not UNSET:
+            field_dict["description"] = description
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        id = d.pop("id")
+        label = d.pop("label")
 
-        event_type = d.pop("event_type")
+        value = d.pop("value")
 
-        payload = d.pop("payload")
+        description = d.pop("description", UNSET)
 
-        created_at = d.pop("created_at")
-
-        list_me_events_response_200_events_item = cls(
-            id=id,
-            event_type=event_type,
-            payload=payload,
-            created_at=created_at,
+        select_option = cls(
+            label=label,
+            value=value,
+            description=description,
         )
 
-        list_me_events_response_200_events_item.additional_properties = d
-        return list_me_events_response_200_events_item
+        select_option.additional_properties = d
+        return select_option
 
     @property
     def additional_keys(self) -> list[str]:

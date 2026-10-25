@@ -6,13 +6,11 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="MessageGame")
+T = TypeVar("T", bound="HubEventPayload")
 
 
 @_attrs_define
-class MessageGame:
-    """Omitted unless set. Game-modal launch card authored by an app (docs/apps.md)."""
-
+class HubEventPayload:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -25,10 +23,10 @@ class MessageGame:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        message_game = cls()
+        hub_event_payload = cls()
 
-        message_game.additional_properties = d
-        return message_game
+        hub_event_payload.additional_properties = d
+        return hub_event_payload
 
     @property
     def additional_keys(self) -> list[str]:

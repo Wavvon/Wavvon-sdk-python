@@ -4,24 +4,21 @@ import asyncio
 import json
 import re
 from collections.abc import Callable, Mapping, Sequence
-from dataclasses import dataclass
 from typing import Any, Literal, TypedDict, TypeVar, cast
 from urllib.parse import quote
 
 import httpx
 
 from .auth import Identity, Session, authenticate, identity_from_seed
-from .errors import HubError, UnsupportedByHubError
-from .events import EventStream, WebSocketConnect
+from .errors import HubError, ReplayUnavailableError, UnsupportedByHubError
+from .events import EventStream, HubEvent, WebSocketConnect
 from .rest.api.apps import (
-    ack_me_events,
     list_me_events,
     set_me_app_commands,
     set_me_app_profile,
     set_me_app_subscriptions,
 )
 from .rest.client import Client as RestClient
-from .rest.models.ack_me_events_body import AckMeEventsBody
 from .rest.models.app_command_def import AppCommandDef
 from .rest.models.app_subscription import AppSubscription as AppSubscription
 from .rest.models.set_me_app_commands_body import SetMeAppCommandsBody
@@ -50,16 +47,6 @@ class HubInfo(TypedDict, total=False):
     canonical_url: str
     invite_only: bool
     farm_url: str | None
-
-
-@dataclass(frozen=True)
-class PolledEvent:
-    """One row of GET /me/events, with `payload` already parsed."""
-
-    id: str
-    event_type: str
-    payload: Any
-    created_at: int
 
 
 class _AuthedTransport(httpx.AsyncBaseTransport):
@@ -272,37 +259,28 @@ class WavvonClient:
             url=url, reauthenticate=reauthenticate, ws_connect=self._ws_connect, retry=self._retry, since_seq=since_seq
         )
 
-    async def poll_events(self, since: int | None = None) -> list[PolledEvent]:
-        """GET /me/events: the polling transport, for a program that holds no socket."""
-        res = (
-            await list_me_events.asyncio_detailed(client=self.rest)
-            if since is None
-            else await list_me_events.asyncio_detailed(client=self.rest, since=since)
-        )
-        ok(res)
+    async def poll_events(self, cursor: int | None = None, limit: int | None = None) -> list[HubEvent]:
+        """GET /me/events: the polling transport, for a program that holds no socket.
+
+        Returns the same hub_event envelopes the socket replays, oldest first.
+        Nothing is acknowledged: pass the last `seq` handled as `cursor`. No
+        cursor starts at the beginning of the hub's 72-hour window; a cursor
+        older than it raises ReplayUnavailableError."""
+        kwargs: dict[str, int] = {}
+        if cursor is not None:
+            kwargs["cursor"] = cursor
+        if limit is not None:
+            kwargs["limit"] = limit
+        res = await list_me_events.asyncio_detailed(client=self.rest, **kwargs)
+        if res.status_code == 410:
+            gone = json.loads(res.content)
+            raise ReplayUnavailableError(int(gone["earliest_seq"]), int(gone["earliest_at"]))
+        if res.status_code >= 300:
+            raise HubError(int(res.status_code), res.content.decode("utf-8", "replace"))
         try:
-            data = json.loads(res.content)
+            rows = json.loads(res.content)
         except ValueError:
-            data = None
-        rows = data.get("events") if isinstance(data, dict) else None
+            rows = None
         if not isinstance(rows, list):
-            raise HubError(200, "GET /me/events answered without an events array")
-        return [
-            PolledEvent(
-                id=r["id"], event_type=r["event_type"], payload=_parse_payload(r["payload"]), created_at=r["created_at"]
-            )
-            for r in rows
-        ]
-
-    async def ack_events(self, ids: Sequence[str]) -> None:
-        """DELETE /me/events: acknowledge polled events so they are not returned again."""
-        ok(await ack_me_events.asyncio_detailed(client=self.rest, body=AckMeEventsBody(ids=list(ids))))
-
-
-def _parse_payload(s: Any) -> Any:
-    if not isinstance(s, str):
-        return s
-    try:
-        return json.loads(s)
-    except ValueError:
-        return s
+            raise HubError(200, "GET /me/events answered without an array")
+        return cast(list[HubEvent], rows)

@@ -14,12 +14,15 @@ def _get_kwargs(
     conversation_id: str,
     *,
     limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
     before: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
     params["limit"] = limit
+
+    params["cursor"] = cursor
 
     params["before"] = before
 
@@ -71,6 +74,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
     before: str | Unset = UNSET,
 ) -> Response[list[DmMessage]]:
     """List messages in a DM conversation (paginated)
@@ -82,6 +86,7 @@ def sync_detailed(
     Args:
         conversation_id (str):
         limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
         before (str | Unset):
 
     Raises:
@@ -95,6 +100,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         conversation_id=conversation_id,
         limit=limit,
+        cursor=cursor,
         before=before,
     )
 
@@ -110,6 +116,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
     before: str | Unset = UNSET,
 ) -> list[DmMessage] | None:
     """List messages in a DM conversation (paginated)
@@ -121,6 +128,7 @@ def sync(
     Args:
         conversation_id (str):
         limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
         before (str | Unset):
 
     Raises:
@@ -135,6 +143,7 @@ def sync(
         conversation_id=conversation_id,
         client=client,
         limit=limit,
+        cursor=cursor,
         before=before,
     ).parsed
 
@@ -144,6 +153,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
     before: str | Unset = UNSET,
 ) -> Response[list[DmMessage]]:
     """List messages in a DM conversation (paginated)
@@ -155,6 +165,7 @@ async def asyncio_detailed(
     Args:
         conversation_id (str):
         limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
         before (str | Unset):
 
     Raises:
@@ -168,6 +179,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         conversation_id=conversation_id,
         limit=limit,
+        cursor=cursor,
         before=before,
     )
 
@@ -181,6 +193,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
     before: str | Unset = UNSET,
 ) -> list[DmMessage] | None:
     """List messages in a DM conversation (paginated)
@@ -192,6 +205,7 @@ async def asyncio(
     Args:
         conversation_id (str):
         limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
         before (str | Unset):
 
     Raises:
@@ -207,6 +221,7 @@ async def asyncio(
             conversation_id=conversation_id,
             client=client,
             limit=limit,
+            cursor=cursor,
             before=before,
         )
     ).parsed
