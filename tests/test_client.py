@@ -1,11 +1,17 @@
 from __future__ import annotations
 
-import json
-
 import httpx
 import pytest
 
-from wavvon import HubUnavailableError, RetryOptions, SessionState, UnsupportedByHubError, WavvonClient, ok
+from wavvon import (
+    HubUnavailableError,
+    ReplayUnavailableError,
+    RetryOptions,
+    SessionState,
+    UnsupportedByHubError,
+    WavvonClient,
+    ok,
+)
 from wavvon.rest.api.channels import list_channels
 
 SEED = "02" * 32
@@ -43,7 +49,10 @@ class FakeHub:
         if path == "/me/app/commands":
             return httpx.Response(200)
         if path == "/me/events":
-            return httpx.Response(200, json={"events": self.events})
+            self.log.append(f"cursor={req.url.params.get('cursor')}")
+            if req.url.params.get("cursor") == "1":
+                return httpx.Response(410, json={"type": "replay_unavailable", "earliest_seq": 40, "earliest_at": 9})
+            return httpx.Response(200, json=self.events)
         return httpx.Response(200, json=[{"id": "c1", "name": "general"}])
 
     def client(self, retry: RetryOptions = FAST) -> WavvonClient:
@@ -83,10 +92,13 @@ async def test_gates_app_registration_on_apps_register() -> None:
     assert "PUT /me/app/commands" in hub.log
 
 
-async def test_polls_and_parses_payloads() -> None:
+async def test_polls_hub_events_after_a_cursor_and_reports_a_cursor_outside_the_window() -> None:
     hub = FakeHub([])
-    hub.events = [{"id": "e1", "event_type": "slash_command", "payload": json.dumps({"x": 1}), "created_at": 5}]
+    hub.events = [{"type": "hub_event", "seq": 42, "event": "member.joined", "hub_url": "h", "at": 1, "payload": {}}]
     async with hub.client() as client:
-        got = await client.poll_events(since=3)
-    assert got[0].payload == {"x": 1}
-    assert "GET /me/events" in hub.log
+        got = await client.poll_events(cursor=41)
+        assert [e["seq"] for e in got] == [42]
+        with pytest.raises(ReplayUnavailableError) as gone:
+            await client.poll_events(cursor=1)
+    assert gone.value.earliest_seq == 40
+    assert "cursor=41" in hub.log

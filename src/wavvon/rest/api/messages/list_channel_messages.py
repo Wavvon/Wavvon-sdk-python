@@ -13,15 +13,24 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     channel_id: str,
     *,
+    cursor: str | Unset = UNSET,
     before: str | Unset = UNSET,
     limit: int | Unset = 50,
+    thread_root: str | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
+    params["cursor"] = cursor
+
     params["before"] = before
 
     params["limit"] = limit
+
+    params["thread_root"] = thread_root
+
+    params["q"] = q
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -70,15 +79,21 @@ def sync_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
     before: str | Unset = UNSET,
     limit: int | Unset = 50,
+    thread_root: str | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> Response[list[Message]]:
     """Fetch message history
 
     Args:
         channel_id (str):
+        cursor (str | Unset):
         before (str | Unset):
         limit (int | Unset):  Default: 50.
+        thread_root (str | Unset):
+        q (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -90,8 +105,11 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         channel_id=channel_id,
+        cursor=cursor,
         before=before,
         limit=limit,
+        thread_root=thread_root,
+        q=q,
     )
 
     response = client.get_httpx_client().request(
@@ -105,15 +123,21 @@ def sync(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
     before: str | Unset = UNSET,
     limit: int | Unset = 50,
+    thread_root: str | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> list[Message] | None:
     """Fetch message history
 
     Args:
         channel_id (str):
+        cursor (str | Unset):
         before (str | Unset):
         limit (int | Unset):  Default: 50.
+        thread_root (str | Unset):
+        q (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -126,8 +150,11 @@ def sync(
     return sync_detailed(
         channel_id=channel_id,
         client=client,
+        cursor=cursor,
         before=before,
         limit=limit,
+        thread_root=thread_root,
+        q=q,
     ).parsed
 
 
@@ -135,15 +162,21 @@ async def asyncio_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
     before: str | Unset = UNSET,
     limit: int | Unset = 50,
+    thread_root: str | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> Response[list[Message]]:
     """Fetch message history
 
     Args:
         channel_id (str):
+        cursor (str | Unset):
         before (str | Unset):
         limit (int | Unset):  Default: 50.
+        thread_root (str | Unset):
+        q (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -155,8 +188,11 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         channel_id=channel_id,
+        cursor=cursor,
         before=before,
         limit=limit,
+        thread_root=thread_root,
+        q=q,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -168,15 +204,21 @@ async def asyncio(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
     before: str | Unset = UNSET,
     limit: int | Unset = 50,
+    thread_root: str | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> list[Message] | None:
     """Fetch message history
 
     Args:
         channel_id (str):
+        cursor (str | Unset):
         before (str | Unset):
         limit (int | Unset):  Default: 50.
+        thread_root (str | Unset):
+        q (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -190,7 +232,10 @@ async def asyncio(
         await asyncio_detailed(
             channel_id=channel_id,
             client=client,
+            cursor=cursor,
             before=before,
             limit=limit,
+            thread_root=thread_root,
+            q=q,
         )
     ).parsed

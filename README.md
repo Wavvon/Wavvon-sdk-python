@@ -80,7 +80,7 @@ channels = ok(await list_channels.asyncio_detailed(client=client.rest))
 | Capability checks | `client.has_capability`, `client.require_capability` |
 | Keyset paging to the end of a list | `paginate` (async iterator) |
 | WebSocket events with resume after reconnect | `client.connect()` -> `EventStream` |
-| HTTP polling instead of a socket | `client.poll_events`, `client.ack_events` |
+| HTTP polling instead of a socket | `client.poll_events(cursor)` |
 | App registration | `set_app_profile`, `set_app_commands`, `set_app_subscriptions` |
 | Slash command and button webhooks | `create_dispatch_handler`, `verify_dispatch`, `to_asgi` |
 | Outgoing webhook receiver | `verify_outgoing_webhook` |

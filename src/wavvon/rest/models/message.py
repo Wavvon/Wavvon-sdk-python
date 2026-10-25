@@ -10,8 +10,9 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.attachment import Attachment
-    from ..models.message_embeds_item import MessageEmbedsItem
-    from ..models.message_game import MessageGame
+    from ..models.component_row import ComponentRow
+    from ..models.embed import Embed
+    from ..models.game_launch_card import GameLaunchCard
     from ..models.reaction import Reaction
     from ..models.reply_context import ReplyContext
 
@@ -36,8 +37,10 @@ class Message:
         visible_to_pubkey (str | Unset): Omitted unless set. When present, only the named user should see this message
             (ephemeral bot replies).
         reply_count (int | Unset): Number of direct replies; non-zero only on thread roots.
-        embeds (list[MessageEmbedsItem] | Unset): Omitted unless set. Rich embeds authored by an app (docs/apps.md).
-        game (MessageGame | Unset): Omitted unless set. Game-modal launch card authored by an app (docs/apps.md).
+        embeds (list[Embed] | Unset): Omitted unless set. Rich embeds authored by an app (docs/apps.md).
+        game (GameLaunchCard | Unset):
+        components (list[ComponentRow] | Unset): Omitted unless set. Buttons and selects authored by an app; a click is
+            sent back as `component_interaction` (docs/apps.md).
     """
 
     id: str | Unset = UNSET
@@ -52,8 +55,9 @@ class Message:
     reply_to: None | ReplyContext | Unset = UNSET
     visible_to_pubkey: str | Unset = UNSET
     reply_count: int | Unset = UNSET
-    embeds: list[MessageEmbedsItem] | Unset = UNSET
-    game: MessageGame | Unset = UNSET
+    embeds: list[Embed] | Unset = UNSET
+    game: GameLaunchCard | Unset = UNSET
+    components: list[ComponentRow] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -118,6 +122,13 @@ class Message:
         if not isinstance(self.game, Unset):
             game = self.game.to_dict()
 
+        components: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.components, Unset):
+            components = []
+            for components_item_data in self.components:
+                components_item = components_item_data.to_dict()
+                components.append(components_item)
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -149,14 +160,17 @@ class Message:
             field_dict["embeds"] = embeds
         if game is not UNSET:
             field_dict["game"] = game
+        if components is not UNSET:
+            field_dict["components"] = components
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.attachment import Attachment
-        from ..models.message_embeds_item import MessageEmbedsItem
-        from ..models.message_game import MessageGame
+        from ..models.component_row import ComponentRow
+        from ..models.embed import Embed
+        from ..models.game_launch_card import GameLaunchCard
         from ..models.reaction import Reaction
         from ..models.reply_context import ReplyContext
 
@@ -229,20 +243,29 @@ class Message:
         reply_count = d.pop("reply_count", UNSET)
 
         _embeds = d.pop("embeds", UNSET)
-        embeds: list[MessageEmbedsItem] | Unset = UNSET
+        embeds: list[Embed] | Unset = UNSET
         if _embeds is not UNSET:
             embeds = []
             for embeds_item_data in _embeds:
-                embeds_item = MessageEmbedsItem.from_dict(embeds_item_data)
+                embeds_item = Embed.from_dict(embeds_item_data)
 
                 embeds.append(embeds_item)
 
         _game = d.pop("game", UNSET)
-        game: MessageGame | Unset
+        game: GameLaunchCard | Unset
         if isinstance(_game, Unset):
             game = UNSET
         else:
-            game = MessageGame.from_dict(_game)
+            game = GameLaunchCard.from_dict(_game)
+
+        _components = d.pop("components", UNSET)
+        components: list[ComponentRow] | Unset = UNSET
+        if _components is not UNSET:
+            components = []
+            for components_item_data in _components:
+                components_item = ComponentRow.from_dict(components_item_data)
+
+                components.append(components_item)
 
         message = cls(
             id=id,
@@ -259,6 +282,7 @@ class Message:
             reply_count=reply_count,
             embeds=embeds,
             game=game,
+            components=components,
         )
 
         message.additional_properties = d

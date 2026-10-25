@@ -1,32 +1,42 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar, cast
+from typing import Any, Self, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="AckMeEventsBody")
+T = TypeVar("T", bound="RegenerateAdminWebhookResponse200")
 
 
 @_attrs_define
-class AckMeEventsBody:
+class RegenerateAdminWebhookResponse200:
     """
     Attributes:
-        ids (list[str]):
+        id (str):
+        webhook_url (str):
+        display_name (str):
     """
 
-    ids: list[str]
+    id: str
+    webhook_url: str
+    display_name: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        ids = self.ids
+        id = self.id
+
+        webhook_url = self.webhook_url
+
+        display_name = self.display_name
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "ids": ids,
+                "id": id,
+                "webhook_url": webhook_url,
+                "display_name": display_name,
             }
         )
 
@@ -35,14 +45,20 @@ class AckMeEventsBody:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        ids = cast(list[str], d.pop("ids"))
+        id = d.pop("id")
 
-        ack_me_events_body = cls(
-            ids=ids,
+        webhook_url = d.pop("webhook_url")
+
+        display_name = d.pop("display_name")
+
+        regenerate_admin_webhook_response_200 = cls(
+            id=id,
+            webhook_url=webhook_url,
+            display_name=display_name,
         )
 
-        ack_me_events_body.additional_properties = d
-        return ack_me_events_body
+        regenerate_admin_webhook_response_200.additional_properties = d
+        return regenerate_admin_webhook_response_200
 
     @property
     def additional_keys(self) -> list[str]:
