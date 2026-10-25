@@ -80,11 +80,12 @@ report the doc bug to Wavvon-docs.
   hub, not the app.
 - Paging: a bare array plus `limit` (default 100, max 500) and `cursor` = key
   of the previous page's last row; the key differs per endpoint (`code`,
-  `public_key`, `id`). Channel messages still page with `before`.
+  `public_key`, `id`); channel messages too since Wavvon-server#184
+  (`before` is a deprecated alias).
 - Outgoing-webhook HKDF input is the **decoded** secret bytes (the admin sees
   base64url without padding); the HMAC key is the 32 HKDF bytes, not hex.
-- `GET /me/events` rows are never written by the hub today
-  (Wavvon-server#170); `poll_events` follows the spec and nothing relies on it.
+- `GET /me/events` reads the audit log (Wavvon-server#183): `hub_event`
+  envelopes after a `seq` cursor, 410 outside the 72-hour window, no ack.
 
 ## Smoke test
 
