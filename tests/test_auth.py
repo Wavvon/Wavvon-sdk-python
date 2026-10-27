@@ -28,16 +28,8 @@ def test_tagged_v1_prefixes_the_tag() -> None:
     assert b[25:] == C32
 
 
-def test_raw_only_at_exactly_32_bytes() -> None:
-    assert auth_challenge_signing_bytes(C32) == C32
-    assert auth_challenge_signing_bytes(C32, None) == C32
-    for n in (31, 64):
-        with pytest.raises(AuthSchemeError):
-            auth_challenge_signing_bytes(bytes(n))
-
-
-def test_unknown_scheme_is_refused() -> None:
-    for scheme in ("tagged-v2", ""):
+def test_missing_or_unknown_scheme_is_refused() -> None:
+    for scheme in (None, "tagged-v2", ""):
         with pytest.raises(AuthSchemeError):
             auth_challenge_signing_bytes(C32, scheme)
 
@@ -105,9 +97,11 @@ async def test_definitive_refusal_is_hub_error() -> None:
     assert e.value.status == 403
 
 
-async def test_raw_scheme_login() -> None:
+async def test_a_challenge_without_a_scheme_is_refused_before_verify() -> None:
     hub = FakeHub(None)
-    assert (await authenticate("http://hub", identity_from_seed(SEED), http=hub.http)).token == "tok"
+    with pytest.raises(AuthSchemeError):
+        await authenticate("http://hub", identity_from_seed(SEED), http=hub.http)
+    assert hub.verify == []
 
 
 async def test_never_sends_the_seed() -> None:

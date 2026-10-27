@@ -5,13 +5,16 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.list_admin_audit_log_response_200 import ListAdminAuditLogResponse200
+from ...models.list_admin_audit_log_response_200_item import (
+    ListAdminAuditLogResponse200Item,
+)
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
     event_type: str | Unset = UNSET,
+    actor: str | Unset = UNSET,
     since: int | Unset = UNSET,
     until: int | Unset = UNSET,
     cursor: int | Unset = UNSET,
@@ -21,6 +24,8 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["event_type"] = event_type
+
+    params["actor"] = actor
 
     params["since"] = since
 
@@ -43,9 +48,16 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListAdminAuditLogResponse200 | None:
+) -> list[ListAdminAuditLogResponse200Item] | None:
     if response.status_code == 200:
-        response_200 = ListAdminAuditLogResponse200.from_dict(response.json())
+        response_200 = []
+        _response_200 = response.json()
+        for response_200_item_data in _response_200:
+            response_200_item = ListAdminAuditLogResponse200Item.from_dict(
+                response_200_item_data
+            )
+
+            response_200.append(response_200_item)
 
         return response_200
 
@@ -57,7 +69,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListAdminAuditLogResponse200]:
+) -> Response[list[ListAdminAuditLogResponse200Item]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -70,15 +82,21 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     event_type: str | Unset = UNSET,
+    actor: str | Unset = UNSET,
     since: int | Unset = UNSET,
     until: int | Unset = UNSET,
     cursor: int | Unset = UNSET,
     limit: int | Unset = 50,
-) -> Response[ListAdminAuditLogResponse200]:
-    """Cursor-paginated hub audit log (admin)
+) -> Response[list[ListAdminAuditLogResponse200Item]]:
+    """Hub audit log, newest first (admin)
+
+     Pages backwards: each page holds entries older than `cursor`. Hubs advertising the `audit.newest`
+    capability serve this shape; older hubs answer `{entries, next_cursor}` oldest first. Apps that
+    replay the log forwards use `GET /me/events`.
 
     Args:
         event_type (str | Unset):
+        actor (str | Unset):
         since (int | Unset):
         until (int | Unset):
         cursor (int | Unset):
@@ -89,11 +107,12 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListAdminAuditLogResponse200]
+        Response[list[ListAdminAuditLogResponse200Item]]
     """
 
     kwargs = _get_kwargs(
         event_type=event_type,
+        actor=actor,
         since=since,
         until=until,
         cursor=cursor,
@@ -111,15 +130,21 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     event_type: str | Unset = UNSET,
+    actor: str | Unset = UNSET,
     since: int | Unset = UNSET,
     until: int | Unset = UNSET,
     cursor: int | Unset = UNSET,
     limit: int | Unset = 50,
-) -> ListAdminAuditLogResponse200 | None:
-    """Cursor-paginated hub audit log (admin)
+) -> list[ListAdminAuditLogResponse200Item] | None:
+    """Hub audit log, newest first (admin)
+
+     Pages backwards: each page holds entries older than `cursor`. Hubs advertising the `audit.newest`
+    capability serve this shape; older hubs answer `{entries, next_cursor}` oldest first. Apps that
+    replay the log forwards use `GET /me/events`.
 
     Args:
         event_type (str | Unset):
+        actor (str | Unset):
         since (int | Unset):
         until (int | Unset):
         cursor (int | Unset):
@@ -130,12 +155,13 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListAdminAuditLogResponse200
+        list[ListAdminAuditLogResponse200Item]
     """
 
     return sync_detailed(
         client=client,
         event_type=event_type,
+        actor=actor,
         since=since,
         until=until,
         cursor=cursor,
@@ -147,15 +173,21 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     event_type: str | Unset = UNSET,
+    actor: str | Unset = UNSET,
     since: int | Unset = UNSET,
     until: int | Unset = UNSET,
     cursor: int | Unset = UNSET,
     limit: int | Unset = 50,
-) -> Response[ListAdminAuditLogResponse200]:
-    """Cursor-paginated hub audit log (admin)
+) -> Response[list[ListAdminAuditLogResponse200Item]]:
+    """Hub audit log, newest first (admin)
+
+     Pages backwards: each page holds entries older than `cursor`. Hubs advertising the `audit.newest`
+    capability serve this shape; older hubs answer `{entries, next_cursor}` oldest first. Apps that
+    replay the log forwards use `GET /me/events`.
 
     Args:
         event_type (str | Unset):
+        actor (str | Unset):
         since (int | Unset):
         until (int | Unset):
         cursor (int | Unset):
@@ -166,11 +198,12 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListAdminAuditLogResponse200]
+        Response[list[ListAdminAuditLogResponse200Item]]
     """
 
     kwargs = _get_kwargs(
         event_type=event_type,
+        actor=actor,
         since=since,
         until=until,
         cursor=cursor,
@@ -186,15 +219,21 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     event_type: str | Unset = UNSET,
+    actor: str | Unset = UNSET,
     since: int | Unset = UNSET,
     until: int | Unset = UNSET,
     cursor: int | Unset = UNSET,
     limit: int | Unset = 50,
-) -> ListAdminAuditLogResponse200 | None:
-    """Cursor-paginated hub audit log (admin)
+) -> list[ListAdminAuditLogResponse200Item] | None:
+    """Hub audit log, newest first (admin)
+
+     Pages backwards: each page holds entries older than `cursor`. Hubs advertising the `audit.newest`
+    capability serve this shape; older hubs answer `{entries, next_cursor}` oldest first. Apps that
+    replay the log forwards use `GET /me/events`.
 
     Args:
         event_type (str | Unset):
+        actor (str | Unset):
         since (int | Unset):
         until (int | Unset):
         cursor (int | Unset):
@@ -205,13 +244,14 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListAdminAuditLogResponse200
+        list[ListAdminAuditLogResponse200Item]
     """
 
     return (
         await asyncio_detailed(
             client=client,
             event_type=event_type,
+            actor=actor,
             since=since,
             until=until,
             cursor=cursor,

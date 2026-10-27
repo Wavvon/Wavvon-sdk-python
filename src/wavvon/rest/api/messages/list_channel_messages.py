@@ -14,7 +14,6 @@ def _get_kwargs(
     channel_id: str,
     *,
     cursor: str | Unset = UNSET,
-    before: str | Unset = UNSET,
     limit: int | Unset = 50,
     thread_root: str | Unset = UNSET,
     q: str | Unset = UNSET,
@@ -23,8 +22,6 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["cursor"] = cursor
-
-    params["before"] = before
 
     params["limit"] = limit
 
@@ -80,7 +77,6 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
-    before: str | Unset = UNSET,
     limit: int | Unset = 50,
     thread_root: str | Unset = UNSET,
     q: str | Unset = UNSET,
@@ -90,7 +86,6 @@ def sync_detailed(
     Args:
         channel_id (str):
         cursor (str | Unset):
-        before (str | Unset):
         limit (int | Unset):  Default: 50.
         thread_root (str | Unset):
         q (str | Unset):
@@ -106,7 +101,6 @@ def sync_detailed(
     kwargs = _get_kwargs(
         channel_id=channel_id,
         cursor=cursor,
-        before=before,
         limit=limit,
         thread_root=thread_root,
         q=q,
@@ -124,7 +118,6 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
-    before: str | Unset = UNSET,
     limit: int | Unset = 50,
     thread_root: str | Unset = UNSET,
     q: str | Unset = UNSET,
@@ -134,7 +127,6 @@ def sync(
     Args:
         channel_id (str):
         cursor (str | Unset):
-        before (str | Unset):
         limit (int | Unset):  Default: 50.
         thread_root (str | Unset):
         q (str | Unset):
@@ -151,7 +143,6 @@ def sync(
         channel_id=channel_id,
         client=client,
         cursor=cursor,
-        before=before,
         limit=limit,
         thread_root=thread_root,
         q=q,
@@ -163,7 +154,6 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
-    before: str | Unset = UNSET,
     limit: int | Unset = 50,
     thread_root: str | Unset = UNSET,
     q: str | Unset = UNSET,
@@ -173,7 +163,6 @@ async def asyncio_detailed(
     Args:
         channel_id (str):
         cursor (str | Unset):
-        before (str | Unset):
         limit (int | Unset):  Default: 50.
         thread_root (str | Unset):
         q (str | Unset):
@@ -189,7 +178,6 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         channel_id=channel_id,
         cursor=cursor,
-        before=before,
         limit=limit,
         thread_root=thread_root,
         q=q,
@@ -205,7 +193,6 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
-    before: str | Unset = UNSET,
     limit: int | Unset = 50,
     thread_root: str | Unset = UNSET,
     q: str | Unset = UNSET,
@@ -215,7 +202,6 @@ async def asyncio(
     Args:
         channel_id (str):
         cursor (str | Unset):
-        before (str | Unset):
         limit (int | Unset):  Default: 50.
         thread_root (str | Unset):
         q (str | Unset):
@@ -233,7 +219,6 @@ async def asyncio(
             channel_id=channel_id,
             client=client,
             cursor=cursor,
-            before=before,
             limit=limit,
             thread_root=thread_root,
             q=q,

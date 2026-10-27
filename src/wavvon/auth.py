@@ -11,8 +11,6 @@ from .errors import AuthSchemeError, HubError
 from .retry import RetryOptions, fetch_with_retry, is_transient_status
 
 AUTH_CHALLENGE_SCHEME = "tagged-v1"
-AUTH_CHALLENGE_LEN = 32
-"""The only length a raw (untagged) challenge is ever signed at."""
 _AUTH_TAG = b"wavvon/auth-challenge/v1\0"
 
 
@@ -53,22 +51,14 @@ def identity_from_seed(seed: str | bytes) -> Identity:
     return _SeedIdentity(Ed25519PrivateKey.from_private_bytes(secret))
 
 
-def auth_challenge_signing_bytes(challenge: bytes, scheme: str | None = None) -> bytes:
+def auth_challenge_signing_bytes(challenge: bytes, scheme: str | None) -> bytes:
     """The bytes a client signs to answer a challenge (wire-format.md, "Auth
-    challenge answer"). `tagged-v1`: the domain prefix plus the challenge. No
-    scheme (an older hub): the raw challenge, and only at exactly 32 bytes, so
-    this can never be used to sign arbitrary bytes. Any other scheme is refused
-    rather than guessed at."""
-    if scheme == AUTH_CHALLENGE_SCHEME:
-        return _AUTH_TAG + challenge
-    if scheme is None:
-        if len(challenge) != AUTH_CHALLENGE_LEN:
-            raise AuthSchemeError(
-                f"refusing to sign a raw {len(challenge)}-byte challenge; "
-                f"only {AUTH_CHALLENGE_LEN} bytes are ever signed raw"
-            )
-        return challenge
-    raise AuthSchemeError(f'unknown auth challenge scheme "{scheme}"')
+    challenge answer"): the `tagged-v1` domain prefix plus the challenge. Any
+    other scheme, or none, is refused rather than signed raw, so this can never
+    be used to sign arbitrary bytes."""
+    if scheme != AUTH_CHALLENGE_SCHEME:
+        raise AuthSchemeError(f"unsupported auth challenge scheme {scheme!r}; only {AUTH_CHALLENGE_SCHEME} is signed")
+    return _AUTH_TAG + challenge
 
 
 @dataclass(frozen=True)

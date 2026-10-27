@@ -28,7 +28,6 @@ class UpdateAdminSettingsCertsBody:
     """
     Attributes:
         cert_auto_issue (bool | str | Unset):
-        cert_standing_days (int | str | Unset):
         cert_min_age_days (int | str | Unset):
         cert_validity_days (int | str | Unset):
         cert_mode (UpdateAdminSettingsCertsBodyCertMode | Unset):
@@ -40,7 +39,6 @@ class UpdateAdminSettingsCertsBody:
     """
 
     cert_auto_issue: bool | str | Unset = UNSET
-    cert_standing_days: int | str | Unset = UNSET
     cert_min_age_days: int | str | Unset = UNSET
     cert_validity_days: int | str | Unset = UNSET
     cert_mode: UpdateAdminSettingsCertsBodyCertMode | Unset = UNSET
@@ -56,12 +54,6 @@ class UpdateAdminSettingsCertsBody:
             cert_auto_issue = UNSET
         else:
             cert_auto_issue = self.cert_auto_issue
-
-        cert_standing_days: int | str | Unset
-        if isinstance(self.cert_standing_days, Unset):
-            cert_standing_days = UNSET
-        else:
-            cert_standing_days = self.cert_standing_days
 
         cert_min_age_days: int | str | Unset
         if isinstance(self.cert_min_age_days, Unset):
@@ -102,8 +94,6 @@ class UpdateAdminSettingsCertsBody:
         field_dict.update({})
         if cert_auto_issue is not UNSET:
             field_dict["cert_auto_issue"] = cert_auto_issue
-        if cert_standing_days is not UNSET:
-            field_dict["cert_standing_days"] = cert_standing_days
         if cert_min_age_days is not UNSET:
             field_dict["cert_min_age_days"] = cert_min_age_days
         if cert_validity_days is not UNSET:
@@ -138,15 +128,6 @@ class UpdateAdminSettingsCertsBody:
             return cast(bool | str | Unset, data)
 
         cert_auto_issue = _parse_cert_auto_issue(d.pop("cert_auto_issue", UNSET))
-
-        def _parse_cert_standing_days(data: object) -> int | str | Unset:
-            if isinstance(data, Unset):
-                return data
-            return cast(int | str | Unset, data)
-
-        cert_standing_days = _parse_cert_standing_days(
-            d.pop("cert_standing_days", UNSET)
-        )
 
         def _parse_cert_min_age_days(data: object) -> int | str | Unset:
             if isinstance(data, Unset):
@@ -202,7 +183,6 @@ class UpdateAdminSettingsCertsBody:
 
         update_admin_settings_certs_body = cls(
             cert_auto_issue=cert_auto_issue,
-            cert_standing_days=cert_standing_days,
             cert_min_age_days=cert_min_age_days,
             cert_validity_days=cert_validity_days,
             cert_mode=cert_mode,
