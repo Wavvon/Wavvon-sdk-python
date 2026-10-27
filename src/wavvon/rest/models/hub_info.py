@@ -43,7 +43,6 @@ class HubInfo:
         self_tags (list[str]):
         nsfw (bool):
         badges (list[HubInfoBadgesItem]): Badges other hubs issued to this hub.
-        screen_share_v2 (bool):
         emoji_count (int):
         lan_mode (bool):
         birthdays_enabled (bool):
@@ -87,7 +86,6 @@ class HubInfo:
     self_tags: list[str]
     nsfw: bool
     badges: list[HubInfoBadgesItem]
-    screen_share_v2: bool
     emoji_count: int
     lan_mode: bool
     birthdays_enabled: bool
@@ -138,8 +136,6 @@ class HubInfo:
         for badges_item_data in self.badges:
             badges_item = badges_item_data.to_dict()
             badges.append(badges_item)
-
-        screen_share_v2 = self.screen_share_v2
 
         emoji_count = self.emoji_count
 
@@ -196,7 +192,6 @@ class HubInfo:
                 "self_tags": self_tags,
                 "nsfw": nsfw,
                 "badges": badges,
-                "screen_share_v2": screen_share_v2,
                 "emoji_count": emoji_count,
                 "lan_mode": lan_mode,
                 "birthdays_enabled": birthdays_enabled,
@@ -280,8 +275,6 @@ class HubInfo:
 
             badges.append(badges_item)
 
-        screen_share_v2 = d.pop("screen_share_v2")
-
         emoji_count = d.pop("emoji_count")
 
         lan_mode = d.pop("lan_mode")
@@ -340,7 +333,6 @@ class HubInfo:
             self_tags=self_tags,
             nsfw=nsfw,
             badges=badges,
-            screen_share_v2=screen_share_v2,
             emoji_count=emoji_count,
             lan_mode=lan_mode,
             birthdays_enabled=birthdays_enabled,

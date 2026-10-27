@@ -5,7 +5,9 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.list_me_devices_response_200_item import ListMeDevicesResponse200Item
+from ...models.list_recovery_requests_to_attest_response_200_item import (
+    ListRecoveryRequestsToAttestResponse200Item,
+)
 from ...types import Response
 
 
@@ -13,7 +15,7 @@ def _get_kwargs() -> dict[str, Any]:
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/me/devices",
+        "url": "/recovery/requests/to-attest",
     }
 
     return _kwargs
@@ -21,12 +23,12 @@ def _get_kwargs() -> dict[str, Any]:
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> list[ListMeDevicesResponse200Item] | None:
+) -> list[ListRecoveryRequestsToAttestResponse200Item] | None:
     if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
         for response_200_item_data in _response_200:
-            response_200_item = ListMeDevicesResponse200Item.from_dict(
+            response_200_item = ListRecoveryRequestsToAttestResponse200Item.from_dict(
                 response_200_item_data
             )
 
@@ -42,7 +44,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[list[ListMeDevicesResponse200Item]]:
+) -> Response[list[ListRecoveryRequestsToAttestResponse200Item]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -54,15 +56,20 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-) -> Response[list[ListMeDevicesResponse200Item]]:
-    """List the caller's trusted devices (active device tokens)
+) -> Response[list[ListRecoveryRequestsToAttestResponse200Item]]:
+    """Open rotation requests that name the caller as a recovery contact
+
+     Pending requests whose old key designated the caller, directly or by master key, as a recovery
+    contact, and which the caller has not attested yet. Advertised by the `recovery.attest.requests`
+    capability; a `recovery_attestation_requested` WebSocket event (`request_id`) tells a connected
+    contact when one opens.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list[ListMeDevicesResponse200Item]]
+        Response[list[ListRecoveryRequestsToAttestResponse200Item]]
     """
 
     kwargs = _get_kwargs()
@@ -77,15 +84,20 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-) -> list[ListMeDevicesResponse200Item] | None:
-    """List the caller's trusted devices (active device tokens)
+) -> list[ListRecoveryRequestsToAttestResponse200Item] | None:
+    """Open rotation requests that name the caller as a recovery contact
+
+     Pending requests whose old key designated the caller, directly or by master key, as a recovery
+    contact, and which the caller has not attested yet. Advertised by the `recovery.attest.requests`
+    capability; a `recovery_attestation_requested` WebSocket event (`request_id`) tells a connected
+    contact when one opens.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list[ListMeDevicesResponse200Item]
+        list[ListRecoveryRequestsToAttestResponse200Item]
     """
 
     return sync_detailed(
@@ -96,15 +108,20 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-) -> Response[list[ListMeDevicesResponse200Item]]:
-    """List the caller's trusted devices (active device tokens)
+) -> Response[list[ListRecoveryRequestsToAttestResponse200Item]]:
+    """Open rotation requests that name the caller as a recovery contact
+
+     Pending requests whose old key designated the caller, directly or by master key, as a recovery
+    contact, and which the caller has not attested yet. Advertised by the `recovery.attest.requests`
+    capability; a `recovery_attestation_requested` WebSocket event (`request_id`) tells a connected
+    contact when one opens.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list[ListMeDevicesResponse200Item]]
+        Response[list[ListRecoveryRequestsToAttestResponse200Item]]
     """
 
     kwargs = _get_kwargs()
@@ -117,15 +134,20 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-) -> list[ListMeDevicesResponse200Item] | None:
-    """List the caller's trusted devices (active device tokens)
+) -> list[ListRecoveryRequestsToAttestResponse200Item] | None:
+    """Open rotation requests that name the caller as a recovery contact
+
+     Pending requests whose old key designated the caller, directly or by master key, as a recovery
+    contact, and which the caller has not attested yet. Advertised by the `recovery.attest.requests`
+    capability; a `recovery_attestation_requested` WebSocket event (`request_id`) tells a connected
+    contact when one opens.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list[ListMeDevicesResponse200Item]
+        list[ListRecoveryRequestsToAttestResponse200Item]
     """
 
     return (

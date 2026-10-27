@@ -9,16 +9,16 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.list_admin_audit_log_response_200_entries_item_payload import (
-        ListAdminAuditLogResponse200EntriesItemPayload,
+    from ..models.list_admin_audit_log_response_200_item_payload import (
+        ListAdminAuditLogResponse200ItemPayload,
     )
 
 
-T = TypeVar("T", bound="ListAdminAuditLogResponse200EntriesItem")
+T = TypeVar("T", bound="ListAdminAuditLogResponse200Item")
 
 
 @_attrs_define
-class ListAdminAuditLogResponse200EntriesItem:
+class ListAdminAuditLogResponse200Item:
     """
     Attributes:
         seq (int | Unset):
@@ -27,7 +27,7 @@ class ListAdminAuditLogResponse200EntriesItem:
         actor_pubkey (None | str | Unset):
         target_pubkey (None | str | Unset):
         channel_id (None | str | Unset):
-        payload (ListAdminAuditLogResponse200EntriesItemPayload | Unset):
+        payload (ListAdminAuditLogResponse200ItemPayload | Unset):
     """
 
     seq: int | Unset = UNSET
@@ -36,7 +36,7 @@ class ListAdminAuditLogResponse200EntriesItem:
     actor_pubkey: None | str | Unset = UNSET
     target_pubkey: None | str | Unset = UNSET
     channel_id: None | str | Unset = UNSET
-    payload: ListAdminAuditLogResponse200EntriesItemPayload | Unset = UNSET
+    payload: ListAdminAuditLogResponse200ItemPayload | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -90,8 +90,8 @@ class ListAdminAuditLogResponse200EntriesItem:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.list_admin_audit_log_response_200_entries_item_payload import (
-            ListAdminAuditLogResponse200EntriesItemPayload,
+        from ..models.list_admin_audit_log_response_200_item_payload import (
+            ListAdminAuditLogResponse200ItemPayload,
         )
 
         d = dict(src_dict)
@@ -129,13 +129,13 @@ class ListAdminAuditLogResponse200EntriesItem:
         channel_id = _parse_channel_id(d.pop("channel_id", UNSET))
 
         _payload = d.pop("payload", UNSET)
-        payload: ListAdminAuditLogResponse200EntriesItemPayload | Unset
+        payload: ListAdminAuditLogResponse200ItemPayload | Unset
         if isinstance(_payload, Unset):
             payload = UNSET
         else:
-            payload = ListAdminAuditLogResponse200EntriesItemPayload.from_dict(_payload)
+            payload = ListAdminAuditLogResponse200ItemPayload.from_dict(_payload)
 
-        list_admin_audit_log_response_200_entries_item = cls(
+        list_admin_audit_log_response_200_item = cls(
             seq=seq,
             event_type=event_type,
             at=at,
@@ -145,8 +145,8 @@ class ListAdminAuditLogResponse200EntriesItem:
             payload=payload,
         )
 
-        list_admin_audit_log_response_200_entries_item.additional_properties = d
-        return list_admin_audit_log_response_200_entries_item
+        list_admin_audit_log_response_200_item.additional_properties = d
+        return list_admin_audit_log_response_200_item
 
     @property
     def additional_keys(self) -> list[str]:

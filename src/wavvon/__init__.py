@@ -5,7 +5,6 @@ Every REST route is under `wavvon.rest.api`; pass `client.rest` as `client=`.
 """
 
 from .auth import (
-    AUTH_CHALLENGE_LEN,
     AUTH_CHALLENGE_SCHEME,
     Identity,
     Session,
@@ -85,7 +84,6 @@ from .webhooks import (
 __version__ = "0.1.0"
 
 __all__ = [
-    "AUTH_CHALLENGE_LEN",
     "AUTH_CHALLENGE_SCHEME",
     "MAX_PAGE_SIZE",
     "AppCloseEvent",

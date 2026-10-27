@@ -80,13 +80,11 @@ def test_webhook_delivery_hub(file: dict[str, Any]) -> None:
     assert identity_from_seed(i["hub_seed"]).public_key == v["hub_pubkey"]
     key = Ed25519PrivateKey.from_private_bytes(bytes.fromhex(i["hub_seed"]))
     assert key.sign(signing).hex() == v["signature_v1"]
-    assert key.sign(body).hex() == v["signature_legacy"]
 
     h = v["headers"]
     headers = {
         h["hub_pubkey"]: v["hub_pubkey"],
         h["signature_v1"]: v["signature_v1"],
-        h["signature_legacy"]: v["signature_legacy"],
         h["timestamp"]: str(i["timestamp"]),
     }
     assert verify_dispatch(headers, body, v["hub_pubkey"], now=i["timestamp"])["type"] == "slash_command"
@@ -105,12 +103,10 @@ def test_webhook_delivery_outgoing(file: dict[str, Any]) -> None:
     signing = webhook_delivery_signing_bytes(i["timestamp"], body)
     assert signing.hex() == v["signing_bytes"]
     assert hmac.new(key, signing, hashlib.sha256).hexdigest() == v["signature_v1"]
-    assert hmac.new(key, body, hashlib.sha256).hexdigest() == v["signature_legacy"]
 
     h = v["headers"]
     headers = {
         h["signature_v1"]: v["signature_v1"],
-        h["signature_legacy"]: v["signature_legacy"],
         h["timestamp"]: str(i["timestamp"]),
         h["webhook_id"]: "wh_test",
     }

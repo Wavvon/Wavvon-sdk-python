@@ -26,7 +26,9 @@ class Channel:
         color (None | str | Unset):
         custom_icon_svg (None | str | Unset):
         created_at (int | Unset): Unix timestamp
-        channel_type (str | Unset): `text`, `forum`, `banner` or `spawner`. Always `text` for categories.
+        channel_type (str | Unset): `text`, `voice`, `forum`, `banner` or `spawner`. Always `text` for categories. On
+            hubs with the `channels.voice` capability only a `voice` channel can be joined for voice; it has a chat as well,
+            and a spawner's rooms are `voice`.
         banner_url (str | Unset): Omitted unless set
         banner_file_id (str | Unset): Omitted unless set
         is_temporary (bool | Unset): True for a join-to-create room spawned from a spawner channel.

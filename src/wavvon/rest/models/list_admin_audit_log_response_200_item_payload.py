@@ -6,43 +6,27 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-T = TypeVar("T", bound="RedeemAuthDeviceTokenResponse200")
+T = TypeVar("T", bound="ListAdminAuditLogResponse200ItemPayload")
 
 
 @_attrs_define
-class RedeemAuthDeviceTokenResponse200:
-    """
-    Attributes:
-        session_token (str | Unset):
-    """
-
-    session_token: str | Unset = UNSET
+class ListAdminAuditLogResponse200ItemPayload:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        session_token = self.session_token
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if session_token is not UNSET:
-            field_dict["session_token"] = session_token
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        session_token = d.pop("session_token", UNSET)
+        list_admin_audit_log_response_200_item_payload = cls()
 
-        redeem_auth_device_token_response_200 = cls(
-            session_token=session_token,
-        )
-
-        redeem_auth_device_token_response_200.additional_properties = d
-        return redeem_auth_device_token_response_200
+        list_admin_audit_log_response_200_item_payload.additional_properties = d
+        return list_admin_audit_log_response_200_item_payload
 
     @property
     def additional_keys(self) -> list[str]:

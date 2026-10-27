@@ -58,9 +58,9 @@ def test_refuses_tampering_staleness_missing_v1_and_a_foreign_hub() -> None:
     with pytest.raises(WebhookVerificationError):
         verify_dispatch(h, SLASH, HUB_PUB, now=NOW + 301)
     assert verify_dispatch(h, SLASH, HUB_PUB, now=NOW + 300)["type"] == "slash_command"
-    legacy_only = {k: v for k, v in h.items() if k != "X-Wavvon-Signature-V1"}
+    no_v1 = {k: v for k, v in h.items() if k != "X-Wavvon-Signature-V1"}
     with pytest.raises(WebhookVerificationError):
-        verify_dispatch(legacy_only, SLASH, HUB_PUB, now=NOW)
+        verify_dispatch(no_v1, SLASH, HUB_PUB, now=NOW)
     other = (
         Ed25519PrivateKey.from_private_bytes(bytes([6]) * 32).public_key().public_bytes(Encoding.Raw, PublicFormat.Raw)
     )
