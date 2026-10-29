@@ -26,7 +26,7 @@ class Invite:
         bound_pubkey (None | str | Unset): The one identity this invite admits, or null for a bearer code. Advertised as
             the `invites.bound` capability.
         status (InviteStatus | Unset): Whether this invite can still admit anyone, and if not, which of the two ways it
-            retired. Advertised as the `invites.status` capability; absent on hubs that do not advertise it.
+            retired.
     """
 
     code: str | Unset = UNSET

@@ -5,14 +5,36 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...types import Response
+from ...models.list_admin_survey_responses_status import ListAdminSurveyResponsesStatus
+from ...types import UNSET, Response, Unset
 
 
-def _get_kwargs() -> dict[str, Any]:
+def _get_kwargs(
+    *,
+    status: ListAdminSurveyResponsesStatus
+    | Unset = ListAdminSurveyResponsesStatus.PENDING,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    json_status: str | Unset = UNSET
+    if not isinstance(status, Unset):
+        json_status = status.value
+
+    params["status"] = json_status
+
+    params["limit"] = limit
+
+    params["cursor"] = cursor
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/admin/survey/responses",
+        "params": params,
     }
 
     return _kwargs
@@ -44,8 +66,18 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    status: ListAdminSurveyResponsesStatus
+    | Unset = ListAdminSurveyResponsesStatus.PENDING,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
 ) -> Response[Any]:
-    """List all survey responses (manage_hub)
+    """List survey responses, newest first (manage_hub)
+
+    Args:
+        status (ListAdminSurveyResponsesStatus | Unset):  Default:
+            ListAdminSurveyResponsesStatus.PENDING.
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -55,7 +87,11 @@ def sync_detailed(
         Response[Any]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        status=status,
+        limit=limit,
+        cursor=cursor,
+    )
 
     response = client.get_httpx_client().request(
         **kwargs,
@@ -67,8 +103,18 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    status: ListAdminSurveyResponsesStatus
+    | Unset = ListAdminSurveyResponsesStatus.PENDING,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
 ) -> Response[Any]:
-    """List all survey responses (manage_hub)
+    """List survey responses, newest first (manage_hub)
+
+    Args:
+        status (ListAdminSurveyResponsesStatus | Unset):  Default:
+            ListAdminSurveyResponsesStatus.PENDING.
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -78,7 +124,11 @@ async def asyncio_detailed(
         Response[Any]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        status=status,
+        limit=limit,
+        cursor=cursor,
+    )
 
     response = await client.get_async_httpx_client().request(**kwargs)
 

@@ -11,7 +11,7 @@ from ...types import Response
 
 
 def _get_kwargs(
-    master: str,
+    pubkey: str,
     *,
     body: SetIdentityPrefsBody,
 ) -> dict[str, Any]:
@@ -19,8 +19,8 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/identity/{master}/prefs".format(
-            master=quote(str(master), safe=""),
+        "url": "/identity/{pubkey}/prefs".format(
+            pubkey=quote(str(pubkey), safe=""),
         ),
     }
 
@@ -56,7 +56,7 @@ def _build_response(
 
 
 def sync_detailed(
-    master: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
     body: SetIdentityPrefsBody,
@@ -64,7 +64,7 @@ def sync_detailed(
     """Store cross-device preferences blob
 
     Args:
-        master (str):
+        pubkey (str):
         body (SetIdentityPrefsBody):
 
     Raises:
@@ -76,7 +76,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        master=master,
+        pubkey=pubkey,
         body=body,
     )
 
@@ -88,7 +88,7 @@ def sync_detailed(
 
 
 async def asyncio_detailed(
-    master: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
     body: SetIdentityPrefsBody,
@@ -96,7 +96,7 @@ async def asyncio_detailed(
     """Store cross-device preferences blob
 
     Args:
-        master (str):
+        pubkey (str):
         body (SetIdentityPrefsBody):
 
     Raises:
@@ -108,7 +108,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        master=master,
+        pubkey=pubkey,
         body=body,
     )
 

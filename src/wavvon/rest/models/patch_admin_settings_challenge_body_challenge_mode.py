@@ -1,7 +1,7 @@
 from enum import StrEnum
 
 
-class SetHubSettingsChallengeBodyChallengeMode(StrEnum):
+class PatchAdminSettingsChallengeBodyChallengeMode(StrEnum):
     BOTH = "both"
     CLICK = "click"
     OFF = "off"

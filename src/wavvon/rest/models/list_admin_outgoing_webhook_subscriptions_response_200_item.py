@@ -8,13 +8,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar(
-    "T", bound="ListAdminOutgoingWebhookSubscriptionsResponse200SubscriptionsItem"
-)
+T = TypeVar("T", bound="ListAdminOutgoingWebhookSubscriptionsResponse200Item")
 
 
 @_attrs_define
-class ListAdminOutgoingWebhookSubscriptionsResponse200SubscriptionsItem:
+class ListAdminOutgoingWebhookSubscriptionsResponse200Item:
     """
     Attributes:
         event (str | Unset):
@@ -69,13 +67,13 @@ class ListAdminOutgoingWebhookSubscriptionsResponse200SubscriptionsItem:
 
         channels = _parse_channels(d.pop("channels", UNSET))
 
-        list_admin_outgoing_webhook_subscriptions_response_200_subscriptions_item = cls(
+        list_admin_outgoing_webhook_subscriptions_response_200_item = cls(
             event=event,
             channels=channels,
         )
 
-        list_admin_outgoing_webhook_subscriptions_response_200_subscriptions_item.additional_properties = d
-        return list_admin_outgoing_webhook_subscriptions_response_200_subscriptions_item
+        list_admin_outgoing_webhook_subscriptions_response_200_item.additional_properties = d
+        return list_admin_outgoing_webhook_subscriptions_response_200_item
 
     @property
     def additional_keys(self) -> list[str]:

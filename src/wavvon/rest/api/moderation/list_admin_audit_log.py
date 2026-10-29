@@ -90,9 +90,8 @@ def sync_detailed(
 ) -> Response[list[ListAdminAuditLogResponse200Item]]:
     """Hub audit log, newest first (admin)
 
-     Pages backwards: each page holds entries older than `cursor`. Hubs advertising the `audit.newest`
-    capability serve this shape; older hubs answer `{entries, next_cursor}` oldest first. Apps that
-    replay the log forwards use `GET /me/events`.
+     Pages backwards: each page holds entries older than `cursor`. Apps that replay the log forwards use
+    `GET /me/events`.
 
     Args:
         event_type (str | Unset):
@@ -138,9 +137,8 @@ def sync(
 ) -> list[ListAdminAuditLogResponse200Item] | None:
     """Hub audit log, newest first (admin)
 
-     Pages backwards: each page holds entries older than `cursor`. Hubs advertising the `audit.newest`
-    capability serve this shape; older hubs answer `{entries, next_cursor}` oldest first. Apps that
-    replay the log forwards use `GET /me/events`.
+     Pages backwards: each page holds entries older than `cursor`. Apps that replay the log forwards use
+    `GET /me/events`.
 
     Args:
         event_type (str | Unset):
@@ -181,9 +179,8 @@ async def asyncio_detailed(
 ) -> Response[list[ListAdminAuditLogResponse200Item]]:
     """Hub audit log, newest first (admin)
 
-     Pages backwards: each page holds entries older than `cursor`. Hubs advertising the `audit.newest`
-    capability serve this shape; older hubs answer `{entries, next_cursor}` oldest first. Apps that
-    replay the log forwards use `GET /me/events`.
+     Pages backwards: each page holds entries older than `cursor`. Apps that replay the log forwards use
+    `GET /me/events`.
 
     Args:
         event_type (str | Unset):
@@ -227,9 +224,8 @@ async def asyncio(
 ) -> list[ListAdminAuditLogResponse200Item] | None:
     """Hub audit log, newest first (admin)
 
-     Pages backwards: each page holds entries older than `cursor`. Hubs advertising the `audit.newest`
-    capability serve this shape; older hubs answer `{entries, next_cursor}` oldest first. Apps that
-    replay the log forwards use `GET /me/events`.
+     Pages backwards: each page holds entries older than `cursor`. Apps that replay the log forwards use
+    `GET /me/events`.
 
     Args:
         event_type (str | Unset):

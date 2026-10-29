@@ -5,19 +5,21 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.set_hub_settings_challenge_body import SetHubSettingsChallengeBody
+from ...models.patch_admin_settings_challenge_body import (
+    PatchAdminSettingsChallengeBody,
+)
 from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: SetHubSettingsChallengeBody,
+    body: PatchAdminSettingsChallengeBody,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
-        "method": "put",
-        "url": "/hub/settings/challenge",
+        "method": "patch",
+        "url": "/admin/settings/challenge",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -54,12 +56,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetHubSettingsChallengeBody,
+    body: PatchAdminSettingsChallengeBody,
 ) -> Response[Any]:
     """Update bot-challenge mode (admin)
 
     Args:
-        body (SetHubSettingsChallengeBody):
+        body (PatchAdminSettingsChallengeBody): Absent fields keep their stored value.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -83,12 +85,12 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: SetHubSettingsChallengeBody,
+    body: PatchAdminSettingsChallengeBody,
 ) -> Response[Any]:
     """Update bot-challenge mode (admin)
 
     Args:
-        body (SetHubSettingsChallengeBody):
+        body (PatchAdminSettingsChallengeBody): Absent fields keep their stored value.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

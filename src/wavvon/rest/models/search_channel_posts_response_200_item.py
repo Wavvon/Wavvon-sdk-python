@@ -8,11 +8,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="SearchChannelPostsResponse200ResultsItem")
+T = TypeVar("T", bound="SearchChannelPostsResponse200Item")
 
 
 @_attrs_define
-class SearchChannelPostsResponse200ResultsItem:
+class SearchChannelPostsResponse200Item:
     """
     Attributes:
         post_id (str | Unset):
@@ -69,7 +69,7 @@ class SearchChannelPostsResponse200ResultsItem:
 
         reply_id = d.pop("reply_id", UNSET)
 
-        search_channel_posts_response_200_results_item = cls(
+        search_channel_posts_response_200_item = cls(
             post_id=post_id,
             title_snippet=title_snippet,
             body_snippet=body_snippet,
@@ -77,8 +77,8 @@ class SearchChannelPostsResponse200ResultsItem:
             reply_id=reply_id,
         )
 
-        search_channel_posts_response_200_results_item.additional_properties = d
-        return search_channel_posts_response_200_results_item
+        search_channel_posts_response_200_item.additional_properties = d
+        return search_channel_posts_response_200_item
 
     @property
     def additional_keys(self) -> list[str]:

@@ -30,12 +30,12 @@ class HubInfo:
         version (str): For display and "this hub is very old" warnings **only**. Never
             decide whether a feature exists by comparing this — use
             `capabilities`.
-        capabilities (list[str]): What this hub can do, e.g. `voice.wt`, `list.cursor`. Test
+        capabilities (list[str]): What this hub can do, e.g. `voice.alliance`, `list.cursor`. Test
             membership to decide what to offer; absent or empty means a hub
             predating capability advertising, which reads correctly as "knows
             nothing". The list only ever grows — a string never changes
             spelling or meaning once published.
-             Example: ['list.cursor', 'pairing.subkey', 'recovery.attestation', 'screenshare.v2', 'voice.wt'].
+             Example: ['list.cursor', 'list.cursor.lists', 'voice.alliance', 'voice.talk'].
         invite_only (bool):
         min_security_level (int):
         min_pow_level (int):

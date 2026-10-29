@@ -10,13 +10,13 @@ from ...types import Response
 
 
 def _get_kwargs(
-    master: str,
+    pubkey: str,
 ) -> dict[str, Any]:
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/identity/{master}/designation".format(
-            master=quote(str(master), safe=""),
+        "url": "/identity/{pubkey}/designation".format(
+            pubkey=quote(str(pubkey), safe=""),
         ),
     }
 
@@ -47,14 +47,14 @@ def _build_response(
 
 
 def sync_detailed(
-    master: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[Any]:
     """Get the home-hub list a master key has published here
 
     Args:
-        master (str):
+        pubkey (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -65,7 +65,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        master=master,
+        pubkey=pubkey,
     )
 
     response = client.get_httpx_client().request(
@@ -76,14 +76,14 @@ def sync_detailed(
 
 
 async def asyncio_detailed(
-    master: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[Any]:
     """Get the home-hub list a master key has published here
 
     Args:
-        master (str):
+        pubkey (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -94,7 +94,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        master=master,
+        pubkey=pubkey,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)

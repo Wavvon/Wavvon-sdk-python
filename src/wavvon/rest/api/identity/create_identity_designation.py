@@ -11,7 +11,7 @@ from ...types import Response
 
 
 def _get_kwargs(
-    master: str,
+    pubkey: str,
     *,
     body: CreateIdentityDesignationBody,
 ) -> dict[str, Any]:
@@ -19,8 +19,8 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/identity/{master}/designation".format(
-            master=quote(str(master), safe=""),
+        "url": "/identity/{pubkey}/designation".format(
+            pubkey=quote(str(pubkey), safe=""),
         ),
     }
 
@@ -56,7 +56,7 @@ def _build_response(
 
 
 def sync_detailed(
-    master: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
     body: CreateIdentityDesignationBody,
@@ -73,7 +73,7 @@ def sync_detailed(
     starts from a member — so it was only ever a way for a stranger to leave rows behind.
 
     Args:
-        master (str):
+        pubkey (str):
         body (CreateIdentityDesignationBody):
 
     Raises:
@@ -85,7 +85,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        master=master,
+        pubkey=pubkey,
         body=body,
     )
 
@@ -97,7 +97,7 @@ def sync_detailed(
 
 
 async def asyncio_detailed(
-    master: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
     body: CreateIdentityDesignationBody,
@@ -114,7 +114,7 @@ async def asyncio_detailed(
     starts from a member — so it was only ever a way for a stranger to leave rows behind.
 
     Args:
-        master (str):
+        pubkey (str):
         body (CreateIdentityDesignationBody):
 
     Raises:
@@ -126,7 +126,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        master=master,
+        pubkey=pubkey,
         body=body,
     )
 
