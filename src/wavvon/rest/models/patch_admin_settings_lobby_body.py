@@ -8,18 +8,19 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="SetHubSettingsLobbyBody")
+T = TypeVar("T", bound="PatchAdminSettingsLobbyBody")
 
 
 @_attrs_define
-class SetHubSettingsLobbyBody:
-    """
+class PatchAdminSettingsLobbyBody:
+    """Absent fields keep their stored value.
+
     Attributes:
-        lobby_enabled (bool):
+        lobby_enabled (bool | Unset):
         welcome_md (None | str | Unset):
     """
 
-    lobby_enabled: bool
+    lobby_enabled: bool | Unset = UNSET
     welcome_md: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -34,11 +35,9 @@ class SetHubSettingsLobbyBody:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "lobby_enabled": lobby_enabled,
-            }
-        )
+        field_dict.update({})
+        if lobby_enabled is not UNSET:
+            field_dict["lobby_enabled"] = lobby_enabled
         if welcome_md is not UNSET:
             field_dict["welcome_md"] = welcome_md
 
@@ -47,7 +46,7 @@ class SetHubSettingsLobbyBody:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        lobby_enabled = d.pop("lobby_enabled")
+        lobby_enabled = d.pop("lobby_enabled", UNSET)
 
         def _parse_welcome_md(data: object) -> None | str | Unset:
             if data is None:
@@ -58,13 +57,13 @@ class SetHubSettingsLobbyBody:
 
         welcome_md = _parse_welcome_md(d.pop("welcome_md", UNSET))
 
-        set_hub_settings_lobby_body = cls(
+        patch_admin_settings_lobby_body = cls(
             lobby_enabled=lobby_enabled,
             welcome_md=welcome_md,
         )
 
-        set_hub_settings_lobby_body.additional_properties = d
-        return set_hub_settings_lobby_body
+        patch_admin_settings_lobby_body.additional_properties = d
+        return patch_admin_settings_lobby_body
 
     @property
     def additional_keys(self) -> list[str]:

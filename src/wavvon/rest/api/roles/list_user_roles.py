@@ -11,13 +11,13 @@ from ...types import Response
 
 
 def _get_kwargs(
-    public_key: str,
+    pubkey: str,
 ) -> dict[str, Any]:
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/users/{public_key}/roles".format(
-            public_key=quote(str(public_key), safe=""),
+        "url": "/users/{pubkey}/roles".format(
+            pubkey=quote(str(pubkey), safe=""),
         ),
     }
 
@@ -55,14 +55,14 @@ def _build_response(
 
 
 def sync_detailed(
-    public_key: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[list[Role]]:
     """Get roles assigned to a user
 
     Args:
-        public_key (str):
+        pubkey (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -73,7 +73,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        public_key=public_key,
+        pubkey=pubkey,
     )
 
     response = client.get_httpx_client().request(
@@ -84,14 +84,14 @@ def sync_detailed(
 
 
 def sync(
-    public_key: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
 ) -> list[Role] | None:
     """Get roles assigned to a user
 
     Args:
-        public_key (str):
+        pubkey (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -102,20 +102,20 @@ def sync(
     """
 
     return sync_detailed(
-        public_key=public_key,
+        pubkey=pubkey,
         client=client,
     ).parsed
 
 
 async def asyncio_detailed(
-    public_key: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[list[Role]]:
     """Get roles assigned to a user
 
     Args:
-        public_key (str):
+        pubkey (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -126,7 +126,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        public_key=public_key,
+        pubkey=pubkey,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -135,14 +135,14 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    public_key: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
 ) -> list[Role] | None:
     """Get roles assigned to a user
 
     Args:
-        public_key (str):
+        pubkey (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -154,7 +154,7 @@ async def asyncio(
 
     return (
         await asyncio_detailed(
-            public_key=public_key,
+            pubkey=pubkey,
             client=client,
         )
     ).parsed

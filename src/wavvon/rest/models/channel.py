@@ -39,9 +39,7 @@ class Channel:
         forum_require_tag (bool | Unset): Forum channels — posts must carry at least one tag. Always false elsewhere.
         nsfw (bool | Unset): NSFW flag for this channel specifically
         can_move_members (bool | Unset): The caller's own `voice.move_members` on this channel, resolved channel-scoped,
-            so a move-destination picker can offer only the channels that will accept the move (events.md §7.1). Advertised
-            as the `channels.move.targets` capability; absent on hubs that do not advertise it, which is not the same as
-            `false`.
+            so a move-destination picker can offer only the channels that will accept the move (events.md §7.1).
     """
 
     id: str | Unset = UNSET

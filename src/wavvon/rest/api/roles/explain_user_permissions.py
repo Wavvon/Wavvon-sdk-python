@@ -13,7 +13,7 @@ from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
-    public_key: str,
+    pubkey: str,
     *,
     permission: str,
     channel_id: str | Unset = UNSET,
@@ -29,8 +29,8 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/users/{public_key}/permissions/why".format(
-            public_key=quote(str(public_key), safe=""),
+        "url": "/users/{pubkey}/permissions/why".format(
+            pubkey=quote(str(pubkey), safe=""),
         ),
         "params": params,
     }
@@ -68,7 +68,7 @@ def _build_response(
 
 
 def sync_detailed(
-    public_key: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
     permission: str,
@@ -85,7 +85,7 @@ def sync_detailed(
     `is_owner` and no sources, because no role explains it.
 
     Args:
-        public_key (str):
+        pubkey (str):
         permission (str):
         channel_id (str | Unset):
 
@@ -98,7 +98,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        public_key=public_key,
+        pubkey=pubkey,
         permission=permission,
         channel_id=channel_id,
     )
@@ -111,7 +111,7 @@ def sync_detailed(
 
 
 def sync(
-    public_key: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
     permission: str,
@@ -128,7 +128,7 @@ def sync(
     `is_owner` and no sources, because no role explains it.
 
     Args:
-        public_key (str):
+        pubkey (str):
         permission (str):
         channel_id (str | Unset):
 
@@ -141,7 +141,7 @@ def sync(
     """
 
     return sync_detailed(
-        public_key=public_key,
+        pubkey=pubkey,
         client=client,
         permission=permission,
         channel_id=channel_id,
@@ -149,7 +149,7 @@ def sync(
 
 
 async def asyncio_detailed(
-    public_key: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
     permission: str,
@@ -166,7 +166,7 @@ async def asyncio_detailed(
     `is_owner` and no sources, because no role explains it.
 
     Args:
-        public_key (str):
+        pubkey (str):
         permission (str):
         channel_id (str | Unset):
 
@@ -179,7 +179,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        public_key=public_key,
+        pubkey=pubkey,
         permission=permission,
         channel_id=channel_id,
     )
@@ -190,7 +190,7 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    public_key: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
     permission: str,
@@ -207,7 +207,7 @@ async def asyncio(
     `is_owner` and no sources, because no role explains it.
 
     Args:
-        public_key (str):
+        pubkey (str):
         permission (str):
         channel_id (str | Unset):
 
@@ -221,7 +221,7 @@ async def asyncio(
 
     return (
         await asyncio_detailed(
-            public_key=public_key,
+            pubkey=pubkey,
             client=client,
             permission=permission,
             channel_id=channel_id,

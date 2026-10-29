@@ -6,8 +6,8 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.list_admin_outgoing_webhook_subscriptions_response_200 import (
-    ListAdminOutgoingWebhookSubscriptionsResponse200,
+from ...models.list_admin_outgoing_webhook_subscriptions_response_200_item import (
+    ListAdminOutgoingWebhookSubscriptionsResponse200Item,
 )
 from ...types import Response
 
@@ -28,11 +28,18 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListAdminOutgoingWebhookSubscriptionsResponse200 | None:
+) -> list[ListAdminOutgoingWebhookSubscriptionsResponse200Item] | None:
     if response.status_code == 200:
-        response_200 = ListAdminOutgoingWebhookSubscriptionsResponse200.from_dict(
-            response.json()
-        )
+        response_200 = []
+        _response_200 = response.json()
+        for response_200_item_data in _response_200:
+            response_200_item = (
+                ListAdminOutgoingWebhookSubscriptionsResponse200Item.from_dict(
+                    response_200_item_data
+                )
+            )
+
+            response_200.append(response_200_item)
 
         return response_200
 
@@ -44,7 +51,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListAdminOutgoingWebhookSubscriptionsResponse200]:
+) -> Response[list[ListAdminOutgoingWebhookSubscriptionsResponse200Item]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -57,7 +64,7 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[ListAdminOutgoingWebhookSubscriptionsResponse200]:
+) -> Response[list[ListAdminOutgoingWebhookSubscriptionsResponse200Item]]:
     """List an outgoing webhook's event subscriptions (admin)
 
     Args:
@@ -68,7 +75,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListAdminOutgoingWebhookSubscriptionsResponse200]
+        Response[list[ListAdminOutgoingWebhookSubscriptionsResponse200Item]]
     """
 
     kwargs = _get_kwargs(
@@ -86,7 +93,7 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-) -> ListAdminOutgoingWebhookSubscriptionsResponse200 | None:
+) -> list[ListAdminOutgoingWebhookSubscriptionsResponse200Item] | None:
     """List an outgoing webhook's event subscriptions (admin)
 
     Args:
@@ -97,7 +104,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListAdminOutgoingWebhookSubscriptionsResponse200
+        list[ListAdminOutgoingWebhookSubscriptionsResponse200Item]
     """
 
     return sync_detailed(
@@ -110,7 +117,7 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[ListAdminOutgoingWebhookSubscriptionsResponse200]:
+) -> Response[list[ListAdminOutgoingWebhookSubscriptionsResponse200Item]]:
     """List an outgoing webhook's event subscriptions (admin)
 
     Args:
@@ -121,7 +128,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListAdminOutgoingWebhookSubscriptionsResponse200]
+        Response[list[ListAdminOutgoingWebhookSubscriptionsResponse200Item]]
     """
 
     kwargs = _get_kwargs(
@@ -137,7 +144,7 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-) -> ListAdminOutgoingWebhookSubscriptionsResponse200 | None:
+) -> list[ListAdminOutgoingWebhookSubscriptionsResponse200Item] | None:
     """List an outgoing webhook's event subscriptions (admin)
 
     Args:
@@ -148,7 +155,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListAdminOutgoingWebhookSubscriptionsResponse200
+        list[ListAdminOutgoingWebhookSubscriptionsResponse200Item]
     """
 
     return (

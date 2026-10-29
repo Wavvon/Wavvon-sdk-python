@@ -68,7 +68,8 @@ def sync_detailed(
      The per-alliance grant list (decisions.md, "Alliance permissions"): the local roles that may invite
     another hub into this alliance, share and unshare a channel in it, and set the per-share policies.
     `alliances.manage` answers for every alliance and is not listed here. Readable by anyone who may act
-    on this alliance. Present only on hubs advertising `alliance.permissions`.
+    on this alliance, and by holders of `roles.manage`, who edit it. Present only on hubs advertising
+    `alliance.permissions`.
 
     Args:
         alliance_id (str):
@@ -102,7 +103,8 @@ def sync(
      The per-alliance grant list (decisions.md, "Alliance permissions"): the local roles that may invite
     another hub into this alliance, share and unshare a channel in it, and set the per-share policies.
     `alliances.manage` answers for every alliance and is not listed here. Readable by anyone who may act
-    on this alliance. Present only on hubs advertising `alliance.permissions`.
+    on this alliance, and by holders of `roles.manage`, who edit it. Present only on hubs advertising
+    `alliance.permissions`.
 
     Args:
         alliance_id (str):
@@ -131,7 +133,8 @@ async def asyncio_detailed(
      The per-alliance grant list (decisions.md, "Alliance permissions"): the local roles that may invite
     another hub into this alliance, share and unshare a channel in it, and set the per-share policies.
     `alliances.manage` answers for every alliance and is not listed here. Readable by anyone who may act
-    on this alliance. Present only on hubs advertising `alliance.permissions`.
+    on this alliance, and by holders of `roles.manage`, who edit it. Present only on hubs advertising
+    `alliance.permissions`.
 
     Args:
         alliance_id (str):
@@ -163,7 +166,8 @@ async def asyncio(
      The per-alliance grant list (decisions.md, "Alliance permissions"): the local roles that may invite
     another hub into this alliance, share and unshare a channel in it, and set the per-share policies.
     `alliances.manage` answers for every alliance and is not listed here. Readable by anyone who may act
-    on this alliance. Present only on hubs advertising `alliance.permissions`.
+    on this alliance, and by holders of `roles.manage`, who edit it. Present only on hubs advertising
+    `alliance.permissions`.
 
     Args:
         alliance_id (str):

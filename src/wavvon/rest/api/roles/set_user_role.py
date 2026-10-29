@@ -10,14 +10,14 @@ from ...types import Response
 
 
 def _get_kwargs(
-    public_key: str,
+    pubkey: str,
     role_id: str,
 ) -> dict[str, Any]:
 
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/users/{public_key}/roles/{role_id}".format(
-            public_key=quote(str(public_key), safe=""),
+        "url": "/users/{pubkey}/roles/{role_id}".format(
+            pubkey=quote(str(pubkey), safe=""),
             role_id=quote(str(role_id), safe=""),
         ),
     }
@@ -49,7 +49,7 @@ def _build_response(
 
 
 def sync_detailed(
-    public_key: str,
+    pubkey: str,
     role_id: str,
     *,
     client: AuthenticatedClient | Client,
@@ -57,7 +57,7 @@ def sync_detailed(
     """Assign role to user (manage_roles)
 
     Args:
-        public_key (str):
+        pubkey (str):
         role_id (str):
 
     Raises:
@@ -69,7 +69,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        public_key=public_key,
+        pubkey=pubkey,
         role_id=role_id,
     )
 
@@ -81,7 +81,7 @@ def sync_detailed(
 
 
 async def asyncio_detailed(
-    public_key: str,
+    pubkey: str,
     role_id: str,
     *,
     client: AuthenticatedClient | Client,
@@ -89,7 +89,7 @@ async def asyncio_detailed(
     """Assign role to user (manage_roles)
 
     Args:
-        public_key (str):
+        pubkey (str):
         role_id (str):
 
     Raises:
@@ -101,7 +101,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        public_key=public_key,
+        pubkey=pubkey,
         role_id=role_id,
     )
 
