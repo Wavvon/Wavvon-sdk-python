@@ -1,18 +1,12 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
+from typing import Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
-
-if TYPE_CHECKING:
-    from ..models.create_channel_post_body_attachments_item import (
-        CreateChannelPostBodyAttachmentsItem,
-    )
-
 
 T = TypeVar("T", bound="CreateChannelPostBody")
 
@@ -23,13 +17,14 @@ class CreateChannelPostBody:
     Attributes:
         title (str):
         body (str):
-        attachments (list[CreateChannelPostBodyAttachmentsItem] | Unset):
+        attachment_ids (list[str] | Unset): Uploads to this channel (see POST /channels/{channel_id}/messages). Outside
+            URLs are no longer accepted; the retired `attachments` field answers 400.
         tag_ids (list[str] | Unset):
     """
 
     title: str
     body: str
-    attachments: list[CreateChannelPostBodyAttachmentsItem] | Unset = UNSET
+    attachment_ids: list[str] | Unset = UNSET
     tag_ids: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -38,12 +33,9 @@ class CreateChannelPostBody:
 
         body = self.body
 
-        attachments: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.attachments, Unset):
-            attachments = []
-            for attachments_item_data in self.attachments:
-                attachments_item = attachments_item_data.to_dict()
-                attachments.append(attachments_item)
+        attachment_ids: list[str] | Unset = UNSET
+        if not isinstance(self.attachment_ids, Unset):
+            attachment_ids = self.attachment_ids
 
         tag_ids: list[str] | Unset = UNSET
         if not isinstance(self.tag_ids, Unset):
@@ -57,8 +49,8 @@ class CreateChannelPostBody:
                 "body": body,
             }
         )
-        if attachments is not UNSET:
-            field_dict["attachments"] = attachments
+        if attachment_ids is not UNSET:
+            field_dict["attachment_ids"] = attachment_ids
         if tag_ids is not UNSET:
             field_dict["tag_ids"] = tag_ids
 
@@ -66,32 +58,19 @@ class CreateChannelPostBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.create_channel_post_body_attachments_item import (
-            CreateChannelPostBodyAttachmentsItem,
-        )
-
         d = dict(src_dict)
         title = d.pop("title")
 
         body = d.pop("body")
 
-        _attachments = d.pop("attachments", UNSET)
-        attachments: list[CreateChannelPostBodyAttachmentsItem] | Unset = UNSET
-        if _attachments is not UNSET:
-            attachments = []
-            for attachments_item_data in _attachments:
-                attachments_item = CreateChannelPostBodyAttachmentsItem.from_dict(
-                    attachments_item_data
-                )
-
-                attachments.append(attachments_item)
+        attachment_ids = cast(list[str], d.pop("attachment_ids", UNSET))
 
         tag_ids = cast(list[str], d.pop("tag_ids", UNSET))
 
         create_channel_post_body = cls(
             title=title,
             body=body,
-            attachments=attachments,
+            attachment_ids=attachment_ids,
             tag_ids=tag_ids,
         )
 

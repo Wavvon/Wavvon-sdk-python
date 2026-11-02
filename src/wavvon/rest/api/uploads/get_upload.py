@@ -10,13 +10,13 @@ from ...types import Response
 
 
 def _get_kwargs(
-    filename: str,
+    id: str,
 ) -> dict[str, Any]:
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/uploads/{filename}".format(
-            filename=quote(str(filename), safe=""),
+        "url": "/uploads/{id}".format(
+            id=quote(str(id), safe=""),
         ),
     }
 
@@ -30,6 +30,9 @@ def _parse_response(
         return None
 
     if response.status_code == 404:
+        return None
+
+    if response.status_code == 410:
         return None
 
     if client.raise_on_unexpected_status:
@@ -50,16 +53,21 @@ def _build_response(
 
 
 def sync_detailed(
-    filename: str,
+    id: str,
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[Any]:
-    """Download an uploaded file
+    """Download or show an attachment
 
-     Public — filenames are unguessable UUIDs. Always served with `Content-Disposition: attachment`.
+     Public: an `<img>` sends no token and the id is a random UUID, not a hash. Always `X-Content-Type-
+    Options: nosniff`, `Content-Security-Policy: default-src 'none'; sandbox` and `Cache-Control:
+    private, max-age=31536000, immutable`. A re-encoded image is `image/webp` or `image/jpeg` with
+    `Content-Disposition: inline`; everything else, SVG, executables and images sent as files included,
+    is `attachment; filename*=UTF-8''<name>` with the sniffed type. Masquerade avatars
+    (`remote-<hash>.<ext>`) are plain files served as downloads.
 
     Args:
-        filename (str):
+        id (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -70,7 +78,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        filename=filename,
+        id=id,
     )
 
     response = client.get_httpx_client().request(
@@ -81,16 +89,21 @@ def sync_detailed(
 
 
 async def asyncio_detailed(
-    filename: str,
+    id: str,
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[Any]:
-    """Download an uploaded file
+    """Download or show an attachment
 
-     Public — filenames are unguessable UUIDs. Always served with `Content-Disposition: attachment`.
+     Public: an `<img>` sends no token and the id is a random UUID, not a hash. Always `X-Content-Type-
+    Options: nosniff`, `Content-Security-Policy: default-src 'none'; sandbox` and `Cache-Control:
+    private, max-age=31536000, immutable`. A re-encoded image is `image/webp` or `image/jpeg` with
+    `Content-Disposition: inline`; everything else, SVG, executables and images sent as files included,
+    is `attachment; filename*=UTF-8''<name>` with the sniffed type. Masquerade avatars
+    (`remote-<hash>.<ext>`) are plain files served as downloads.
 
     Args:
-        filename (str):
+        id (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -101,7 +114,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        filename=filename,
+        id=id,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)

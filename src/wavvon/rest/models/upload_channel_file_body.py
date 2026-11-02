@@ -18,9 +18,11 @@ class UploadChannelFileBody:
     """
     Attributes:
         file (File | Unset):
+        as_file (bool | Unset): Keep the original image bytes; download only.
     """
 
     file: File | Unset = UNSET
+    as_file: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -28,11 +30,15 @@ class UploadChannelFileBody:
         if not isinstance(self.file, Unset):
             file = self.file.to_tuple()
 
+        as_file = self.as_file
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if file is not UNSET:
             field_dict["file"] = file
+        if as_file is not UNSET:
+            field_dict["as_file"] = as_file
 
         return field_dict
 
@@ -41,6 +47,9 @@ class UploadChannelFileBody:
 
         if not isinstance(self.file, Unset):
             files.append(("file", self.file.to_tuple()))
+
+        if not isinstance(self.as_file, Unset):
+            files.append(("as_file", (None, str(self.as_file).encode(), "text/plain")))
 
         for prop_name, prop in self.additional_properties.items():
             files.append((prop_name, (None, str(prop).encode(), "text/plain")))
@@ -57,8 +66,11 @@ class UploadChannelFileBody:
         else:
             file = File(payload=BytesIO(_file))
 
+        as_file = d.pop("as_file", UNSET)
+
         upload_channel_file_body = cls(
             file=file,
+            as_file=as_file,
         )
 
         upload_channel_file_body.additional_properties = d

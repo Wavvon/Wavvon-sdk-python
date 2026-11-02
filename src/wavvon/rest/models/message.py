@@ -9,12 +9,14 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.attachment import Attachment
+    from ..models.attachment_ref import AttachmentRef
     from ..models.component_row import ComponentRow
     from ..models.embed import Embed
     from ..models.game_launch_card import GameLaunchCard
+    from ..models.masquerade import Masquerade
     from ..models.reaction import Reaction
     from ..models.reply_context import ReplyContext
+    from ..models.sticker import Sticker
 
 
 T = TypeVar("T", bound="Message")
@@ -31,7 +33,7 @@ class Message:
         content (str | Unset):
         created_at (int | Unset):
         edited_at (int | None | Unset):
-        attachments (list[Attachment] | Unset):
+        attachments (list[AttachmentRef] | Unset):
         reactions (list[Reaction] | Unset):
         reply_to (None | ReplyContext | Unset):
         visible_to_pubkey (str | Unset): Omitted unless set. When present, only the named user should see this message
@@ -41,6 +43,9 @@ class Message:
         game (GameLaunchCard | Unset):
         components (list[ComponentRow] | Unset): Omitted unless set. Buttons and selects authored by an app; a click is
             sent back as `component_interaction` (docs/apps.md).
+        masquerade (Masquerade | Unset):
+        sticker (Sticker | Unset): A sticker this hub holds (stickers.md). `url` is relative to the hub that holds it,
+            which is the only hub a reader fetches from.
     """
 
     id: str | Unset = UNSET
@@ -50,7 +55,7 @@ class Message:
     content: str | Unset = UNSET
     created_at: int | Unset = UNSET
     edited_at: int | None | Unset = UNSET
-    attachments: list[Attachment] | Unset = UNSET
+    attachments: list[AttachmentRef] | Unset = UNSET
     reactions: list[Reaction] | Unset = UNSET
     reply_to: None | ReplyContext | Unset = UNSET
     visible_to_pubkey: str | Unset = UNSET
@@ -58,6 +63,8 @@ class Message:
     embeds: list[Embed] | Unset = UNSET
     game: GameLaunchCard | Unset = UNSET
     components: list[ComponentRow] | Unset = UNSET
+    masquerade: Masquerade | Unset = UNSET
+    sticker: Sticker | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -129,6 +136,14 @@ class Message:
                 components_item = components_item_data.to_dict()
                 components.append(components_item)
 
+        masquerade: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.masquerade, Unset):
+            masquerade = self.masquerade.to_dict()
+
+        sticker: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.sticker, Unset):
+            sticker = self.sticker.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -162,17 +177,23 @@ class Message:
             field_dict["game"] = game
         if components is not UNSET:
             field_dict["components"] = components
+        if masquerade is not UNSET:
+            field_dict["masquerade"] = masquerade
+        if sticker is not UNSET:
+            field_dict["sticker"] = sticker
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.attachment import Attachment
+        from ..models.attachment_ref import AttachmentRef
         from ..models.component_row import ComponentRow
         from ..models.embed import Embed
         from ..models.game_launch_card import GameLaunchCard
+        from ..models.masquerade import Masquerade
         from ..models.reaction import Reaction
         from ..models.reply_context import ReplyContext
+        from ..models.sticker import Sticker
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)
@@ -204,11 +225,11 @@ class Message:
         edited_at = _parse_edited_at(d.pop("edited_at", UNSET))
 
         _attachments = d.pop("attachments", UNSET)
-        attachments: list[Attachment] | Unset = UNSET
+        attachments: list[AttachmentRef] | Unset = UNSET
         if _attachments is not UNSET:
             attachments = []
             for attachments_item_data in _attachments:
-                attachments_item = Attachment.from_dict(attachments_item_data)
+                attachments_item = AttachmentRef.from_dict(attachments_item_data)
 
                 attachments.append(attachments_item)
 
@@ -267,6 +288,20 @@ class Message:
 
                 components.append(components_item)
 
+        _masquerade = d.pop("masquerade", UNSET)
+        masquerade: Masquerade | Unset
+        if isinstance(_masquerade, Unset):
+            masquerade = UNSET
+        else:
+            masquerade = Masquerade.from_dict(_masquerade)
+
+        _sticker = d.pop("sticker", UNSET)
+        sticker: Sticker | Unset
+        if isinstance(_sticker, Unset):
+            sticker = UNSET
+        else:
+            sticker = Sticker.from_dict(_sticker)
+
         message = cls(
             id=id,
             channel_id=channel_id,
@@ -283,6 +318,8 @@ class Message:
             embeds=embeds,
             game=game,
             components=components,
+            masquerade=masquerade,
+            sticker=sticker,
         )
 
         message.additional_properties = d

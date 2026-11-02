@@ -20,8 +20,8 @@ class ExecuteWebhookBody:
     """
     Attributes:
         content (str):
-        username (str | Unset): Overrides the webhook's display name
-        avatar_url (str | Unset):
+        username (str | Unset): Shown instead of the webhook's display name on this message (stored as its `masquerade`)
+        avatar_url (str | Unset): An http(s) URL, shown as this message's avatar (stored as its `masquerade`)
         embeds (ExecuteWebhookBodyEmbeds | Unset):
     """
 

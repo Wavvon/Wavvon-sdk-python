@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -9,7 +9,6 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.attachment import Attachment
     from ..models.game_launch_card import GameLaunchCard
 
 
@@ -21,32 +20,37 @@ class CreateChannelMessageBody:
     """
     Attributes:
         content (str):
-        attachments (list[Attachment] | Unset):
+        attachment_ids (list[str] | Unset): Ids from `POST /channels/{channel_id}/upload`, shown in this order. Each
+            must be the sender's own upload to this channel, not linked yet and not a tombstone, and the count within
+            `max_attachments_per_message`: otherwise 400 (not found, too many, duplicate), 409 (already linked) or 410
+            (removed or expired). The retired inline `attachments` field answers 400.
         reply_to (str | Unset): Message ID being replied to
         game (GameLaunchCard | Unset):
+        sticker_id (str | Unset): A sticker this hub holds (see POST /channels/{channel_id}/stickers). 404 unknown, 410
+            removed or evicted, 403 for a copy without stickers.external. Refused on alliance channels.
     """
 
     content: str
-    attachments: list[Attachment] | Unset = UNSET
+    attachment_ids: list[str] | Unset = UNSET
     reply_to: str | Unset = UNSET
     game: GameLaunchCard | Unset = UNSET
+    sticker_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         content = self.content
 
-        attachments: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.attachments, Unset):
-            attachments = []
-            for attachments_item_data in self.attachments:
-                attachments_item = attachments_item_data.to_dict()
-                attachments.append(attachments_item)
+        attachment_ids: list[str] | Unset = UNSET
+        if not isinstance(self.attachment_ids, Unset):
+            attachment_ids = self.attachment_ids
 
         reply_to = self.reply_to
 
         game: dict[str, Any] | Unset = UNSET
         if not isinstance(self.game, Unset):
             game = self.game.to_dict()
+
+        sticker_id = self.sticker_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -55,31 +59,25 @@ class CreateChannelMessageBody:
                 "content": content,
             }
         )
-        if attachments is not UNSET:
-            field_dict["attachments"] = attachments
+        if attachment_ids is not UNSET:
+            field_dict["attachment_ids"] = attachment_ids
         if reply_to is not UNSET:
             field_dict["reply_to"] = reply_to
         if game is not UNSET:
             field_dict["game"] = game
+        if sticker_id is not UNSET:
+            field_dict["sticker_id"] = sticker_id
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.attachment import Attachment
         from ..models.game_launch_card import GameLaunchCard
 
         d = dict(src_dict)
         content = d.pop("content")
 
-        _attachments = d.pop("attachments", UNSET)
-        attachments: list[Attachment] | Unset = UNSET
-        if _attachments is not UNSET:
-            attachments = []
-            for attachments_item_data in _attachments:
-                attachments_item = Attachment.from_dict(attachments_item_data)
-
-                attachments.append(attachments_item)
+        attachment_ids = cast(list[str], d.pop("attachment_ids", UNSET))
 
         reply_to = d.pop("reply_to", UNSET)
 
@@ -90,11 +88,14 @@ class CreateChannelMessageBody:
         else:
             game = GameLaunchCard.from_dict(_game)
 
+        sticker_id = d.pop("sticker_id", UNSET)
+
         create_channel_message_body = cls(
             content=content,
-            attachments=attachments,
+            attachment_ids=attachment_ids,
             reply_to=reply_to,
             game=game,
+            sticker_id=sticker_id,
         )
 
         create_channel_message_body.additional_properties = d
