@@ -34,6 +34,9 @@ class Message(TypedDict, total=False):
     reply_count: int
     embeds: list[Embed]
     game: GameLaunchCard
+    # Shown instead of the sender's name and avatar; `sender` stays the real author.
+    masquerade: dict[str, Any]
+    sticker: dict[str, Any]
 
 
 class _HubEventBase(TypedDict):

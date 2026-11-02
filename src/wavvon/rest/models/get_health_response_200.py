@@ -6,8 +6,6 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="GetHealthResponse200")
 
 
@@ -15,30 +13,56 @@ T = TypeVar("T", bound="GetHealthResponse200")
 class GetHealthResponse200:
     """
     Attributes:
-        status (str | Unset):  Example: ok.
+        status (str):  Example: ok.
+        version (str): The hub's version.
+        uptime_seconds (int):
+        db_status (str): `ok`, or `error: ` followed by the reason the database did not answer.
     """
 
-    status: str | Unset = UNSET
+    status: str
+    version: str
+    uptime_seconds: int
+    db_status: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         status = self.status
 
+        version = self.version
+
+        uptime_seconds = self.uptime_seconds
+
+        db_status = self.db_status
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if status is not UNSET:
-            field_dict["status"] = status
+        field_dict.update(
+            {
+                "status": status,
+                "version": version,
+                "uptime_seconds": uptime_seconds,
+                "db_status": db_status,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        status = d.pop("status", UNSET)
+        status = d.pop("status")
+
+        version = d.pop("version")
+
+        uptime_seconds = d.pop("uptime_seconds")
+
+        db_status = d.pop("db_status")
 
         get_health_response_200 = cls(
             status=status,
+            version=version,
+            uptime_seconds=uptime_seconds,
+            db_status=db_status,
         )
 
         get_health_response_200.additional_properties = d

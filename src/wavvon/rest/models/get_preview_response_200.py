@@ -18,7 +18,9 @@ class GetPreviewResponse200:
         url (str | Unset):
         title (None | str | Unset):
         description (None | str | Unset):
-        image_url (None | str | Unset):
+        image_url (None | str | Unset): The page's image as fetched and served by this hub (`/preview/image/{id}` under
+            its public URL), so readers never contact the third-party host. Null when the page has no PNG/JPEG/GIF/WebP/AVIF
+            image of at most 1 MB, or the hub has no public URL.
     """
 
     url: str | Unset = UNSET

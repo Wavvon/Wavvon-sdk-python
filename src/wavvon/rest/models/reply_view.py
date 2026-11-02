@@ -9,8 +9,8 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.attachment_ref import AttachmentRef
     from ..models.reaction import Reaction
-    from ..models.reply_view_attachments_item import ReplyViewAttachmentsItem
 
 
 T = TypeVar("T", bound="ReplyView")
@@ -27,7 +27,7 @@ class ReplyView:
         created_at (int):
         is_deleted (bool):
         reactions (list[Reaction]):
-        attachments (list[ReplyViewAttachmentsItem]):
+        attachments (list[AttachmentRef]):
         edited_at (int | Unset): Omitted when never edited
         reply_to_id (str | Unset): Omitted on top-level replies
         author_hub (str | Unset): Origin hub public key (hex) when authored through the alliance forum write-proxy.
@@ -41,7 +41,7 @@ class ReplyView:
     created_at: int
     is_deleted: bool
     reactions: list[Reaction]
-    attachments: list[ReplyViewAttachmentsItem]
+    attachments: list[AttachmentRef]
     edited_at: int | Unset = UNSET
     reply_to_id: str | Unset = UNSET
     author_hub: str | Unset = UNSET
@@ -103,8 +103,8 @@ class ReplyView:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.attachment_ref import AttachmentRef
         from ..models.reaction import Reaction
-        from ..models.reply_view_attachments_item import ReplyViewAttachmentsItem
 
         d = dict(src_dict)
         id = d.pop("id")
@@ -139,7 +139,7 @@ class ReplyView:
         attachments = []
         _attachments = d.pop("attachments")
         for attachments_item_data in _attachments:
-            attachments_item = ReplyViewAttachmentsItem.from_dict(attachments_item_data)
+            attachments_item = AttachmentRef.from_dict(attachments_item_data)
 
             attachments.append(attachments_item)
 

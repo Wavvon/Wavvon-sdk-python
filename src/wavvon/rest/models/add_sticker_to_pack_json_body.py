@@ -6,67 +6,54 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="CreateChannelPostReplyBodyAttachmentsItem")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="AddStickerToPackJsonBody")
 
 
 @_attrs_define
-class CreateChannelPostReplyBodyAttachmentsItem:
+class AddStickerToPackJsonBody:
     """
     Attributes:
-        url (str):
-        name (str):
-        mime (str):
-        size (int):
+        sha256 (str):
+        name (str | Unset):
     """
 
-    url: str
-    name: str
-    mime: str
-    size: int
+    sha256: str
+    name: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        url = self.url
+        sha256 = self.sha256
 
         name = self.name
-
-        mime = self.mime
-
-        size = self.size
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "url": url,
-                "name": name,
-                "mime": mime,
-                "size": size,
+                "sha256": sha256,
             }
         )
+        if name is not UNSET:
+            field_dict["name"] = name
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        url = d.pop("url")
+        sha256 = d.pop("sha256")
 
-        name = d.pop("name")
+        name = d.pop("name", UNSET)
 
-        mime = d.pop("mime")
-
-        size = d.pop("size")
-
-        create_channel_post_reply_body_attachments_item = cls(
-            url=url,
+        add_sticker_to_pack_json_body = cls(
+            sha256=sha256,
             name=name,
-            mime=mime,
-            size=size,
         )
 
-        create_channel_post_reply_body_attachments_item.additional_properties = d
-        return create_channel_post_reply_body_attachments_item
+        add_sticker_to_pack_json_body.additional_properties = d
+        return add_sticker_to_pack_json_body
 
     @property
     def additional_keys(self) -> list[str]:

@@ -1,6 +1,10 @@
 """Contains all the data models used in inputs/outputs"""
 
 from .accept_pending_alliance_invite_body import AcceptPendingAllianceInviteBody
+from .add_sticker_to_pack_files_body import AddStickerToPackFilesBody
+from .add_sticker_to_pack_json_body import AddStickerToPackJsonBody
+from .admin_sticker import AdminSticker
+from .admin_sticker_state import AdminStickerState
 from .alliance_info import AllianceInfo
 from .alliance_voice_grant import AllianceVoiceGrant
 from .alliance_voice_grant_payload import AllianceVoiceGrantPayload
@@ -10,6 +14,9 @@ from .app_registration import AppRegistration
 from .app_registration_commands_item import AppRegistrationCommandsItem
 from .app_subscription import AppSubscription
 from .attachment import Attachment
+from .attachment_ref import AttachmentRef
+from .attachment_ref_kind import AttachmentRefKind
+from .attachment_ref_state import AttachmentRefState
 from .attest_recovery_rotation_request_body import AttestRecoveryRotationRequestBody
 from .attestation_input import AttestationInput
 from .badge_payload import BadgePayload
@@ -95,14 +102,8 @@ from .create_channel_message_body import CreateChannelMessageBody
 from .create_channel_message_reaction_body import CreateChannelMessageReactionBody
 from .create_channel_poll_body import CreateChannelPollBody
 from .create_channel_post_body import CreateChannelPostBody
-from .create_channel_post_body_attachments_item import (
-    CreateChannelPostBodyAttachmentsItem,
-)
 from .create_channel_post_reaction_body import CreateChannelPostReactionBody
 from .create_channel_post_reply_body import CreateChannelPostReplyBody
-from .create_channel_post_reply_body_attachments_item import (
-    CreateChannelPostReplyBodyAttachmentsItem,
-)
 from .create_channel_post_reply_reaction_body import CreateChannelPostReplyReactionBody
 from .create_channel_tag_body import CreateChannelTagBody
 from .create_channel_voice_mute_body import CreateChannelVoiceMuteBody
@@ -143,6 +144,7 @@ from .create_role_category_body import CreateRoleCategoryBody
 from .create_slot_request import CreateSlotRequest
 from .create_soundboard_sound_body import CreateSoundboardSoundBody
 from .create_soundboard_sound_response_201 import CreateSoundboardSoundResponse201
+from .create_sticker_pack_body import CreateStickerPackBody
 from .delete_admin_banlist_sources_body import DeleteAdminBanlistSourcesBody
 from .delete_federation_alliance_member_body import DeleteFederationAllianceMemberBody
 from .delete_federation_forum_channel_post_body import (
@@ -166,6 +168,7 @@ from .embed import Embed
 from .embed_field import EmbedField
 from .embed_footer import EmbedFooter
 from .encrypted_dm_envelope import EncryptedDmEnvelope
+from .ensure_channel_sticker_body import EnsureChannelStickerBody
 from .execute_webhook_body import ExecuteWebhookBody
 from .execute_webhook_body_embeds import ExecuteWebhookBodyEmbeds
 from .execute_webhook_response_200 import ExecuteWebhookResponse200
@@ -202,6 +205,10 @@ from .get_admin_settings_moderation_response_200 import (
 )
 from .get_admin_settings_pow_response_200 import GetAdminSettingsPowResponse200
 from .get_admin_settings_tags_response_200 import GetAdminSettingsTagsResponse200
+from .get_application_status_response_200 import GetApplicationStatusResponse200
+from .get_application_status_response_200_state import (
+    GetApplicationStatusResponse200State,
+)
 from .get_channel_my_permissions_response_200 import GetChannelMyPermissionsResponse200
 from .get_federation_banlist_response_200 import GetFederationBanlistResponse200
 from .get_federation_banlist_response_200_payload import (
@@ -229,6 +236,9 @@ from .get_recovery_rotation_request_response_200 import (
 from .get_recovery_rotation_request_response_200_status import (
     GetRecoveryRotationRequestResponse200Status,
 )
+from .get_sticker_usage_response_200 import GetStickerUsageResponse200
+from .get_sticker_usage_response_200_copies import GetStickerUsageResponse200Copies
+from .get_sticker_usage_response_200_packs import GetStickerUsageResponse200Packs
 from .get_user_profile_response_200 import GetUserProfileResponse200
 from .get_user_profile_response_200_badges_item import (
     GetUserProfileResponse200BadgesItem,
@@ -345,6 +355,7 @@ from .list_events_response_200_item_rsvp_counts import (
 from .list_federation_badge_revocations_response_200_item import (
     ListFederationBadgeRevocationsResponse200Item,
 )
+from .list_hub_pending_response_200_item import ListHubPendingResponse200Item
 from .list_identity_dm_blocks_response_200 import ListIdentityDmBlocksResponse200
 from .list_me_credentials_response_200_item import ListMeCredentialsResponse200Item
 from .list_me_events_response_410 import ListMeEventsResponse410
@@ -370,10 +381,16 @@ from .list_recovery_requests_to_attest_response_200_item import (
 from .list_soundboard_sounds_response_200_item import (
     ListSoundboardSoundsResponse200Item,
 )
+from .list_sticker_blocklist_response_200_item import (
+    ListStickerBlocklistResponse200Item,
+)
+from .list_stored_stickers_sort import ListStoredStickersSort
+from .list_stored_stickers_state import ListStoredStickersState
 from .list_unread_channels_response_200_item import ListUnreadChannelsResponse200Item
 from .lobby_status import LobbyStatus
 from .lobby_status_status import LobbyStatusStatus
 from .mark_soundboard_sound_played_body import MarkSoundboardSoundPlayedBody
+from .masquerade import Masquerade
 from .me_info import MeInfo
 from .me_info_approval_status import MeInfoApprovalStatus
 from .me_info_favorite_hubs_item import MeInfoFavoriteHubsItem
@@ -389,7 +406,6 @@ from .patch_admin_settings_lobby_body import PatchAdminSettingsLobbyBody
 from .poll_option import PollOption
 from .post_detail import PostDetail
 from .post_summary import PostSummary
-from .post_summary_attachments_item import PostSummaryAttachmentsItem
 from .post_summary_tags_item import PostSummaryTagsItem
 from .pow_proof import PowProof
 from .public_hub_entry import PublicHubEntry
@@ -400,10 +416,11 @@ from .reindex_admin_search_response_202 import ReindexAdminSearchResponse202
 from .reindex_admin_search_response_202_status import (
     ReindexAdminSearchResponse202Status,
 )
+from .reject_hub_pending_body import RejectHubPendingBody
+from .rename_sticker_pack_body import RenameStickerPackBody
 from .reorder_channels_body import ReorderChannelsBody
 from .reply_context import ReplyContext
 from .reply_view import ReplyView
-from .reply_view_attachments_item import ReplyViewAttachmentsItem
 from .report_message_body import ReportMessageBody
 from .review_admin_report_body import ReviewAdminReportBody
 from .review_admin_report_body_action import ReviewAdminReportBodyAction
@@ -421,6 +438,7 @@ from .search_channel_posts_response_200_item import SearchChannelPostsResponse20
 from .search_response_200_item import SearchResponse200Item
 from .select_option import SelectOption
 from .sender_key_recipient_blob import SenderKeyRecipientBlob
+from .set_admin_application_body import SetAdminApplicationBody
 from .set_admin_outgoing_webhook_subscriptions_body import (
     SetAdminOutgoingWebhookSubscriptionsBody,
 )
@@ -446,13 +464,18 @@ from .sign_admin_directory_listing_body import SignAdminDirectoryListingBody
 from .signed_member_change import SignedMemberChange
 from .start_screenshare_body import StartScreenshareBody
 from .start_screenshare_response_200 import StartScreenshareResponse200
+from .sticker import Sticker
+from .sticker_pack import StickerPack
+from .sticker_state import StickerState
 from .stop_screenshare_body import StopScreenshareBody
 from .subkey_cert import SubkeyCert
+from .submit_application_body import SubmitApplicationBody
 from .submit_lobby_pow_body import SubmitLobbyPowBody
 from .submit_survey_body import SubmitSurveyBody
 from .survey_answer_input import SurveyAnswerInput
 from .survey_choice_admin import SurveyChoiceAdmin
 from .survey_question_admin import SurveyQuestionAdmin
+from .survey_question_admin_kind import SurveyQuestionAdminKind
 from .timeout_user_body import TimeoutUserBody
 from .update_admin_banlist_sources_body import UpdateAdminBanlistSourcesBody
 from .update_admin_banlist_sources_body_policy import (
@@ -489,7 +512,6 @@ from .update_role_body import UpdateRoleBody
 from .update_role_category_body import UpdateRoleCategoryBody
 from .update_tag_body import UpdateTagBody
 from .upload_channel_file_body import UploadChannelFileBody
-from .upload_channel_file_response_201 import UploadChannelFileResponse201
 from .user_info import UserInfo
 from .verify_auth_body import VerifyAuthBody
 from .verify_auth_response_200 import VerifyAuthResponse200
@@ -500,6 +522,10 @@ from .webhook_subscription_dto import WebhookSubscriptionDto
 
 __all__ = (
     "AcceptPendingAllianceInviteBody",
+    "AddStickerToPackFilesBody",
+    "AddStickerToPackJsonBody",
+    "AdminSticker",
+    "AdminStickerState",
     "AllianceInfo",
     "AllianceVoiceGrant",
     "AllianceVoiceGrantPayload",
@@ -509,6 +535,9 @@ __all__ = (
     "AppRegistrationCommandsItem",
     "AppSubscription",
     "Attachment",
+    "AttachmentRef",
+    "AttachmentRefKind",
+    "AttachmentRefState",
     "AttestRecoveryRotationRequestBody",
     "AttestationInput",
     "BadgePayload",
@@ -564,10 +593,8 @@ __all__ = (
     "CreateChannelMessageReactionBody",
     "CreateChannelPollBody",
     "CreateChannelPostBody",
-    "CreateChannelPostBodyAttachmentsItem",
     "CreateChannelPostReactionBody",
     "CreateChannelPostReplyBody",
-    "CreateChannelPostReplyBodyAttachmentsItem",
     "CreateChannelPostReplyReactionBody",
     "CreateChannelTagBody",
     "CreateChannelVoiceMuteBody",
@@ -602,6 +629,7 @@ __all__ = (
     "CreateSlotRequest",
     "CreateSoundboardSoundBody",
     "CreateSoundboardSoundResponse201",
+    "CreateStickerPackBody",
     "DeleteAdminBanlistSourcesBody",
     "DeleteFederationAllianceMemberBody",
     "DeleteFederationForumChannelPostBody",
@@ -615,6 +643,7 @@ __all__ = (
     "EmbedField",
     "EmbedFooter",
     "EncryptedDmEnvelope",
+    "EnsureChannelStickerBody",
     "ExecuteWebhookBody",
     "ExecuteWebhookBodyEmbeds",
     "ExecuteWebhookResponse200",
@@ -637,6 +666,8 @@ __all__ = (
     "GetAdminSettingsModerationResponse200",
     "GetAdminSettingsPowResponse200",
     "GetAdminSettingsTagsResponse200",
+    "GetApplicationStatusResponse200",
+    "GetApplicationStatusResponse200State",
     "GetChannelMyPermissionsResponse200",
     "GetFederationBanlistResponse200",
     "GetFederationBanlistResponse200Payload",
@@ -652,6 +683,9 @@ __all__ = (
     "GetPreviewResponse200",
     "GetRecoveryRotationRequestResponse200",
     "GetRecoveryRotationRequestResponse200Status",
+    "GetStickerUsageResponse200",
+    "GetStickerUsageResponse200Copies",
+    "GetStickerUsageResponse200Packs",
     "GetUserProfileResponse200",
     "GetUserProfileResponse200BadgesItem",
     "GetUserProfileResponse200RolesItem",
@@ -716,6 +750,7 @@ __all__ = (
     "ListEventsResponse200ItemMyRsvp",
     "ListEventsResponse200ItemRsvpCounts",
     "ListFederationBadgeRevocationsResponse200Item",
+    "ListHubPendingResponse200Item",
     "ListIdentityDmBlocksResponse200",
     "ListMeCredentialsResponse200Item",
     "ListMeEventsResponse410",
@@ -729,10 +764,14 @@ __all__ = (
     "ListRecoveryRequestsResponse200Item",
     "ListRecoveryRequestsToAttestResponse200Item",
     "ListSoundboardSoundsResponse200Item",
+    "ListStickerBlocklistResponse200Item",
+    "ListStoredStickersSort",
+    "ListStoredStickersState",
     "ListUnreadChannelsResponse200Item",
     "LobbyStatus",
     "LobbyStatusStatus",
     "MarkSoundboardSoundPlayedBody",
+    "Masquerade",
     "MeInfo",
     "MeInfoApprovalStatus",
     "MeInfoFavoriteHubsItem",
@@ -746,7 +785,6 @@ __all__ = (
     "PollOption",
     "PostDetail",
     "PostSummary",
-    "PostSummaryAttachmentsItem",
     "PostSummaryTagsItem",
     "PowProof",
     "PublicHubEntry",
@@ -755,10 +793,11 @@ __all__ = (
     "RegenerateAdminWebhookResponse200",
     "ReindexAdminSearchResponse202",
     "ReindexAdminSearchResponse202Status",
+    "RejectHubPendingBody",
+    "RenameStickerPackBody",
     "ReorderChannelsBody",
     "ReplyContext",
     "ReplyView",
-    "ReplyViewAttachmentsItem",
     "ReportMessageBody",
     "ReviewAdminReportBody",
     "ReviewAdminReportBodyAction",
@@ -774,6 +813,7 @@ __all__ = (
     "SearchResponse200Item",
     "SelectOption",
     "SenderKeyRecipientBlob",
+    "SetAdminApplicationBody",
     "SetAdminOutgoingWebhookSubscriptionsBody",
     "SetAdminOutgoingWebhookSubscriptionsResponse200",
     "SetAdminSurveyBody",
@@ -795,13 +835,18 @@ __all__ = (
     "SignedMemberChange",
     "StartScreenshareBody",
     "StartScreenshareResponse200",
+    "Sticker",
+    "StickerPack",
+    "StickerState",
     "StopScreenshareBody",
     "SubkeyCert",
+    "SubmitApplicationBody",
     "SubmitLobbyPowBody",
     "SubmitSurveyBody",
     "SurveyAnswerInput",
     "SurveyChoiceAdmin",
     "SurveyQuestionAdmin",
+    "SurveyQuestionAdminKind",
     "TimeoutUserBody",
     "UpdateAdminBanlistSourcesBody",
     "UpdateAdminBanlistSourcesBodyPolicy",
@@ -830,7 +875,6 @@ __all__ = (
     "UpdateRoleCategoryBody",
     "UpdateTagBody",
     "UploadChannelFileBody",
-    "UploadChannelFileResponse201",
     "UserInfo",
     "VerifyAuthBody",
     "VerifyAuthResponse200",

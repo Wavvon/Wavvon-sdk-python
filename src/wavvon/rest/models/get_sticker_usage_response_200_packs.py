@@ -6,67 +6,61 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="CreateChannelPostBodyAttachmentsItem")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="GetStickerUsageResponse200Packs")
 
 
 @_attrs_define
-class CreateChannelPostBodyAttachmentsItem:
+class GetStickerUsageResponse200Packs:
     """
     Attributes:
-        url (str):
-        name (str):
-        mime (str):
-        size (int):
+        count (int | Unset):
+        bytes_ (int | Unset):
+        cap_bytes (int | Unset):
     """
 
-    url: str
-    name: str
-    mime: str
-    size: int
+    count: int | Unset = UNSET
+    bytes_: int | Unset = UNSET
+    cap_bytes: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        url = self.url
+        count = self.count
 
-        name = self.name
+        bytes_ = self.bytes_
 
-        mime = self.mime
-
-        size = self.size
+        cap_bytes = self.cap_bytes
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "url": url,
-                "name": name,
-                "mime": mime,
-                "size": size,
-            }
-        )
+        field_dict.update({})
+        if count is not UNSET:
+            field_dict["count"] = count
+        if bytes_ is not UNSET:
+            field_dict["bytes"] = bytes_
+        if cap_bytes is not UNSET:
+            field_dict["cap_bytes"] = cap_bytes
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        url = d.pop("url")
+        count = d.pop("count", UNSET)
 
-        name = d.pop("name")
+        bytes_ = d.pop("bytes", UNSET)
 
-        mime = d.pop("mime")
+        cap_bytes = d.pop("cap_bytes", UNSET)
 
-        size = d.pop("size")
-
-        create_channel_post_body_attachments_item = cls(
-            url=url,
-            name=name,
-            mime=mime,
-            size=size,
+        get_sticker_usage_response_200_packs = cls(
+            count=count,
+            bytes_=bytes_,
+            cap_bytes=cap_bytes,
         )
 
-        create_channel_post_body_attachments_item.additional_properties = d
-        return create_channel_post_body_attachments_item
+        get_sticker_usage_response_200_packs.additional_properties = d
+        return get_sticker_usage_response_200_packs
 
     @property
     def additional_keys(self) -> list[str]:

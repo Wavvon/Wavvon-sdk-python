@@ -9,7 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.post_summary_attachments_item import PostSummaryAttachmentsItem
+    from ..models.attachment_ref import AttachmentRef
     from ..models.post_summary_tags_item import PostSummaryTagsItem
     from ..models.reaction import Reaction
 
@@ -34,7 +34,7 @@ class PostSummary:
         is_deleted (bool | Unset):
         unread_reply_count (int | Unset): Replies after the viewer's read cursor. Omitted when unauthenticated.
         reactions (list[Reaction] | Unset):
-        attachments (list[PostSummaryAttachmentsItem] | Unset):
+        attachments (list[AttachmentRef] | Unset):
         author_hub (str | Unset): Origin hub public key (hex) when the post came in through the alliance forum write-
             proxy. Hub-asserted, not proven: render it as mediated ("via HubName"). Omitted for local posts.
         tags (list[PostSummaryTagsItem] | Unset):
@@ -53,7 +53,7 @@ class PostSummary:
     is_deleted: bool | Unset = UNSET
     unread_reply_count: int | Unset = UNSET
     reactions: list[Reaction] | Unset = UNSET
-    attachments: list[PostSummaryAttachmentsItem] | Unset = UNSET
+    attachments: list[AttachmentRef] | Unset = UNSET
     author_hub: str | Unset = UNSET
     tags: list[PostSummaryTagsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -154,7 +154,7 @@ class PostSummary:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.post_summary_attachments_item import PostSummaryAttachmentsItem
+        from ..models.attachment_ref import AttachmentRef
         from ..models.post_summary_tags_item import PostSummaryTagsItem
         from ..models.reaction import Reaction
 
@@ -207,13 +207,11 @@ class PostSummary:
                 reactions.append(reactions_item)
 
         _attachments = d.pop("attachments", UNSET)
-        attachments: list[PostSummaryAttachmentsItem] | Unset = UNSET
+        attachments: list[AttachmentRef] | Unset = UNSET
         if _attachments is not UNSET:
             attachments = []
             for attachments_item_data in _attachments:
-                attachments_item = PostSummaryAttachmentsItem.from_dict(
-                    attachments_item_data
-                )
+                attachments_item = AttachmentRef.from_dict(attachments_item_data)
 
                 attachments.append(attachments_item)
 

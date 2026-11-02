@@ -6,67 +6,43 @@ from typing import Any, Self, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="PostSummaryAttachmentsItem")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="RejectHubPendingBody")
 
 
 @_attrs_define
-class PostSummaryAttachmentsItem:
+class RejectHubPendingBody:
     """
     Attributes:
-        url (str):
-        name (str):
-        mime (str):
-        size (int):
+        reason (str | Unset):
     """
 
-    url: str
-    name: str
-    mime: str
-    size: int
+    reason: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        url = self.url
-
-        name = self.name
-
-        mime = self.mime
-
-        size = self.size
+        reason = self.reason
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "url": url,
-                "name": name,
-                "mime": mime,
-                "size": size,
-            }
-        )
+        field_dict.update({})
+        if reason is not UNSET:
+            field_dict["reason"] = reason
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
-        url = d.pop("url")
+        reason = d.pop("reason", UNSET)
 
-        name = d.pop("name")
-
-        mime = d.pop("mime")
-
-        size = d.pop("size")
-
-        post_summary_attachments_item = cls(
-            url=url,
-            name=name,
-            mime=mime,
-            size=size,
+        reject_hub_pending_body = cls(
+            reason=reason,
         )
 
-        post_summary_attachments_item.additional_properties = d
-        return post_summary_attachments_item
+        reject_hub_pending_body.additional_properties = d
+        return reject_hub_pending_body
 
     @property
     def additional_keys(self) -> list[str]:

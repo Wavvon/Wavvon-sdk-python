@@ -6,8 +6,8 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.attachment_ref import AttachmentRef
 from ...models.upload_channel_file_body import UploadChannelFileBody
-from ...models.upload_channel_file_response_201 import UploadChannelFileResponse201
 from ...types import UNSET, Response, Unset
 
 
@@ -36,9 +36,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Any | UploadChannelFileResponse201 | None:
+) -> Any | AttachmentRef | None:
     if response.status_code == 201:
-        response_201 = UploadChannelFileResponse201.from_dict(response.json())
+        response_201 = AttachmentRef.from_dict(response.json())
 
         return response_201
 
@@ -50,6 +50,10 @@ def _parse_response(
         response_415 = cast(Any, None)
         return response_415
 
+    if response.status_code == 507:
+        response_507 = cast(Any, None)
+        return response_507
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -58,7 +62,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[Any | UploadChannelFileResponse201]:
+) -> Response[Any | AttachmentRef]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -72,13 +76,20 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: UploadChannelFileBody | Unset = UNSET,
-) -> Response[Any | UploadChannelFileResponse201]:
-    """Upload a file to a channel
+) -> Response[Any | AttachmentRef]:
+    """Upload a file to a channel (messages.send there)
 
-     Multipart upload with the file in a `file` field. Max is the hub's `max_upload_bytes` setting (1–25
-    MB, default 25 MB; `PATCH /hub`) (512 KB for banner channels, which also only accept
-    PNG/JPEG/GIF/WebP). SVG is rejected. Allowed types otherwise: image/*, video/mp4, application/pdf,
-    text/plain.
+     The one way bytes enter, for messages, forum posts and banners alike. Multipart with the file in
+    `file`, and optionally `as_file=true`. The type comes from the magic bytes, never from the declared
+    one; the response describes what was stored. PNG, APNG, JPEG, GIF and WebP are re-encoded (4096 px
+    long edge, metadata dropped; JPEG stays JPEG, the rest becomes WebP) unless `as_file`, which keeps
+    the original as a download. Everything else, executables and SVG included, is stored as is and only
+    ever downloaded. The hub hashes what it stores and keeps one copy of equal bytes; the response never
+    says whether it already held them. Send the returned `id` in `attachment_ids`; an upload nothing
+    claims within 24 hours is deleted. Max is the hub's `max_upload_bytes` (512 KB for banner channels,
+    which take a raster image only and always re-encode). A full disk expires the oldest attachments
+    rather than refusing; only a disk full of something else answers 507. Advertised by
+    `attachments.stored`.
 
     Args:
         channel_id (str):
@@ -89,7 +100,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | UploadChannelFileResponse201]
+        Response[Any | AttachmentRef]
     """
 
     kwargs = _get_kwargs(
@@ -109,13 +120,20 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     body: UploadChannelFileBody | Unset = UNSET,
-) -> Any | UploadChannelFileResponse201 | None:
-    """Upload a file to a channel
+) -> Any | AttachmentRef | None:
+    """Upload a file to a channel (messages.send there)
 
-     Multipart upload with the file in a `file` field. Max is the hub's `max_upload_bytes` setting (1–25
-    MB, default 25 MB; `PATCH /hub`) (512 KB for banner channels, which also only accept
-    PNG/JPEG/GIF/WebP). SVG is rejected. Allowed types otherwise: image/*, video/mp4, application/pdf,
-    text/plain.
+     The one way bytes enter, for messages, forum posts and banners alike. Multipart with the file in
+    `file`, and optionally `as_file=true`. The type comes from the magic bytes, never from the declared
+    one; the response describes what was stored. PNG, APNG, JPEG, GIF and WebP are re-encoded (4096 px
+    long edge, metadata dropped; JPEG stays JPEG, the rest becomes WebP) unless `as_file`, which keeps
+    the original as a download. Everything else, executables and SVG included, is stored as is and only
+    ever downloaded. The hub hashes what it stores and keeps one copy of equal bytes; the response never
+    says whether it already held them. Send the returned `id` in `attachment_ids`; an upload nothing
+    claims within 24 hours is deleted. Max is the hub's `max_upload_bytes` (512 KB for banner channels,
+    which take a raster image only and always re-encode). A full disk expires the oldest attachments
+    rather than refusing; only a disk full of something else answers 507. Advertised by
+    `attachments.stored`.
 
     Args:
         channel_id (str):
@@ -126,7 +144,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | UploadChannelFileResponse201
+        Any | AttachmentRef
     """
 
     return sync_detailed(
@@ -141,13 +159,20 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: UploadChannelFileBody | Unset = UNSET,
-) -> Response[Any | UploadChannelFileResponse201]:
-    """Upload a file to a channel
+) -> Response[Any | AttachmentRef]:
+    """Upload a file to a channel (messages.send there)
 
-     Multipart upload with the file in a `file` field. Max is the hub's `max_upload_bytes` setting (1–25
-    MB, default 25 MB; `PATCH /hub`) (512 KB for banner channels, which also only accept
-    PNG/JPEG/GIF/WebP). SVG is rejected. Allowed types otherwise: image/*, video/mp4, application/pdf,
-    text/plain.
+     The one way bytes enter, for messages, forum posts and banners alike. Multipart with the file in
+    `file`, and optionally `as_file=true`. The type comes from the magic bytes, never from the declared
+    one; the response describes what was stored. PNG, APNG, JPEG, GIF and WebP are re-encoded (4096 px
+    long edge, metadata dropped; JPEG stays JPEG, the rest becomes WebP) unless `as_file`, which keeps
+    the original as a download. Everything else, executables and SVG included, is stored as is and only
+    ever downloaded. The hub hashes what it stores and keeps one copy of equal bytes; the response never
+    says whether it already held them. Send the returned `id` in `attachment_ids`; an upload nothing
+    claims within 24 hours is deleted. Max is the hub's `max_upload_bytes` (512 KB for banner channels,
+    which take a raster image only and always re-encode). A full disk expires the oldest attachments
+    rather than refusing; only a disk full of something else answers 507. Advertised by
+    `attachments.stored`.
 
     Args:
         channel_id (str):
@@ -158,7 +183,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | UploadChannelFileResponse201]
+        Response[Any | AttachmentRef]
     """
 
     kwargs = _get_kwargs(
@@ -176,13 +201,20 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     body: UploadChannelFileBody | Unset = UNSET,
-) -> Any | UploadChannelFileResponse201 | None:
-    """Upload a file to a channel
+) -> Any | AttachmentRef | None:
+    """Upload a file to a channel (messages.send there)
 
-     Multipart upload with the file in a `file` field. Max is the hub's `max_upload_bytes` setting (1–25
-    MB, default 25 MB; `PATCH /hub`) (512 KB for banner channels, which also only accept
-    PNG/JPEG/GIF/WebP). SVG is rejected. Allowed types otherwise: image/*, video/mp4, application/pdf,
-    text/plain.
+     The one way bytes enter, for messages, forum posts and banners alike. Multipart with the file in
+    `file`, and optionally `as_file=true`. The type comes from the magic bytes, never from the declared
+    one; the response describes what was stored. PNG, APNG, JPEG, GIF and WebP are re-encoded (4096 px
+    long edge, metadata dropped; JPEG stays JPEG, the rest becomes WebP) unless `as_file`, which keeps
+    the original as a download. Everything else, executables and SVG included, is stored as is and only
+    ever downloaded. The hub hashes what it stores and keeps one copy of equal bytes; the response never
+    says whether it already held them. Send the returned `id` in `attachment_ids`; an upload nothing
+    claims within 24 hours is deleted. Max is the hub's `max_upload_bytes` (512 KB for banner channels,
+    which take a raster image only and always re-encode). A full disk expires the oldest attachments
+    rather than refusing; only a disk full of something else answers 507. Advertised by
+    `attachments.stored`.
 
     Args:
         channel_id (str):
@@ -193,7 +225,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | UploadChannelFileResponse201
+        Any | AttachmentRef
     """
 
     return (
