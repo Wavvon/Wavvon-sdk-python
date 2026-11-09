@@ -6,6 +6,7 @@ Every REST route is under `wavvon.rest.api`; pass `client.rest` as `client=`.
 
 from .auth import (
     AUTH_CHALLENGE_SCHEME,
+    BOUND_AUTH_CHALLENGE_SCHEME,
     Identity,
     Session,
     auth_challenge_signing_bytes,
@@ -85,6 +86,7 @@ __version__ = "0.1.0"
 
 __all__ = [
     "AUTH_CHALLENGE_SCHEME",
+    "BOUND_AUTH_CHALLENGE_SCHEME",
     "MAX_PAGE_SIZE",
     "AppCloseEvent",
     "AppCommand",

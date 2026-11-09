@@ -36,7 +36,7 @@ class FakeHub:
         if path == "/info":
             return httpx.Response(200, json={"public_key": "aa", "capabilities": self.capabilities})
         if path == "/auth/challenge":
-            return httpx.Response(200, json={"challenge": "00" * 32, "scheme": "tagged-v1"})
+            return httpx.Response(200, json={"challenge": "00" * 32, "scheme": "tagged-v2"})
         if path == "/auth/verify":
             self.tokens += 1
             self.valid = f"t{self.tokens}"
