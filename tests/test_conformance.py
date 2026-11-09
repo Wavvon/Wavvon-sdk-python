@@ -71,6 +71,14 @@ def test_auth_challenge(file: dict[str, Any]) -> None:
     assert identity_from_seed(v["inputs"]["signer_seed"]).sign(signing).hex() == v["signature"]
 
 
+def test_bound_auth_challenge(file: dict[str, Any]) -> None:
+    v = vector(file, "bound_auth_challenge")
+    i = v["inputs"]
+    signing = auth_challenge_signing_bytes(bytes.fromhex(i["challenge"]), "tagged-v2", i["server_pubkey"])
+    assert signing.hex() == v["signing_bytes"]
+    assert identity_from_seed(i["signer_seed"]).sign(signing).hex() == v["signature"]
+
+
 def test_webhook_delivery_hub(file: dict[str, Any]) -> None:
     v = vector(file, "webhook_delivery_hub")
     i = v["inputs"]
