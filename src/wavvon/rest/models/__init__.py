@@ -145,6 +145,7 @@ from .create_slot_request import CreateSlotRequest
 from .create_soundboard_sound_body import CreateSoundboardSoundBody
 from .create_soundboard_sound_response_201 import CreateSoundboardSoundResponse201
 from .create_sticker_pack_body import CreateStickerPackBody
+from .create_ws_ticket_response_200 import CreateWsTicketResponse200
 from .delete_admin_banlist_sources_body import DeleteAdminBanlistSourcesBody
 from .delete_federation_alliance_member_body import DeleteFederationAllianceMemberBody
 from .delete_federation_forum_channel_post_body import (
@@ -244,6 +245,7 @@ from .get_user_profile_response_200_badges_item import (
     GetUserProfileResponse200BadgesItem,
 )
 from .get_user_profile_response_200_roles_item import GetUserProfileResponse200RolesItem
+from .get_widget_page_theme import GetWidgetPageTheme
 from .group_encrypted_envelope import GroupEncryptedEnvelope
 from .hub_event import HubEvent
 from .hub_event_payload import HubEventPayload
@@ -260,6 +262,7 @@ from .issue_admin_badge_body import IssueAdminBadgeBody
 from .issue_admin_badge_response_201 import IssueAdminBadgeResponse201
 from .join_alliance_with_invite_body import JoinAllianceWithInviteBody
 from .kick_user_body import KickUserBody
+from .landing import Landing
 from .leave_voice_body import LeaveVoiceBody
 from .list_admin_audit_log_response_200_item import ListAdminAuditLogResponse200Item
 from .list_admin_audit_log_response_200_item_payload import (
@@ -389,6 +392,7 @@ from .list_stored_stickers_state import ListStoredStickersState
 from .list_unread_channels_response_200_item import ListUnreadChannelsResponse200Item
 from .lobby_status import LobbyStatus
 from .lobby_status_status import LobbyStatusStatus
+from .lockdown_settings import LockdownSettings
 from .mark_soundboard_sound_played_body import MarkSoundboardSoundPlayedBody
 from .masquerade import Masquerade
 from .me_info import MeInfo
@@ -419,6 +423,7 @@ from .reindex_admin_search_response_202_status import (
 from .reject_hub_pending_body import RejectHubPendingBody
 from .rename_sticker_pack_body import RenameStickerPackBody
 from .reorder_channels_body import ReorderChannelsBody
+from .reorder_roles_body import ReorderRolesBody
 from .reply_context import ReplyContext
 from .reply_view import ReplyView
 from .report_message_body import ReportMessageBody
@@ -468,6 +473,7 @@ from .sticker import Sticker
 from .sticker_pack import StickerPack
 from .sticker_state import StickerState
 from .stop_screenshare_body import StopScreenshareBody
+from .stream_limits import StreamLimits
 from .subkey_cert import SubkeyCert
 from .submit_application_body import SubmitApplicationBody
 from .submit_lobby_pow_body import SubmitLobbyPowBody
@@ -519,6 +525,11 @@ from .verify_auth_response_200_scope import VerifyAuthResponse200Scope
 from .verify_challenge_body import VerifyChallengeBody
 from .vote_poll_body import VotePollBody
 from .webhook_subscription_dto import WebhookSubscriptionDto
+from .widget_data import WidgetData
+from .widget_data_members_item import WidgetDataMembersItem
+from .widget_data_voice_item import WidgetDataVoiceItem
+from .widget_settings import WidgetSettings
+from .widget_settings_mode import WidgetSettingsMode
 
 __all__ = (
     "AcceptPendingAllianceInviteBody",
@@ -630,6 +641,7 @@ __all__ = (
     "CreateSoundboardSoundBody",
     "CreateSoundboardSoundResponse201",
     "CreateStickerPackBody",
+    "CreateWsTicketResponse200",
     "DeleteAdminBanlistSourcesBody",
     "DeleteFederationAllianceMemberBody",
     "DeleteFederationForumChannelPostBody",
@@ -689,6 +701,7 @@ __all__ = (
     "GetUserProfileResponse200",
     "GetUserProfileResponse200BadgesItem",
     "GetUserProfileResponse200RolesItem",
+    "GetWidgetPageTheme",
     "GroupEncryptedEnvelope",
     "HubEvent",
     "HubEventPayload",
@@ -705,6 +718,7 @@ __all__ = (
     "IssueAdminBadgeResponse201",
     "JoinAllianceWithInviteBody",
     "KickUserBody",
+    "Landing",
     "LeaveVoiceBody",
     "ListAdminAuditLogResponse200Item",
     "ListAdminAuditLogResponse200ItemPayload",
@@ -770,6 +784,7 @@ __all__ = (
     "ListUnreadChannelsResponse200Item",
     "LobbyStatus",
     "LobbyStatusStatus",
+    "LockdownSettings",
     "MarkSoundboardSoundPlayedBody",
     "Masquerade",
     "MeInfo",
@@ -796,6 +811,7 @@ __all__ = (
     "RejectHubPendingBody",
     "RenameStickerPackBody",
     "ReorderChannelsBody",
+    "ReorderRolesBody",
     "ReplyContext",
     "ReplyView",
     "ReportMessageBody",
@@ -839,6 +855,7 @@ __all__ = (
     "StickerPack",
     "StickerState",
     "StopScreenshareBody",
+    "StreamLimits",
     "SubkeyCert",
     "SubmitApplicationBody",
     "SubmitLobbyPowBody",
@@ -882,4 +899,9 @@ __all__ = (
     "VerifyChallengeBody",
     "VotePollBody",
     "WebhookSubscriptionDto",
+    "WidgetData",
+    "WidgetDataMembersItem",
+    "WidgetDataVoiceItem",
+    "WidgetSettings",
+    "WidgetSettingsMode",
 )

@@ -49,7 +49,8 @@ def sync_detailed(
 
      Besides the settings, `attachments_usage` is `{used_bytes, cap_bytes, warning, evictions}`: disk
     used by attachment blobs against `attachments_cap_bytes`, whether it is at
-    `attachments_warn_percent`, and the blobs evicted for space since the hub started.
+    `attachments_warn_percent`, and the blobs evicted for space since the hub started. `stream_limits`
+    is the same object as on `/info`, and `landing` the one on the invite preview.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -76,7 +77,8 @@ async def asyncio_detailed(
 
      Besides the settings, `attachments_usage` is `{used_bytes, cap_bytes, warning, evictions}`: disk
     used by attachment blobs against `attachments_cap_bytes`, whether it is at
-    `attachments_warn_percent`, and the blobs evicted for space since the hub started.
+    `attachments_warn_percent`, and the blobs evicted for space since the hub started. `stream_limits`
+    is the same object as on `/info`, and `landing` the one on the invite preview.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

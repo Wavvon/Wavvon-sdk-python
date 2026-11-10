@@ -18,9 +18,11 @@ from .rest.api.apps import (
     set_me_app_profile,
     set_me_app_subscriptions,
 )
+from .rest.api.web_socket import create_ws_ticket
 from .rest.client import Client as RestClient
 from .rest.models.app_command_def import AppCommandDef
 from .rest.models.app_subscription import AppSubscription as AppSubscription
+from .rest.models.create_ws_ticket_response_200 import CreateWsTicketResponse200
 from .rest.models.set_me_app_commands_body import SetMeAppCommandsBody
 from .rest.models.set_me_app_profile_body import SetMeAppProfileBody
 from .rest.models.set_me_app_subscriptions_body import SetMeAppSubscriptionsBody
@@ -250,7 +252,16 @@ class WavvonClient:
 
         async def url() -> str:
             token = (await self.login()).token
-            return f"{re.sub(r'^http', 'ws', self.hub_url)}/ws?token={quote(token, safe='')}"
+            base = f"{re.sub(r'^http', 'ws', self.hub_url)}/ws"
+            # A single-use ticket keeps the session token out of URLs, and so
+            # out of proxy logs. An older hub only takes the token, and a ticket
+            # request that fails falls back to it: the socket then answers 401
+            # and the stream re-authenticates as before.
+            if await self.has_capability("ws.ticket"):
+                got = await create_ws_ticket.asyncio(client=self.rest)
+                if isinstance(got, CreateWsTicketResponse200):
+                    return f"{base}?ticket={quote(got.ticket, safe='')}"
+            return f"{base}?token={quote(token, safe='')}"
 
         async def reauthenticate() -> None:
             await self._relogin(self._session.token if self._session else None)

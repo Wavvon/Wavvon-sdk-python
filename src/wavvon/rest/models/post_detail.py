@@ -26,6 +26,8 @@ class PostDetail:
         channel_id (str | Unset):
         author_pubkey (None | str | Unset): Null on tombstoned posts for non-moderators
         title (None | str | Unset):
+        excerpt (str | Unset): The body on one line, at most 240 characters and an ellipsis when cut. Omitted on a
+            deleted post.
         created_at (int | Unset):
         edited_at (int | Unset): Omitted when never edited
         is_pinned (bool | Unset):
@@ -48,6 +50,7 @@ class PostDetail:
     channel_id: str | Unset = UNSET
     author_pubkey: None | str | Unset = UNSET
     title: None | str | Unset = UNSET
+    excerpt: str | Unset = UNSET
     created_at: int | Unset = UNSET
     edited_at: int | Unset = UNSET
     is_pinned: bool | Unset = UNSET
@@ -81,6 +84,8 @@ class PostDetail:
             title = UNSET
         else:
             title = self.title
+
+        excerpt = self.excerpt
 
         created_at = self.created_at
 
@@ -147,6 +152,8 @@ class PostDetail:
             field_dict["author_pubkey"] = author_pubkey
         if title is not UNSET:
             field_dict["title"] = title
+        if excerpt is not UNSET:
+            field_dict["excerpt"] = excerpt
         if created_at is not UNSET:
             field_dict["created_at"] = created_at
         if edited_at is not UNSET:
@@ -209,6 +216,8 @@ class PostDetail:
             return cast(None | str | Unset, data)
 
         title = _parse_title(d.pop("title", UNSET))
+
+        excerpt = d.pop("excerpt", UNSET)
 
         created_at = d.pop("created_at", UNSET)
 
@@ -280,6 +289,7 @@ class PostDetail:
             channel_id=channel_id,
             author_pubkey=author_pubkey,
             title=title,
+            excerpt=excerpt,
             created_at=created_at,
             edited_at=edited_at,
             is_pinned=is_pinned,

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from typing import TYPE_CHECKING, Any, Self, TypeVar
+from uuid import UUID
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -26,8 +27,12 @@ class CreateConversationMessageBody:
         attachments (list[Attachment] | Unset):
         encrypted_envelope (EncryptedDmEnvelope | Unset):
         group_encrypted_envelope (GroupEncryptedEnvelope | Unset):
-        plaintext_signature (str | Unset): Hex Ed25519 signature over the federated plaintext DM bytes (wire-format.md).
-            A recipient on another hub refuses an unsigned plaintext DM.
+        plaintext_signature (str | Unset): Hex Ed25519 signature over the federated plaintext DM bytes (wire-format.md,
+            v2 on a hub advertising dms.plaintext.v2). A recipient on another hub refuses an unsigned plaintext DM.
+        message_id (UUID | Unset): With a v2 plaintext_signature: the id the client chose and signed. The hub adopts it.
+            Required alongside a signature on a dms.plaintext.v2 hub.
+        created_at (int | Unset): With a v2 plaintext_signature: the unix time the client signed, within five minutes of
+            the hub's clock. The hub adopts it.
         plaintext_signer_cert (SubkeyCert | Unset):
     """
 
@@ -36,6 +41,8 @@ class CreateConversationMessageBody:
     encrypted_envelope: EncryptedDmEnvelope | Unset = UNSET
     group_encrypted_envelope: GroupEncryptedEnvelope | Unset = UNSET
     plaintext_signature: str | Unset = UNSET
+    message_id: UUID | Unset = UNSET
+    created_at: int | Unset = UNSET
     plaintext_signer_cert: SubkeyCert | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -59,6 +66,12 @@ class CreateConversationMessageBody:
 
         plaintext_signature = self.plaintext_signature
 
+        message_id: str | Unset = UNSET
+        if not isinstance(self.message_id, Unset):
+            message_id = str(self.message_id)
+
+        created_at = self.created_at
+
         plaintext_signer_cert: dict[str, Any] | Unset = UNSET
         if not isinstance(self.plaintext_signer_cert, Unset):
             plaintext_signer_cert = self.plaintext_signer_cert.to_dict()
@@ -76,6 +89,10 @@ class CreateConversationMessageBody:
             field_dict["group_encrypted_envelope"] = group_encrypted_envelope
         if plaintext_signature is not UNSET:
             field_dict["plaintext_signature"] = plaintext_signature
+        if message_id is not UNSET:
+            field_dict["message_id"] = message_id
+        if created_at is not UNSET:
+            field_dict["created_at"] = created_at
         if plaintext_signer_cert is not UNSET:
             field_dict["plaintext_signer_cert"] = plaintext_signer_cert
 
@@ -118,6 +135,15 @@ class CreateConversationMessageBody:
 
         plaintext_signature = d.pop("plaintext_signature", UNSET)
 
+        _message_id = d.pop("message_id", UNSET)
+        message_id: UUID | Unset
+        if isinstance(_message_id, Unset):
+            message_id = UNSET
+        else:
+            message_id = UUID(_message_id)
+
+        created_at = d.pop("created_at", UNSET)
+
         _plaintext_signer_cert = d.pop("plaintext_signer_cert", UNSET)
         plaintext_signer_cert: SubkeyCert | Unset
         if isinstance(_plaintext_signer_cert, Unset):
@@ -131,6 +157,8 @@ class CreateConversationMessageBody:
             encrypted_envelope=encrypted_envelope,
             group_encrypted_envelope=group_encrypted_envelope,
             plaintext_signature=plaintext_signature,
+            message_id=message_id,
+            created_at=created_at,
             plaintext_signer_cert=plaintext_signer_cert,
         )
 

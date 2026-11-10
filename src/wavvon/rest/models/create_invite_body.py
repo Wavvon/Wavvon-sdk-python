@@ -15,9 +15,9 @@ T = TypeVar("T", bound="CreateInviteBody")
 class CreateInviteBody:
     """
     Attributes:
-        max_uses (int | None | Unset):
+        max_uses (int | None | Unset): Omitted means unlimited. Below 1 is a 400.
         expires_in_seconds (int | None | Unset): Lifetime in seconds from now. Omitted means no expiry, except as noted
-            under `grant_role_id`.
+            under `grant_role_id`. Below 1, or large enough to overflow the expiry timestamp, is a 400.
         grant_role_id (None | str | Unset): Role granted to the joining member besides the everyone role. Must exist,
             and the creator must be able to grant every permission it carries. A role that amounts to a takeover caps the
             invite to one use and a short expiry.

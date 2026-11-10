@@ -22,11 +22,14 @@ class ListPermissionsResponse200PermissionsItem:
         scope (ListPermissionsResponse200PermissionsItemScope | Unset): `hub_and_channel` may also be set as a channel
             overwrite. Offering a `hub` entry there is a 400.
         group (str | Unset): Dotted prefix, for grouping without re-splitting the id. Example: moderation.
+        category (str | Unset): The section a roles screen shows it under: messages, voice, moderation, members,
+            channels, events, hub, integrations, federation. Hubs advertising `permissions.categories`. Example: moderation.
     """
 
     id: str | Unset = UNSET
     scope: ListPermissionsResponse200PermissionsItemScope | Unset = UNSET
     group: str | Unset = UNSET
+    category: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -38,6 +41,8 @@ class ListPermissionsResponse200PermissionsItem:
 
         group = self.group
 
+        category = self.category
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -47,6 +52,8 @@ class ListPermissionsResponse200PermissionsItem:
             field_dict["scope"] = scope
         if group is not UNSET:
             field_dict["group"] = group
+        if category is not UNSET:
+            field_dict["category"] = category
 
         return field_dict
 
@@ -64,10 +71,13 @@ class ListPermissionsResponse200PermissionsItem:
 
         group = d.pop("group", UNSET)
 
+        category = d.pop("category", UNSET)
+
         list_permissions_response_200_permissions_item = cls(
             id=id,
             scope=scope,
             group=group,
+            category=category,
         )
 
         list_permissions_response_200_permissions_item.additional_properties = d
