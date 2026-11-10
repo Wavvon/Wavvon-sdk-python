@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.stream_limits import StreamLimits
+
 
 T = TypeVar("T", bound="UpdateHubBody")
 
@@ -31,6 +35,12 @@ class UpdateHubBody:
         afk_timeout_secs (int | Unset):
         max_attachment_bytes (int | Unset):
         max_upload_bytes (int | Unset):
+        stream_limits (StreamLimits | Unset): The most a screen share or camera may declare in `screen_share_start`
+            (hubs advertising `screenshare.limits`). Each field is omitted when uncapped. Read-only on `/info` and `GET
+            /hub/settings`; in `PATCH /hub` the object replaces all four, and a field left out or 0 clears it.
+        landing_image (str | Unset): Invite landing image as a base64 data: URL, at most 1 MB decoded, re-encoded by the
+            hub. Empty clears it. 413 when too large, 400 when not an image.
+        landing_colors (list[str] | Unset): Two colours for the invite landing; an empty array clears them.
         max_attachments_per_message (int | Unset): 1 to 25, default 10. That message is refused.
         attachments_cap_bytes (int | Unset): 64 MB to 10 TB, default 10 GB. Whole blobs, orphans first and then least
             recently linked (banners excepted), expire; the upload succeeds. Never per member.
@@ -67,6 +77,9 @@ class UpdateHubBody:
     afk_timeout_secs: int | Unset = UNSET
     max_attachment_bytes: int | Unset = UNSET
     max_upload_bytes: int | Unset = UNSET
+    stream_limits: StreamLimits | Unset = UNSET
+    landing_image: str | Unset = UNSET
+    landing_colors: list[str] | Unset = UNSET
     max_attachments_per_message: int | Unset = UNSET
     attachments_cap_bytes: int | Unset = UNSET
     attachments_warn_percent: int | Unset = UNSET
@@ -115,6 +128,16 @@ class UpdateHubBody:
         max_attachment_bytes = self.max_attachment_bytes
 
         max_upload_bytes = self.max_upload_bytes
+
+        stream_limits: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.stream_limits, Unset):
+            stream_limits = self.stream_limits.to_dict()
+
+        landing_image = self.landing_image
+
+        landing_colors: list[str] | Unset = UNSET
+        if not isinstance(self.landing_colors, Unset):
+            landing_colors = self.landing_colors
 
         max_attachments_per_message = self.max_attachments_per_message
 
@@ -179,6 +202,12 @@ class UpdateHubBody:
             field_dict["max_attachment_bytes"] = max_attachment_bytes
         if max_upload_bytes is not UNSET:
             field_dict["max_upload_bytes"] = max_upload_bytes
+        if stream_limits is not UNSET:
+            field_dict["stream_limits"] = stream_limits
+        if landing_image is not UNSET:
+            field_dict["landing_image"] = landing_image
+        if landing_colors is not UNSET:
+            field_dict["landing_colors"] = landing_colors
         if max_attachments_per_message is not UNSET:
             field_dict["max_attachments_per_message"] = max_attachments_per_message
         if attachments_cap_bytes is not UNSET:
@@ -212,6 +241,8 @@ class UpdateHubBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.stream_limits import StreamLimits
+
         d = dict(src_dict)
         name = d.pop("name", UNSET)
 
@@ -244,6 +275,17 @@ class UpdateHubBody:
         max_attachment_bytes = d.pop("max_attachment_bytes", UNSET)
 
         max_upload_bytes = d.pop("max_upload_bytes", UNSET)
+
+        _stream_limits = d.pop("stream_limits", UNSET)
+        stream_limits: StreamLimits | Unset
+        if isinstance(_stream_limits, Unset):
+            stream_limits = UNSET
+        else:
+            stream_limits = StreamLimits.from_dict(_stream_limits)
+
+        landing_image = d.pop("landing_image", UNSET)
+
+        landing_colors = cast(list[str], d.pop("landing_colors", UNSET))
 
         max_attachments_per_message = d.pop("max_attachments_per_message", UNSET)
 
@@ -290,6 +332,9 @@ class UpdateHubBody:
             afk_timeout_secs=afk_timeout_secs,
             max_attachment_bytes=max_attachment_bytes,
             max_upload_bytes=max_upload_bytes,
+            stream_limits=stream_limits,
+            landing_image=landing_image,
+            landing_colors=landing_colors,
             max_attachments_per_message=max_attachments_per_message,
             attachments_cap_bytes=attachments_cap_bytes,
             attachments_warn_percent=attachments_warn_percent,

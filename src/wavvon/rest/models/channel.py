@@ -38,6 +38,8 @@ class Channel:
         event_id (str | Unset): Auto-spawned squad rooms only (omitted otherwise) — the event the room was made for.
         forum_require_tag (bool | Unset): Forum channels — posts must carry at least one tag. Always false elsewhere.
         nsfw (bool | Unset): NSFW flag for this channel specifically
+        slowmode_secs (int | Unset): Seconds a member must wait between messages here; 0 is off (capability
+            channels.slowmode)
         can_move_members (bool | Unset): The caller's own `voice.move_members` on this channel, resolved channel-scoped,
             so a move-destination picker can offer only the channels that will accept the move (events.md §7.1).
     """
@@ -62,6 +64,7 @@ class Channel:
     event_id: str | Unset = UNSET
     forum_require_tag: bool | Unset = UNSET
     nsfw: bool | Unset = UNSET
+    slowmode_secs: int | Unset = UNSET
     can_move_members: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -126,6 +129,8 @@ class Channel:
 
         nsfw = self.nsfw
 
+        slowmode_secs = self.slowmode_secs
+
         can_move_members = self.can_move_members
 
         field_dict: dict[str, Any] = {}
@@ -171,6 +176,8 @@ class Channel:
             field_dict["forum_require_tag"] = forum_require_tag
         if nsfw is not UNSET:
             field_dict["nsfw"] = nsfw
+        if slowmode_secs is not UNSET:
+            field_dict["slowmode_secs"] = slowmode_secs
         if can_move_members is not UNSET:
             field_dict["can_move_members"] = can_move_members
 
@@ -254,6 +261,8 @@ class Channel:
 
         nsfw = d.pop("nsfw", UNSET)
 
+        slowmode_secs = d.pop("slowmode_secs", UNSET)
+
         can_move_members = d.pop("can_move_members", UNSET)
 
         channel = cls(
@@ -277,6 +286,7 @@ class Channel:
             event_id=event_id,
             forum_require_tag=forum_require_tag,
             nsfw=nsfw,
+            slowmode_secs=slowmode_secs,
             can_move_members=can_move_members,
         )
 

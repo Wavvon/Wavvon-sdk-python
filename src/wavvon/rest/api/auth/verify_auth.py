@@ -67,11 +67,11 @@ def sync_detailed(
 
      Submit the signed challenge to receive a Bearer token.
 
-    **Signing:** hex-decode `challenge` to its 32 bytes. If
-    `POST /auth/challenge` returned `scheme: "tagged-v1"`, sign
-    `b"wavvon/auth-challenge/v1\\0" || challenge_bytes`; with no `scheme`,
-    sign the raw 32 bytes (wire-format.md). Encode the 64-byte signature
-    as lowercase hex. Send `challenge` back as the hex string you received.
+    **Signing:** hex-decode `challenge` to its 32 bytes and sign the answer
+    the challenge's `scheme` names (see the Auth flow above and
+    wire-format.md): `tagged-v2` binds it to the server's own `/info` key.
+    Encode the 64-byte signature as lowercase hex. Send `challenge` back as
+    the hex string you received.
 
     **PoW:** if the hub requires a security level > 0, compute:
     `SHA256(utf8(public_key_hex) || little_endian_u64(nonce))` and find a
@@ -109,11 +109,11 @@ def sync(
 
      Submit the signed challenge to receive a Bearer token.
 
-    **Signing:** hex-decode `challenge` to its 32 bytes. If
-    `POST /auth/challenge` returned `scheme: "tagged-v1"`, sign
-    `b"wavvon/auth-challenge/v1\\0" || challenge_bytes`; with no `scheme`,
-    sign the raw 32 bytes (wire-format.md). Encode the 64-byte signature
-    as lowercase hex. Send `challenge` back as the hex string you received.
+    **Signing:** hex-decode `challenge` to its 32 bytes and sign the answer
+    the challenge's `scheme` names (see the Auth flow above and
+    wire-format.md): `tagged-v2` binds it to the server's own `/info` key.
+    Encode the 64-byte signature as lowercase hex. Send `challenge` back as
+    the hex string you received.
 
     **PoW:** if the hub requires a security level > 0, compute:
     `SHA256(utf8(public_key_hex) || little_endian_u64(nonce))` and find a
@@ -146,11 +146,11 @@ async def asyncio_detailed(
 
      Submit the signed challenge to receive a Bearer token.
 
-    **Signing:** hex-decode `challenge` to its 32 bytes. If
-    `POST /auth/challenge` returned `scheme: "tagged-v1"`, sign
-    `b"wavvon/auth-challenge/v1\\0" || challenge_bytes`; with no `scheme`,
-    sign the raw 32 bytes (wire-format.md). Encode the 64-byte signature
-    as lowercase hex. Send `challenge` back as the hex string you received.
+    **Signing:** hex-decode `challenge` to its 32 bytes and sign the answer
+    the challenge's `scheme` names (see the Auth flow above and
+    wire-format.md): `tagged-v2` binds it to the server's own `/info` key.
+    Encode the 64-byte signature as lowercase hex. Send `challenge` back as
+    the hex string you received.
 
     **PoW:** if the hub requires a security level > 0, compute:
     `SHA256(utf8(public_key_hex) || little_endian_u64(nonce))` and find a
@@ -186,11 +186,11 @@ async def asyncio(
 
      Submit the signed challenge to receive a Bearer token.
 
-    **Signing:** hex-decode `challenge` to its 32 bytes. If
-    `POST /auth/challenge` returned `scheme: "tagged-v1"`, sign
-    `b"wavvon/auth-challenge/v1\\0" || challenge_bytes`; with no `scheme`,
-    sign the raw 32 bytes (wire-format.md). Encode the 64-byte signature
-    as lowercase hex. Send `challenge` back as the hex string you received.
+    **Signing:** hex-decode `challenge` to its 32 bytes and sign the answer
+    the challenge's `scheme` names (see the Auth flow above and
+    wire-format.md): `tagged-v2` binds it to the server's own `/info` key.
+    Encode the 64-byte signature as lowercase hex. Send `challenge` back as
+    the hex string you received.
 
     **PoW:** if the hub requires a security level > 0, compute:
     `SHA256(utf8(public_key_hex) || little_endian_u64(nonce))` and find a

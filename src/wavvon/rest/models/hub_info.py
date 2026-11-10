@@ -13,6 +13,8 @@ if TYPE_CHECKING:
     from ..models.hub_info_badges_item import HubInfoBadgesItem
     from ..models.hub_info_cert_requirement import HubInfoCertRequirement
     from ..models.hub_info_rotation import HubInfoRotation
+    from ..models.landing import Landing
+    from ..models.stream_limits import StreamLimits
 
 
 T = TypeVar("T", bound="HubInfo")
@@ -57,6 +59,8 @@ class HubInfo:
             never by its address: you change *where* you look, not who you
             believe you are talking to. Absent when the hub has no public
             address.
+        landing (Landing | Unset): How the invite landing looks (hubs advertising `hub.landing`). Each field is omitted
+            when unset.
         farm_url (str | Unset): When present, send `/auth/*` here instead of to the hub. Omitted unless set.
         cert_requirement (HubInfoCertRequirement | Unset): What a certificate must show to admit a member. Omitted
             unless set.
@@ -71,6 +75,9 @@ class HubInfo:
         voice_wt_url (str | Unset): WebTransport voice endpoint. Omitted unless set.
         voice_cert_hash (str | Unset): Omitted unless set.
         timezone (str | Unset): Omitted unless set.
+        stream_limits (StreamLimits | Unset): The most a screen share or camera may declare in `screen_share_start`
+            (hubs advertising `screenshare.limits`). Each field is omitted when uncapped. Read-only on `/info` and `GET
+            /hub/settings`; in `PATCH /hub` the object replaces all four, and a field left out or 0 clears it.
     """
 
     name: str
@@ -91,6 +98,7 @@ class HubInfo:
     birthdays_enabled: bool
     max_attachment_bytes: int
     canonical_url: str | Unset = UNSET
+    landing: Landing | Unset = UNSET
     farm_url: str | Unset = UNSET
     cert_requirement: HubInfoCertRequirement | Unset = UNSET
     sfu_url: str | Unset = UNSET
@@ -103,6 +111,7 @@ class HubInfo:
     voice_wt_url: str | Unset = UNSET
     voice_cert_hash: str | Unset = UNSET
     timezone: str | Unset = UNSET
+    stream_limits: StreamLimits | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -147,6 +156,10 @@ class HubInfo:
 
         canonical_url = self.canonical_url
 
+        landing: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.landing, Unset):
+            landing = self.landing.to_dict()
+
         farm_url = self.farm_url
 
         cert_requirement: dict[str, Any] | Unset = UNSET
@@ -175,6 +188,10 @@ class HubInfo:
 
         timezone = self.timezone
 
+        stream_limits: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.stream_limits, Unset):
+            stream_limits = self.stream_limits.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -200,6 +217,8 @@ class HubInfo:
         )
         if canonical_url is not UNSET:
             field_dict["canonical_url"] = canonical_url
+        if landing is not UNSET:
+            field_dict["landing"] = landing
         if farm_url is not UNSET:
             field_dict["farm_url"] = farm_url
         if cert_requirement is not UNSET:
@@ -224,6 +243,8 @@ class HubInfo:
             field_dict["voice_cert_hash"] = voice_cert_hash
         if timezone is not UNSET:
             field_dict["timezone"] = timezone
+        if stream_limits is not UNSET:
+            field_dict["stream_limits"] = stream_limits
 
         return field_dict
 
@@ -232,6 +253,8 @@ class HubInfo:
         from ..models.hub_info_badges_item import HubInfoBadgesItem
         from ..models.hub_info_cert_requirement import HubInfoCertRequirement
         from ..models.hub_info_rotation import HubInfoRotation
+        from ..models.landing import Landing
+        from ..models.stream_limits import StreamLimits
 
         d = dict(src_dict)
         name = d.pop("name")
@@ -285,6 +308,13 @@ class HubInfo:
 
         canonical_url = d.pop("canonical_url", UNSET)
 
+        _landing = d.pop("landing", UNSET)
+        landing: Landing | Unset
+        if isinstance(_landing, Unset):
+            landing = UNSET
+        else:
+            landing = Landing.from_dict(_landing)
+
         farm_url = d.pop("farm_url", UNSET)
 
         _cert_requirement = d.pop("cert_requirement", UNSET)
@@ -319,6 +349,13 @@ class HubInfo:
 
         timezone = d.pop("timezone", UNSET)
 
+        _stream_limits = d.pop("stream_limits", UNSET)
+        stream_limits: StreamLimits | Unset
+        if isinstance(_stream_limits, Unset):
+            stream_limits = UNSET
+        else:
+            stream_limits = StreamLimits.from_dict(_stream_limits)
+
         hub_info = cls(
             name=name,
             description=description,
@@ -338,6 +375,7 @@ class HubInfo:
             birthdays_enabled=birthdays_enabled,
             max_attachment_bytes=max_attachment_bytes,
             canonical_url=canonical_url,
+            landing=landing,
             farm_url=farm_url,
             cert_requirement=cert_requirement,
             sfu_url=sfu_url,
@@ -350,6 +388,7 @@ class HubInfo:
             voice_wt_url=voice_wt_url,
             voice_cert_hash=voice_cert_hash,
             timezone=timezone,
+            stream_limits=stream_limits,
         )
 
         hub_info.additional_properties = d

@@ -28,6 +28,8 @@ class UpdateChannelBody:
         banner_file_id (str | Unset):
         forum_require_tag (bool | Unset):
         nsfw (bool | Unset):
+        slowmode_secs (int | Unset): Seconds between one member's messages here, 0 to turn slowmode off. Needs
+            channels.manage.
         channel_type (UpdateChannelBodyChannelType | Unset): Switch between text and voice; both keep their chat.
     """
 
@@ -43,6 +45,7 @@ class UpdateChannelBody:
     banner_file_id: str | Unset = UNSET
     forum_require_tag: bool | Unset = UNSET
     nsfw: bool | Unset = UNSET
+    slowmode_secs: int | Unset = UNSET
     channel_type: UpdateChannelBodyChannelType | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -91,6 +94,8 @@ class UpdateChannelBody:
 
         nsfw = self.nsfw
 
+        slowmode_secs = self.slowmode_secs
+
         channel_type: str | Unset = UNSET
         if not isinstance(self.channel_type, Unset):
             channel_type = self.channel_type.value
@@ -122,6 +127,8 @@ class UpdateChannelBody:
             field_dict["forum_require_tag"] = forum_require_tag
         if nsfw is not UNSET:
             field_dict["nsfw"] = nsfw
+        if slowmode_secs is not UNSET:
+            field_dict["slowmode_secs"] = slowmode_secs
         if channel_type is not UNSET:
             field_dict["channel_type"] = channel_type
 
@@ -189,6 +196,8 @@ class UpdateChannelBody:
 
         nsfw = d.pop("nsfw", UNSET)
 
+        slowmode_secs = d.pop("slowmode_secs", UNSET)
+
         _channel_type = d.pop("channel_type", UNSET)
         channel_type: UpdateChannelBodyChannelType | Unset
         if isinstance(_channel_type, Unset):
@@ -209,6 +218,7 @@ class UpdateChannelBody:
             banner_file_id=banner_file_id,
             forum_require_tag=forum_require_tag,
             nsfw=nsfw,
+            slowmode_secs=slowmode_secs,
             channel_type=channel_type,
         )
 

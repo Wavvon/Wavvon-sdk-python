@@ -25,6 +25,7 @@ class UserInfo:
         name_color (None | str):
         status (str | Unset): Presence status. Omitted unless set.
         status_custom (str | Unset): Custom status text. Omitted unless set.
+        group_role_priority (int | Unset): Priority of group_role; omitted when there is none.
     """
 
     public_key: str
@@ -36,6 +37,7 @@ class UserInfo:
     name_color: None | str
     status: str | Unset = UNSET
     status_custom: str | Unset = UNSET
+    group_role_priority: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -62,6 +64,8 @@ class UserInfo:
 
         status_custom = self.status_custom
 
+        group_role_priority = self.group_role_priority
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -79,6 +83,8 @@ class UserInfo:
             field_dict["status"] = status
         if status_custom is not UNSET:
             field_dict["status_custom"] = status_custom
+        if group_role_priority is not UNSET:
+            field_dict["group_role_priority"] = group_role_priority
 
         return field_dict
 
@@ -128,6 +134,8 @@ class UserInfo:
 
         status_custom = d.pop("status_custom", UNSET)
 
+        group_role_priority = d.pop("group_role_priority", UNSET)
+
         user_info = cls(
             public_key=public_key,
             display_name=display_name,
@@ -138,6 +146,7 @@ class UserInfo:
             name_color=name_color,
             status=status,
             status_custom=status_custom,
+            group_role_priority=group_role_priority,
         )
 
         user_info.additional_properties = d

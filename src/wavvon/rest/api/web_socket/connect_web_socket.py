@@ -5,15 +5,18 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...types import UNSET, Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    token: str,
+    ticket: str | Unset = UNSET,
+    token: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
+
+    params["ticket"] = ticket
 
     params["token"] = token
 
@@ -37,6 +40,9 @@ def _parse_response(
     if response.status_code == 401:
         return None
 
+    if response.status_code == 429:
+        return None
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -57,14 +63,18 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    token: str,
+    ticket: str | Unset = UNSET,
+    token: str | Unset = UNSET,
 ) -> Response[Any]:
     """Realtime WebSocket endpoint
 
      Upgrades to a WebSocket carrying all realtime traffic. Authenticate
-    with the `token` query parameter (the session token); the
-    upgrade is rejected with `401`/`403` on invalid, expired, or banned
-    credentials.
+    with a single-use `ticket` from `POST /ws/ticket` (hubs advertising
+    the `ws.ticket` capability), or with the `token` query parameter
+    (the session token itself, which then sits in the URL). The upgrade
+    is rejected with `401`/`403` on invalid, expired, or banned
+    credentials, and `429` when the identity already holds the maximum
+    number of open sockets.
 
     The full message catalogue — every client→server and server→client
     JSON message with exact field names and types — is documented in
@@ -72,7 +82,8 @@ def sync_detailed(
     "WebSocket protocol" section of this file's description).
 
     Args:
-        token (str):
+        ticket (str | Unset):
+        token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -83,6 +94,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
+        ticket=ticket,
         token=token,
     )
 
@@ -96,14 +108,18 @@ def sync_detailed(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    token: str,
+    ticket: str | Unset = UNSET,
+    token: str | Unset = UNSET,
 ) -> Response[Any]:
     """Realtime WebSocket endpoint
 
      Upgrades to a WebSocket carrying all realtime traffic. Authenticate
-    with the `token` query parameter (the session token); the
-    upgrade is rejected with `401`/`403` on invalid, expired, or banned
-    credentials.
+    with a single-use `ticket` from `POST /ws/ticket` (hubs advertising
+    the `ws.ticket` capability), or with the `token` query parameter
+    (the session token itself, which then sits in the URL). The upgrade
+    is rejected with `401`/`403` on invalid, expired, or banned
+    credentials, and `429` when the identity already holds the maximum
+    number of open sockets.
 
     The full message catalogue — every client→server and server→client
     JSON message with exact field names and types — is documented in
@@ -111,7 +127,8 @@ async def asyncio_detailed(
     "WebSocket protocol" section of this file's description).
 
     Args:
-        token (str):
+        ticket (str | Unset):
+        token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -122,6 +139,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
+        ticket=ticket,
         token=token,
     )
 
