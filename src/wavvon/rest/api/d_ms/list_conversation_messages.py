@@ -14,14 +14,14 @@ def _get_kwargs(
     conversation_id: str,
     *,
     limit: int | Unset = 50,
-    before: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
     params["limit"] = limit
 
-    params["before"] = before
+    params["cursor"] = cursor
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -71,7 +71,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
-    before: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Response[list[DmMessage]]:
     """List messages in a DM conversation (paginated)
 
@@ -82,7 +82,7 @@ def sync_detailed(
     Args:
         conversation_id (str):
         limit (int | Unset):  Default: 50.
-        before (str | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -95,7 +95,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         conversation_id=conversation_id,
         limit=limit,
-        before=before,
+        cursor=cursor,
     )
 
     response = client.get_httpx_client().request(
@@ -110,7 +110,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
-    before: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> list[DmMessage] | None:
     """List messages in a DM conversation (paginated)
 
@@ -121,7 +121,7 @@ def sync(
     Args:
         conversation_id (str):
         limit (int | Unset):  Default: 50.
-        before (str | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -135,7 +135,7 @@ def sync(
         conversation_id=conversation_id,
         client=client,
         limit=limit,
-        before=before,
+        cursor=cursor,
     ).parsed
 
 
@@ -144,7 +144,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
-    before: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Response[list[DmMessage]]:
     """List messages in a DM conversation (paginated)
 
@@ -155,7 +155,7 @@ async def asyncio_detailed(
     Args:
         conversation_id (str):
         limit (int | Unset):  Default: 50.
-        before (str | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -168,7 +168,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         conversation_id=conversation_id,
         limit=limit,
-        before=before,
+        cursor=cursor,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -181,7 +181,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
-    before: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> list[DmMessage] | None:
     """List messages in a DM conversation (paginated)
 
@@ -192,7 +192,7 @@ async def asyncio(
     Args:
         conversation_id (str):
         limit (int | Unset):  Default: 50.
-        before (str | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -207,6 +207,6 @@ async def asyncio(
             conversation_id=conversation_id,
             client=client,
             limit=limit,
-            before=before,
+            cursor=cursor,
         )
     ).parsed

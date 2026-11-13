@@ -11,9 +11,10 @@ from .errors import AuthSchemeError, HubError
 from .retry import RetryOptions, fetch_with_retry, is_transient_status
 
 AUTH_CHALLENGE_SCHEME = "tagged-v1"
-AUTH_CHALLENGE_LEN = 32
-"""The only length a raw (untagged) challenge is ever signed at."""
+BOUND_AUTH_CHALLENGE_SCHEME = "tagged-v2"
 _AUTH_TAG = b"wavvon/auth-challenge/v1\0"
+_BOUND_AUTH_TAG = b"wavvon/auth-challenge/v2\0"
+_AUTH_CHALLENGE_LEN = 32
 
 
 class Identity(Protocol):
@@ -53,22 +54,25 @@ def identity_from_seed(seed: str | bytes) -> Identity:
     return _SeedIdentity(Ed25519PrivateKey.from_private_bytes(secret))
 
 
-def auth_challenge_signing_bytes(challenge: bytes, scheme: str | None = None) -> bytes:
+def auth_challenge_signing_bytes(challenge: bytes, scheme: str | None, server_pubkey: str | None = None) -> bytes:
     """The bytes a client signs to answer a challenge (wire-format.md, "Auth
-    challenge answer"). `tagged-v1`: the domain prefix plus the challenge. No
-    scheme (an older hub): the raw challenge, and only at exactly 32 bytes, so
-    this can never be used to sign arbitrary bytes. Any other scheme is refused
-    rather than guessed at."""
+    challenge answer"). `tagged-v2` binds the answer to the server signed in
+    to: the v2 tag, the server public key (u32 LE length, lowercase hex), then
+    the challenge. `server_pubkey` must come from that server's own `/info`,
+    never from the challenge response, or a hostile hub could relay another
+    hub's challenge and sign in there. `tagged-v1` (older hubs) is the v1 tag
+    plus the challenge. Any other scheme, or none, is refused rather than
+    signed raw, so this can never be used to sign arbitrary bytes."""
+    if scheme not in (BOUND_AUTH_CHALLENGE_SCHEME, AUTH_CHALLENGE_SCHEME):
+        raise AuthSchemeError(f"unsupported auth challenge scheme {scheme!r}")
+    if len(challenge) != _AUTH_CHALLENGE_LEN:
+        raise AuthSchemeError(f"auth challenge is {len(challenge)} bytes, expected {_AUTH_CHALLENGE_LEN}")
     if scheme == AUTH_CHALLENGE_SCHEME:
         return _AUTH_TAG + challenge
-    if scheme is None:
-        if len(challenge) != AUTH_CHALLENGE_LEN:
-            raise AuthSchemeError(
-                f"refusing to sign a raw {len(challenge)}-byte challenge; "
-                f"only {AUTH_CHALLENGE_LEN} bytes are ever signed raw"
-            )
-        return challenge
-    raise AuthSchemeError(f'unknown auth challenge scheme "{scheme}"')
+    if not server_pubkey:
+        raise ValueError("tagged-v2 needs the server public key")
+    key = server_pubkey.encode()
+    return _BOUND_AUTH_TAG + len(key).to_bytes(4, "little") + key + challenge
 
 
 @dataclass(frozen=True)
@@ -96,14 +100,22 @@ async def authenticate(
         async with httpx.AsyncClient(timeout=None) as own:
             return await authenticate(hub_url, identity, invite_code=invite_code, retry=retry, http=own)
     base = hub_url.rstrip("/")
+    server_pubkey: str | None = None
 
     async def attempt() -> httpx.Response:
+        nonlocal server_pubkey
         ch = await http.post(f"{base}/auth/challenge", json={"public_key": identity.public_key})
         if ch.status_code >= 300:
             return ch
         body: dict[str, Any] = ch.json()
         challenge: str = body["challenge"]
-        signature = identity.sign(auth_challenge_signing_bytes(bytes.fromhex(challenge), body.get("scheme")))
+        scheme = body.get("scheme")
+        if scheme == BOUND_AUTH_CHALLENGE_SCHEME and server_pubkey is None:
+            info = await http.get(f"{base}/info")
+            if info.status_code >= 300:
+                return info
+            server_pubkey = info.json()["public_key"]
+        signature = identity.sign(auth_challenge_signing_bytes(bytes.fromhex(challenge), scheme, server_pubkey))
         verify: dict[str, Any] = {
             "public_key": identity.public_key,
             "challenge": challenge,

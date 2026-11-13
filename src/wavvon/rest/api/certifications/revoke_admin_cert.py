@@ -14,8 +14,8 @@ def _get_kwargs(
 ) -> dict[str, Any]:
 
     _kwargs: dict[str, Any] = {
-        "method": "post",
-        "url": "/admin/certs/{pubkey}/revoke".format(
+        "method": "delete",
+        "url": "/admin/certs/{pubkey}".format(
             pubkey=quote(str(pubkey), safe=""),
         ),
     }

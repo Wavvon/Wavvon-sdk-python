@@ -196,8 +196,6 @@ def _header(headers: Mapping[str, str], name: str) -> str | None:
 def _signed_timestamp(headers: Mapping[str, str], now: float | None, tolerance_sec: int) -> tuple[int, bytes]:
     sig_hex = _header(headers, "X-Wavvon-Signature-V1")
     ts_text = _header(headers, "X-Wavvon-Timestamp")
-    # The body-only X-Wavvon-Signature is deliberately not accepted: on its own
-    # a captured request replays forever.
     if not sig_hex or not ts_text:
         raise WebhookVerificationError("missing X-Wavvon-Signature-V1 or X-Wavvon-Timestamp")
     if not re.fullmatch(r"\d{1,20}", ts_text):

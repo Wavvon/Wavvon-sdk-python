@@ -11,6 +11,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.app_command_def import AppCommandDef
     from ..models.game_launch_card import GameLaunchCard
+    from ..models.masquerade import Masquerade
 
 
 T = TypeVar("T", bound="SetMeAppProfileBody")
@@ -30,6 +31,7 @@ class SetMeAppProfileBody:
         mini_app_url (str | Unset):
         requires_camera (bool | Unset):
         game (GameLaunchCard | Unset):
+        masquerade (Masquerade | Unset):
     """
 
     name: str
@@ -42,6 +44,7 @@ class SetMeAppProfileBody:
     mini_app_url: str | Unset = UNSET
     requires_camera: bool | Unset = UNSET
     game: GameLaunchCard | Unset = UNSET
+    masquerade: Masquerade | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -74,6 +77,10 @@ class SetMeAppProfileBody:
         if not isinstance(self.game, Unset):
             game = self.game.to_dict()
 
+        masquerade: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.masquerade, Unset):
+            masquerade = self.masquerade.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -99,6 +106,8 @@ class SetMeAppProfileBody:
             field_dict["requires_camera"] = requires_camera
         if game is not UNSET:
             field_dict["game"] = game
+        if masquerade is not UNSET:
+            field_dict["masquerade"] = masquerade
 
         return field_dict
 
@@ -106,6 +115,7 @@ class SetMeAppProfileBody:
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.app_command_def import AppCommandDef
         from ..models.game_launch_card import GameLaunchCard
+        from ..models.masquerade import Masquerade
 
         d = dict(src_dict)
         name = d.pop("name")
@@ -140,6 +150,13 @@ class SetMeAppProfileBody:
         else:
             game = GameLaunchCard.from_dict(_game)
 
+        _masquerade = d.pop("masquerade", UNSET)
+        masquerade: Masquerade | Unset
+        if isinstance(_masquerade, Unset):
+            masquerade = UNSET
+        else:
+            masquerade = Masquerade.from_dict(_masquerade)
+
         set_me_app_profile_body = cls(
             name=name,
             avatar_url=avatar_url,
@@ -151,6 +168,7 @@ class SetMeAppProfileBody:
             mini_app_url=mini_app_url,
             requires_camera=requires_camera,
             game=game,
+            masquerade=masquerade,
         )
 
         set_me_app_profile_body.additional_properties = d

@@ -19,6 +19,7 @@ from wavvon import (
 
 SEED = "5a" * 32
 C32 = bytes([9]) * 32
+HUB_KEY = "cd" * 32
 FAST = RetryOptions(base_delay=0.001, max_delay=0.001)
 
 
@@ -28,18 +29,21 @@ def test_tagged_v1_prefixes_the_tag() -> None:
     assert b[25:] == C32
 
 
-def test_raw_only_at_exactly_32_bytes() -> None:
-    assert auth_challenge_signing_bytes(C32) == C32
-    assert auth_challenge_signing_bytes(C32, None) == C32
-    for n in (31, 64):
-        with pytest.raises(AuthSchemeError):
-            auth_challenge_signing_bytes(bytes(n))
+def test_tagged_v2_binds_the_server_key() -> None:
+    b = auth_challenge_signing_bytes(C32, "tagged-v2", "ab")
+    assert b == b"wavvon/auth-challenge/v2\0" + bytes([2, 0, 0, 0]) + b"ab" + C32
 
 
-def test_unknown_scheme_is_refused() -> None:
-    for scheme in ("tagged-v2", ""):
+def test_missing_or_unknown_scheme_is_refused() -> None:
+    for scheme in (None, "tagged-v3", ""):
         with pytest.raises(AuthSchemeError):
-            auth_challenge_signing_bytes(C32, scheme)
+            auth_challenge_signing_bytes(C32, scheme, HUB_KEY)
+
+
+def test_a_challenge_that_is_not_32_bytes_is_refused() -> None:
+    for scheme in ("tagged-v1", "tagged-v2"):
+        with pytest.raises(AuthSchemeError):
+            auth_challenge_signing_bytes(C32[:31], scheme, HUB_KEY)
 
 
 def test_seed_as_hex_or_bytes() -> None:
@@ -60,6 +64,8 @@ class FakeHub:
         self.http = httpx.AsyncClient(transport=httpx.MockTransport(self.handle))
 
     def handle(self, req: httpx.Request) -> httpx.Response:
+        if req.url.path == "/info":
+            return httpx.Response(200, json={"public_key": HUB_KEY})
         body = json.loads(req.content)
         if req.url.path == "/auth/challenge":
             ch = bytes([len(self.challenges) + 1]) * 32
@@ -74,7 +80,7 @@ class FakeHub:
             return httpx.Response(503, text="busy")
         if self.verify_status:
             return httpx.Response(self.verify_status, text="This hub requires an invite code")
-        msg = auth_challenge_signing_bytes(bytes.fromhex(body["challenge"]), self.scheme)
+        msg = auth_challenge_signing_bytes(bytes.fromhex(body["challenge"]), self.scheme, HUB_KEY)
         try:
             Ed25519PublicKey.from_public_bytes(bytes.fromhex(body["public_key"])).verify(
                 bytes.fromhex(body["signature"]), msg
@@ -82,6 +88,12 @@ class FakeHub:
         except InvalidSignature:
             return httpx.Response(401, text="Invalid signature")
         return httpx.Response(200, json={"token": "tok", "scope": "member", "canonical_pubkey": body["public_key"]})
+
+
+async def test_logs_in_with_tagged_v2_for_the_key_info_presented() -> None:
+    hub = FakeHub("tagged-v2")
+    s = await authenticate("http://hub/", identity_from_seed(SEED), http=hub.http)
+    assert s.token == "tok"
 
 
 async def test_logs_in_with_tagged_v1_and_passes_the_invite() -> None:
@@ -105,9 +117,11 @@ async def test_definitive_refusal_is_hub_error() -> None:
     assert e.value.status == 403
 
 
-async def test_raw_scheme_login() -> None:
+async def test_a_challenge_without_a_scheme_is_refused_before_verify() -> None:
     hub = FakeHub(None)
-    assert (await authenticate("http://hub", identity_from_seed(SEED), http=hub.http)).token == "tok"
+    with pytest.raises(AuthSchemeError):
+        await authenticate("http://hub", identity_from_seed(SEED), http=hub.http)
+    assert hub.verify == []
 
 
 async def test_never_sends_the_seed() -> None:

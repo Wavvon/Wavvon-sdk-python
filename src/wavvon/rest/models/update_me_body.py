@@ -32,6 +32,7 @@ class UpdateMeBody:
         findable_by_allies (bool | Unset): List me to members of allied hubs (see `GET
             /alliances/{alliance_id}/people`). Per hub, off by default; only takes effect while the alliance's own
             `people_visible` switch is on. Hubs advertising `alliance.people`.
+        widget_hidden (bool | Unset): Leave me out of the public online widget. Hubs advertising `hub.widget`.
         birthday (str | Unset):
         name_color (str | Unset):
     """
@@ -47,6 +48,7 @@ class UpdateMeBody:
     favorite_hubs: list[FavoriteHub] | Unset = UNSET
     show_hubs: bool | Unset = UNSET
     findable_by_allies: bool | Unset = UNSET
+    widget_hidden: bool | Unset = UNSET
     birthday: str | Unset = UNSET
     name_color: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -83,6 +85,8 @@ class UpdateMeBody:
 
         findable_by_allies = self.findable_by_allies
 
+        widget_hidden = self.widget_hidden
+
         birthday = self.birthday
 
         name_color = self.name_color
@@ -112,6 +116,8 @@ class UpdateMeBody:
             field_dict["show_hubs"] = show_hubs
         if findable_by_allies is not UNSET:
             field_dict["findable_by_allies"] = findable_by_allies
+        if widget_hidden is not UNSET:
+            field_dict["widget_hidden"] = widget_hidden
         if birthday is not UNSET:
             field_dict["birthday"] = birthday
         if name_color is not UNSET:
@@ -160,6 +166,8 @@ class UpdateMeBody:
 
         findable_by_allies = d.pop("findable_by_allies", UNSET)
 
+        widget_hidden = d.pop("widget_hidden", UNSET)
+
         birthday = d.pop("birthday", UNSET)
 
         name_color = d.pop("name_color", UNSET)
@@ -176,6 +184,7 @@ class UpdateMeBody:
             favorite_hubs=favorite_hubs,
             show_hubs=show_hubs,
             findable_by_allies=findable_by_allies,
+            widget_hidden=widget_hidden,
             birthday=birthday,
             name_color=name_color,
         )

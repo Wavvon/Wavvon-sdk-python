@@ -58,9 +58,8 @@ def sync_detailed(
 ) -> Response[Any]:
     """Update certification settings (admin)
 
-     All fields optional. Scalars are accepted as strings, booleans or numbers and stored as text;
-    `cert_min_age_days` is an accepted alias for `cert_standing_days`, which is what GET calls the same
-    setting.
+     All fields optional. Scalars are accepted as strings, booleans or numbers and stored as text.
+    `cert_min_age_days` is the standing period, under the name GET returns.
 
     Args:
         body (UpdateAdminSettingsCertsBody):
@@ -91,9 +90,8 @@ async def asyncio_detailed(
 ) -> Response[Any]:
     """Update certification settings (admin)
 
-     All fields optional. Scalars are accepted as strings, booleans or numbers and stored as text;
-    `cert_min_age_days` is an accepted alias for `cert_standing_days`, which is what GET calls the same
-    setting.
+     All fields optional. Scalars are accepted as strings, booleans or numbers and stored as text.
+    `cert_min_age_days` is the standing period, under the name GET returns.
 
     Args:
         body (UpdateAdminSettingsCertsBody):

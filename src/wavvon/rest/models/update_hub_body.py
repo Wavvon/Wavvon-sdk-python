@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.stream_limits import StreamLimits
+
 
 T = TypeVar("T", bound="UpdateHubBody")
 
@@ -31,7 +35,30 @@ class UpdateHubBody:
         afk_timeout_secs (int | Unset):
         max_attachment_bytes (int | Unset):
         max_upload_bytes (int | Unset):
+        stream_limits (StreamLimits | Unset): The most a screen share or camera may declare in `screen_share_start`
+            (hubs advertising `screenshare.limits`). Each field is omitted when uncapped. Read-only on `/info` and `GET
+            /hub/settings`; in `PATCH /hub` the object replaces all four, and a field left out or 0 clears it.
+        landing_image (str | Unset): Invite landing image as a base64 data: URL, at most 1 MB decoded, re-encoded by the
+            hub. Empty clears it. 413 when too large, 400 when not an image.
+        landing_colors (list[str] | Unset): Two colours for the invite landing; an empty array clears them.
+        max_attachments_per_message (int | Unset): 1 to 25, default 10. That message is refused.
+        attachments_cap_bytes (int | Unset): 64 MB to 10 TB, default 10 GB. Whole blobs, orphans first and then least
+            recently linked (banners excepted), expire; the upload succeeds. Never per member.
+        attachments_warn_percent (int | Unset): 50 to 99, default 90. Sets attachments_usage.warning.
+        attachments_retention_days (int | Unset): 0 (never) to 3650, default 0. Older attachments expire.
+        max_preview_image_bytes (int | Unset): Largest link-preview image in bytes, 262144 to 16777216, default 4194304.
+            Also returned by GET /hub/settings.
         name_color_mode (str | Unset):
+        stickers_max_file_bytes (int | Unset): 65536 to 4194304, default 524288. Also returned by GET /hub/settings, as
+            are the other stickers_* settings.
+        stickers_packs_cap_bytes (int | Unset): 16 MB to 100 GB, default 512 MB. Pack additions are refused at the cap.
+        stickers_packs_warn_percent (int | Unset): 50 to 99, default 90
+        stickers_copies_cap_bytes (int | Unset): 64 MB to 1 TB, default 1 GB. Orphans, then least recently used copies,
+            are evicted; a send is never refused.
+        stickers_per_pack (int | Unset): 1 to 500, default 60
+        sticker_packs_per_hub (int | Unset): 1 to 200, default 20
+        stickers_orphan_gc_days (int | Unset): 1 to 365, default 30
+        stickers_export (bool | Unset): Default true. Off: GET /federation/stickers/{sha256} answers 403.
     """
 
     name: str | Unset = UNSET
@@ -50,7 +77,23 @@ class UpdateHubBody:
     afk_timeout_secs: int | Unset = UNSET
     max_attachment_bytes: int | Unset = UNSET
     max_upload_bytes: int | Unset = UNSET
+    stream_limits: StreamLimits | Unset = UNSET
+    landing_image: str | Unset = UNSET
+    landing_colors: list[str] | Unset = UNSET
+    max_attachments_per_message: int | Unset = UNSET
+    attachments_cap_bytes: int | Unset = UNSET
+    attachments_warn_percent: int | Unset = UNSET
+    attachments_retention_days: int | Unset = UNSET
+    max_preview_image_bytes: int | Unset = UNSET
     name_color_mode: str | Unset = UNSET
+    stickers_max_file_bytes: int | Unset = UNSET
+    stickers_packs_cap_bytes: int | Unset = UNSET
+    stickers_packs_warn_percent: int | Unset = UNSET
+    stickers_copies_cap_bytes: int | Unset = UNSET
+    stickers_per_pack: int | Unset = UNSET
+    sticker_packs_per_hub: int | Unset = UNSET
+    stickers_orphan_gc_days: int | Unset = UNSET
+    stickers_export: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -86,7 +129,43 @@ class UpdateHubBody:
 
         max_upload_bytes = self.max_upload_bytes
 
+        stream_limits: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.stream_limits, Unset):
+            stream_limits = self.stream_limits.to_dict()
+
+        landing_image = self.landing_image
+
+        landing_colors: list[str] | Unset = UNSET
+        if not isinstance(self.landing_colors, Unset):
+            landing_colors = self.landing_colors
+
+        max_attachments_per_message = self.max_attachments_per_message
+
+        attachments_cap_bytes = self.attachments_cap_bytes
+
+        attachments_warn_percent = self.attachments_warn_percent
+
+        attachments_retention_days = self.attachments_retention_days
+
+        max_preview_image_bytes = self.max_preview_image_bytes
+
         name_color_mode = self.name_color_mode
+
+        stickers_max_file_bytes = self.stickers_max_file_bytes
+
+        stickers_packs_cap_bytes = self.stickers_packs_cap_bytes
+
+        stickers_packs_warn_percent = self.stickers_packs_warn_percent
+
+        stickers_copies_cap_bytes = self.stickers_copies_cap_bytes
+
+        stickers_per_pack = self.stickers_per_pack
+
+        sticker_packs_per_hub = self.sticker_packs_per_hub
+
+        stickers_orphan_gc_days = self.stickers_orphan_gc_days
+
+        stickers_export = self.stickers_export
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -123,13 +202,47 @@ class UpdateHubBody:
             field_dict["max_attachment_bytes"] = max_attachment_bytes
         if max_upload_bytes is not UNSET:
             field_dict["max_upload_bytes"] = max_upload_bytes
+        if stream_limits is not UNSET:
+            field_dict["stream_limits"] = stream_limits
+        if landing_image is not UNSET:
+            field_dict["landing_image"] = landing_image
+        if landing_colors is not UNSET:
+            field_dict["landing_colors"] = landing_colors
+        if max_attachments_per_message is not UNSET:
+            field_dict["max_attachments_per_message"] = max_attachments_per_message
+        if attachments_cap_bytes is not UNSET:
+            field_dict["attachments_cap_bytes"] = attachments_cap_bytes
+        if attachments_warn_percent is not UNSET:
+            field_dict["attachments_warn_percent"] = attachments_warn_percent
+        if attachments_retention_days is not UNSET:
+            field_dict["attachments_retention_days"] = attachments_retention_days
+        if max_preview_image_bytes is not UNSET:
+            field_dict["max_preview_image_bytes"] = max_preview_image_bytes
         if name_color_mode is not UNSET:
             field_dict["name_color_mode"] = name_color_mode
+        if stickers_max_file_bytes is not UNSET:
+            field_dict["stickers_max_file_bytes"] = stickers_max_file_bytes
+        if stickers_packs_cap_bytes is not UNSET:
+            field_dict["stickers_packs_cap_bytes"] = stickers_packs_cap_bytes
+        if stickers_packs_warn_percent is not UNSET:
+            field_dict["stickers_packs_warn_percent"] = stickers_packs_warn_percent
+        if stickers_copies_cap_bytes is not UNSET:
+            field_dict["stickers_copies_cap_bytes"] = stickers_copies_cap_bytes
+        if stickers_per_pack is not UNSET:
+            field_dict["stickers_per_pack"] = stickers_per_pack
+        if sticker_packs_per_hub is not UNSET:
+            field_dict["sticker_packs_per_hub"] = sticker_packs_per_hub
+        if stickers_orphan_gc_days is not UNSET:
+            field_dict["stickers_orphan_gc_days"] = stickers_orphan_gc_days
+        if stickers_export is not UNSET:
+            field_dict["stickers_export"] = stickers_export
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.stream_limits import StreamLimits
+
         d = dict(src_dict)
         name = d.pop("name", UNSET)
 
@@ -163,7 +276,44 @@ class UpdateHubBody:
 
         max_upload_bytes = d.pop("max_upload_bytes", UNSET)
 
+        _stream_limits = d.pop("stream_limits", UNSET)
+        stream_limits: StreamLimits | Unset
+        if isinstance(_stream_limits, Unset):
+            stream_limits = UNSET
+        else:
+            stream_limits = StreamLimits.from_dict(_stream_limits)
+
+        landing_image = d.pop("landing_image", UNSET)
+
+        landing_colors = cast(list[str], d.pop("landing_colors", UNSET))
+
+        max_attachments_per_message = d.pop("max_attachments_per_message", UNSET)
+
+        attachments_cap_bytes = d.pop("attachments_cap_bytes", UNSET)
+
+        attachments_warn_percent = d.pop("attachments_warn_percent", UNSET)
+
+        attachments_retention_days = d.pop("attachments_retention_days", UNSET)
+
+        max_preview_image_bytes = d.pop("max_preview_image_bytes", UNSET)
+
         name_color_mode = d.pop("name_color_mode", UNSET)
+
+        stickers_max_file_bytes = d.pop("stickers_max_file_bytes", UNSET)
+
+        stickers_packs_cap_bytes = d.pop("stickers_packs_cap_bytes", UNSET)
+
+        stickers_packs_warn_percent = d.pop("stickers_packs_warn_percent", UNSET)
+
+        stickers_copies_cap_bytes = d.pop("stickers_copies_cap_bytes", UNSET)
+
+        stickers_per_pack = d.pop("stickers_per_pack", UNSET)
+
+        sticker_packs_per_hub = d.pop("sticker_packs_per_hub", UNSET)
+
+        stickers_orphan_gc_days = d.pop("stickers_orphan_gc_days", UNSET)
+
+        stickers_export = d.pop("stickers_export", UNSET)
 
         update_hub_body = cls(
             name=name,
@@ -182,7 +332,23 @@ class UpdateHubBody:
             afk_timeout_secs=afk_timeout_secs,
             max_attachment_bytes=max_attachment_bytes,
             max_upload_bytes=max_upload_bytes,
+            stream_limits=stream_limits,
+            landing_image=landing_image,
+            landing_colors=landing_colors,
+            max_attachments_per_message=max_attachments_per_message,
+            attachments_cap_bytes=attachments_cap_bytes,
+            attachments_warn_percent=attachments_warn_percent,
+            attachments_retention_days=attachments_retention_days,
+            max_preview_image_bytes=max_preview_image_bytes,
             name_color_mode=name_color_mode,
+            stickers_max_file_bytes=stickers_max_file_bytes,
+            stickers_packs_cap_bytes=stickers_packs_cap_bytes,
+            stickers_packs_warn_percent=stickers_packs_warn_percent,
+            stickers_copies_cap_bytes=stickers_copies_cap_bytes,
+            stickers_per_pack=stickers_per_pack,
+            sticker_packs_per_hub=sticker_packs_per_hub,
+            stickers_orphan_gc_days=stickers_orphan_gc_days,
+            stickers_export=stickers_export,
         )
 
         update_hub_body.additional_properties = d

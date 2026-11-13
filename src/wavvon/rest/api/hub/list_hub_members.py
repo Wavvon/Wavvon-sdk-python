@@ -6,14 +6,27 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.member_admin_info import MemberAdminInfo
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
-def _get_kwargs() -> dict[str, Any]:
+def _get_kwargs(
+    *,
+    limit: int | Unset = 100,
+    cursor: str | Unset = UNSET,
+) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    params["limit"] = limit
+
+    params["cursor"] = cursor
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/hub/members",
+        "params": params,
     }
 
     return _kwargs
@@ -52,8 +65,14 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    limit: int | Unset = 100,
+    cursor: str | Unset = UNSET,
 ) -> Response[list[MemberAdminInfo]]:
-    """List all hub members
+    """List hub members, oldest first (paged on hubs advertising list.cursor.admin)
+
+    Args:
+        limit (int | Unset):  Default: 100.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -63,7 +82,10 @@ def sync_detailed(
         Response[list[MemberAdminInfo]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        limit=limit,
+        cursor=cursor,
+    )
 
     response = client.get_httpx_client().request(
         **kwargs,
@@ -75,8 +97,14 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    limit: int | Unset = 100,
+    cursor: str | Unset = UNSET,
 ) -> list[MemberAdminInfo] | None:
-    """List all hub members
+    """List hub members, oldest first (paged on hubs advertising list.cursor.admin)
+
+    Args:
+        limit (int | Unset):  Default: 100.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -88,14 +116,22 @@ def sync(
 
     return sync_detailed(
         client=client,
+        limit=limit,
+        cursor=cursor,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    limit: int | Unset = 100,
+    cursor: str | Unset = UNSET,
 ) -> Response[list[MemberAdminInfo]]:
-    """List all hub members
+    """List hub members, oldest first (paged on hubs advertising list.cursor.admin)
+
+    Args:
+        limit (int | Unset):  Default: 100.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -105,7 +141,10 @@ async def asyncio_detailed(
         Response[list[MemberAdminInfo]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        limit=limit,
+        cursor=cursor,
+    )
 
     response = await client.get_async_httpx_client().request(**kwargs)
 
@@ -115,8 +154,14 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    limit: int | Unset = 100,
+    cursor: str | Unset = UNSET,
 ) -> list[MemberAdminInfo] | None:
-    """List all hub members
+    """List hub members, oldest first (paged on hubs advertising list.cursor.admin)
+
+    Args:
+        limit (int | Unset):  Default: 100.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -129,5 +174,7 @@ async def asyncio(
     return (
         await asyncio_detailed(
             client=client,
+            limit=limit,
+            cursor=cursor,
         )
     ).parsed

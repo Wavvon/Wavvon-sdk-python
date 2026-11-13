@@ -9,7 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.post_summary_attachments_item import PostSummaryAttachmentsItem
+    from ..models.attachment_ref import AttachmentRef
     from ..models.post_summary_tags_item import PostSummaryTagsItem
     from ..models.reaction import Reaction
     from ..models.reply_view import ReplyView
@@ -26,6 +26,8 @@ class PostDetail:
         channel_id (str | Unset):
         author_pubkey (None | str | Unset): Null on tombstoned posts for non-moderators
         title (None | str | Unset):
+        excerpt (str | Unset): The body on one line, at most 240 characters and an ellipsis when cut. Omitted on a
+            deleted post.
         created_at (int | Unset):
         edited_at (int | Unset): Omitted when never edited
         is_pinned (bool | Unset):
@@ -35,7 +37,7 @@ class PostDetail:
         is_deleted (bool | Unset):
         unread_reply_count (int | Unset): Replies after the viewer's read cursor. Omitted when unauthenticated.
         reactions (list[Reaction] | Unset):
-        attachments (list[PostSummaryAttachmentsItem] | Unset):
+        attachments (list[AttachmentRef] | Unset):
         author_hub (str | Unset): Origin hub public key (hex) when the post came in through the alliance forum write-
             proxy. Hub-asserted, not proven: render it as mediated ("via HubName"). Omitted for local posts.
         tags (list[PostSummaryTagsItem] | Unset):
@@ -48,6 +50,7 @@ class PostDetail:
     channel_id: str | Unset = UNSET
     author_pubkey: None | str | Unset = UNSET
     title: None | str | Unset = UNSET
+    excerpt: str | Unset = UNSET
     created_at: int | Unset = UNSET
     edited_at: int | Unset = UNSET
     is_pinned: bool | Unset = UNSET
@@ -57,7 +60,7 @@ class PostDetail:
     is_deleted: bool | Unset = UNSET
     unread_reply_count: int | Unset = UNSET
     reactions: list[Reaction] | Unset = UNSET
-    attachments: list[PostSummaryAttachmentsItem] | Unset = UNSET
+    attachments: list[AttachmentRef] | Unset = UNSET
     author_hub: str | Unset = UNSET
     tags: list[PostSummaryTagsItem] | Unset = UNSET
     body: None | str | Unset = UNSET
@@ -81,6 +84,8 @@ class PostDetail:
             title = UNSET
         else:
             title = self.title
+
+        excerpt = self.excerpt
 
         created_at = self.created_at
 
@@ -147,6 +152,8 @@ class PostDetail:
             field_dict["author_pubkey"] = author_pubkey
         if title is not UNSET:
             field_dict["title"] = title
+        if excerpt is not UNSET:
+            field_dict["excerpt"] = excerpt
         if created_at is not UNSET:
             field_dict["created_at"] = created_at
         if edited_at is not UNSET:
@@ -182,7 +189,7 @@ class PostDetail:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.post_summary_attachments_item import PostSummaryAttachmentsItem
+        from ..models.attachment_ref import AttachmentRef
         from ..models.post_summary_tags_item import PostSummaryTagsItem
         from ..models.reaction import Reaction
         from ..models.reply_view import ReplyView
@@ -210,6 +217,8 @@ class PostDetail:
 
         title = _parse_title(d.pop("title", UNSET))
 
+        excerpt = d.pop("excerpt", UNSET)
+
         created_at = d.pop("created_at", UNSET)
 
         edited_at = d.pop("edited_at", UNSET)
@@ -236,13 +245,11 @@ class PostDetail:
                 reactions.append(reactions_item)
 
         _attachments = d.pop("attachments", UNSET)
-        attachments: list[PostSummaryAttachmentsItem] | Unset = UNSET
+        attachments: list[AttachmentRef] | Unset = UNSET
         if _attachments is not UNSET:
             attachments = []
             for attachments_item_data in _attachments:
-                attachments_item = PostSummaryAttachmentsItem.from_dict(
-                    attachments_item_data
-                )
+                attachments_item = AttachmentRef.from_dict(attachments_item_data)
 
                 attachments.append(attachments_item)
 
@@ -282,6 +289,7 @@ class PostDetail:
             channel_id=channel_id,
             author_pubkey=author_pubkey,
             title=title,
+            excerpt=excerpt,
             created_at=created_at,
             edited_at=edited_at,
             is_pinned=is_pinned,

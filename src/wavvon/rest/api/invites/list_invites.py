@@ -75,8 +75,7 @@ def sync_detailed(
     """List active invites (manage_invites)
 
      Newest first, and only the invites that can still admit someone — an expired or used-up one is
-    returned only with `include_inactive=true`, on hubs advertising `invites.status`. Paged only on hubs
-    advertising `list.cursor.lists`.
+    returned only with `include_inactive=true`. Paged only on hubs advertising `list.cursor.lists`.
 
     Args:
         include_inactive (bool | Unset):  Default: False.
@@ -114,8 +113,7 @@ def sync(
     """List active invites (manage_invites)
 
      Newest first, and only the invites that can still admit someone — an expired or used-up one is
-    returned only with `include_inactive=true`, on hubs advertising `invites.status`. Paged only on hubs
-    advertising `list.cursor.lists`.
+    returned only with `include_inactive=true`. Paged only on hubs advertising `list.cursor.lists`.
 
     Args:
         include_inactive (bool | Unset):  Default: False.
@@ -148,8 +146,7 @@ async def asyncio_detailed(
     """List active invites (manage_invites)
 
      Newest first, and only the invites that can still admit someone — an expired or used-up one is
-    returned only with `include_inactive=true`, on hubs advertising `invites.status`. Paged only on hubs
-    advertising `list.cursor.lists`.
+    returned only with `include_inactive=true`. Paged only on hubs advertising `list.cursor.lists`.
 
     Args:
         include_inactive (bool | Unset):  Default: False.
@@ -185,8 +182,7 @@ async def asyncio(
     """List active invites (manage_invites)
 
      Newest first, and only the invites that can still admit someone — an expired or used-up one is
-    returned only with `include_inactive=true`, on hubs advertising `invites.status`. Paged only on hubs
-    advertising `list.cursor.lists`.
+    returned only with `include_inactive=true`. Paged only on hubs advertising `list.cursor.lists`.
 
     Args:
         include_inactive (bool | Unset):  Default: False.

@@ -11,7 +11,8 @@ T = TypeVar("T", bound="Attachment")
 
 @_attrs_define
 class Attachment:
-    """
+    """An inline DM attachment. Channel messages, posts and replies use `attachment_ids` instead.
+
     Attributes:
         name (str):
         mime (str):

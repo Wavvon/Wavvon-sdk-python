@@ -5,18 +5,22 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.list_me_events_response_200 import ListMeEventsResponse200
+from ...models.hub_event import HubEvent
+from ...models.list_me_events_response_410 import ListMeEventsResponse410
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    since: int | Unset = UNSET,
+    cursor: int | Unset = UNSET,
+    limit: int | Unset = 100,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
-    params["since"] = since
+    params["cursor"] = cursor
+
+    params["limit"] = limit
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -31,11 +35,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListMeEventsResponse200 | None:
+) -> ListMeEventsResponse410 | list[HubEvent] | None:
     if response.status_code == 200:
-        response_200 = ListMeEventsResponse200.from_dict(response.json())
+        response_200 = []
+        _response_200 = response.json()
+        for response_200_item_data in _response_200:
+            response_200_item = HubEvent.from_dict(response_200_item_data)
+
+            response_200.append(response_200_item)
 
         return response_200
+
+    if response.status_code == 410:
+        response_410 = ListMeEventsResponse410.from_dict(response.json())
+
+        return response_410
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -45,7 +59,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListMeEventsResponse200]:
+) -> Response[ListMeEventsResponse410 | list[HubEvent]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -57,28 +71,32 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    since: int | Unset = UNSET,
-) -> Response[ListMeEventsResponse200]:
-    """Poll the caller's undelivered queued events
+    cursor: int | Unset = UNSET,
+    limit: int | Unset = 100,
+) -> Response[ListMeEventsResponse410 | list[HubEvent]]:
+    """Poll the hub events the caller subscribed to
 
-     The polling transport for a client holding no WebSocket: rows queued for the caller's own identity
-    and not yet acknowledged, oldest first, at most 100 per call. After a full page, acknowledge with
-    DELETE and poll again: `since` is strict on a whole-second timestamp, so paging by the last row's
-    `created_at` skips rows that share its second.
+     The polling transport for a program holding no WebSocket. It reads the audit log that WebSocket
+    `Resume` replays, so each item is the same `hub_event` envelope the socket pushes: events of the
+    caller's subscribed types after `cursor`, in channels it can read, oldest first. Nothing is queued
+    or acknowledged; pass the last `seq` seen as `cursor`. Without one, the poll starts at the beginning
+    of the 72-hour window.
 
     Args:
-        since (int | Unset):
+        cursor (int | Unset):
+        limit (int | Unset):  Default: 100.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListMeEventsResponse200]
+        Response[ListMeEventsResponse410 | list[HubEvent]]
     """
 
     kwargs = _get_kwargs(
-        since=since,
+        cursor=cursor,
+        limit=limit,
     )
 
     response = client.get_httpx_client().request(
@@ -91,57 +109,65 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    since: int | Unset = UNSET,
-) -> ListMeEventsResponse200 | None:
-    """Poll the caller's undelivered queued events
+    cursor: int | Unset = UNSET,
+    limit: int | Unset = 100,
+) -> ListMeEventsResponse410 | list[HubEvent] | None:
+    """Poll the hub events the caller subscribed to
 
-     The polling transport for a client holding no WebSocket: rows queued for the caller's own identity
-    and not yet acknowledged, oldest first, at most 100 per call. After a full page, acknowledge with
-    DELETE and poll again: `since` is strict on a whole-second timestamp, so paging by the last row's
-    `created_at` skips rows that share its second.
+     The polling transport for a program holding no WebSocket. It reads the audit log that WebSocket
+    `Resume` replays, so each item is the same `hub_event` envelope the socket pushes: events of the
+    caller's subscribed types after `cursor`, in channels it can read, oldest first. Nothing is queued
+    or acknowledged; pass the last `seq` seen as `cursor`. Without one, the poll starts at the beginning
+    of the 72-hour window.
 
     Args:
-        since (int | Unset):
+        cursor (int | Unset):
+        limit (int | Unset):  Default: 100.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListMeEventsResponse200
+        ListMeEventsResponse410 | list[HubEvent]
     """
 
     return sync_detailed(
         client=client,
-        since=since,
+        cursor=cursor,
+        limit=limit,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    since: int | Unset = UNSET,
-) -> Response[ListMeEventsResponse200]:
-    """Poll the caller's undelivered queued events
+    cursor: int | Unset = UNSET,
+    limit: int | Unset = 100,
+) -> Response[ListMeEventsResponse410 | list[HubEvent]]:
+    """Poll the hub events the caller subscribed to
 
-     The polling transport for a client holding no WebSocket: rows queued for the caller's own identity
-    and not yet acknowledged, oldest first, at most 100 per call. After a full page, acknowledge with
-    DELETE and poll again: `since` is strict on a whole-second timestamp, so paging by the last row's
-    `created_at` skips rows that share its second.
+     The polling transport for a program holding no WebSocket. It reads the audit log that WebSocket
+    `Resume` replays, so each item is the same `hub_event` envelope the socket pushes: events of the
+    caller's subscribed types after `cursor`, in channels it can read, oldest first. Nothing is queued
+    or acknowledged; pass the last `seq` seen as `cursor`. Without one, the poll starts at the beginning
+    of the 72-hour window.
 
     Args:
-        since (int | Unset):
+        cursor (int | Unset):
+        limit (int | Unset):  Default: 100.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListMeEventsResponse200]
+        Response[ListMeEventsResponse410 | list[HubEvent]]
     """
 
     kwargs = _get_kwargs(
-        since=since,
+        cursor=cursor,
+        limit=limit,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -152,29 +178,33 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    since: int | Unset = UNSET,
-) -> ListMeEventsResponse200 | None:
-    """Poll the caller's undelivered queued events
+    cursor: int | Unset = UNSET,
+    limit: int | Unset = 100,
+) -> ListMeEventsResponse410 | list[HubEvent] | None:
+    """Poll the hub events the caller subscribed to
 
-     The polling transport for a client holding no WebSocket: rows queued for the caller's own identity
-    and not yet acknowledged, oldest first, at most 100 per call. After a full page, acknowledge with
-    DELETE and poll again: `since` is strict on a whole-second timestamp, so paging by the last row's
-    `created_at` skips rows that share its second.
+     The polling transport for a program holding no WebSocket. It reads the audit log that WebSocket
+    `Resume` replays, so each item is the same `hub_event` envelope the socket pushes: events of the
+    caller's subscribed types after `cursor`, in channels it can read, oldest first. Nothing is queued
+    or acknowledged; pass the last `seq` seen as `cursor`. Without one, the poll starts at the beginning
+    of the 72-hour window.
 
     Args:
-        since (int | Unset):
+        cursor (int | Unset):
+        limit (int | Unset):  Default: 100.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListMeEventsResponse200
+        ListMeEventsResponse410 | list[HubEvent]
     """
 
     return (
         await asyncio_detailed(
             client=client,
-            since=since,
+            cursor=cursor,
+            limit=limit,
         )
     ).parsed

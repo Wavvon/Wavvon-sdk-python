@@ -7,13 +7,24 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.message import Message
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     alliance_id: str,
     channel_id: str,
+    *,
+    cursor: str | Unset = UNSET,
+    limit: int | Unset = 50,
 ) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    params["cursor"] = cursor
+
+    params["limit"] = limit
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
@@ -21,6 +32,7 @@ def _get_kwargs(
             alliance_id=quote(str(alliance_id), safe=""),
             channel_id=quote(str(channel_id), safe=""),
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -61,12 +73,16 @@ def sync_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
+    limit: int | Unset = 50,
 ) -> Response[list[Message]]:
     """Fetch federated channel messages
 
     Args:
         alliance_id (str):
         channel_id (str):
+        cursor (str | Unset):
+        limit (int | Unset):  Default: 50.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -79,6 +95,8 @@ def sync_detailed(
     kwargs = _get_kwargs(
         alliance_id=alliance_id,
         channel_id=channel_id,
+        cursor=cursor,
+        limit=limit,
     )
 
     response = client.get_httpx_client().request(
@@ -93,12 +111,16 @@ def sync(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
+    limit: int | Unset = 50,
 ) -> list[Message] | None:
     """Fetch federated channel messages
 
     Args:
         alliance_id (str):
         channel_id (str):
+        cursor (str | Unset):
+        limit (int | Unset):  Default: 50.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -112,6 +134,8 @@ def sync(
         alliance_id=alliance_id,
         channel_id=channel_id,
         client=client,
+        cursor=cursor,
+        limit=limit,
     ).parsed
 
 
@@ -120,12 +144,16 @@ async def asyncio_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
+    limit: int | Unset = 50,
 ) -> Response[list[Message]]:
     """Fetch federated channel messages
 
     Args:
         alliance_id (str):
         channel_id (str):
+        cursor (str | Unset):
+        limit (int | Unset):  Default: 50.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -138,6 +166,8 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         alliance_id=alliance_id,
         channel_id=channel_id,
+        cursor=cursor,
+        limit=limit,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -150,12 +180,16 @@ async def asyncio(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
+    limit: int | Unset = 50,
 ) -> list[Message] | None:
     """Fetch federated channel messages
 
     Args:
         alliance_id (str):
         channel_id (str):
+        cursor (str | Unset):
+        limit (int | Unset):  Default: 50.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -170,5 +204,7 @@ async def asyncio(
             alliance_id=alliance_id,
             channel_id=channel_id,
             client=client,
+            cursor=cursor,
+            limit=limit,
         )
     ).parsed

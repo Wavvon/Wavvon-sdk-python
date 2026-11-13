@@ -19,9 +19,8 @@ class CreateAuthChallengeResponse200:
     """
     Attributes:
         challenge (str): 32 random bytes, lowercase hex (64 chars)
-        scheme (CreateAuthChallengeResponse200Scheme | Unset): Present when the answer may be signed over "wavvon/auth-
-            challenge/v1\\0" || hex-decoded challenge (wire-format.md). Omitted by older hubs, which take a signature over
-            the raw decoded bytes only. A hub that sends it still accepts the raw form.
+        scheme (CreateAuthChallengeResponse200Scheme | Unset): tagged-v2 from a current hub or farm: the answer must be
+            bound to the server's public key (wire-format.md), and no other answer is accepted. tagged-v1 from an older one.
     """
 
     challenge: str

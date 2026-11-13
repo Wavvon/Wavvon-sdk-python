@@ -66,6 +66,9 @@ def sync_detailed(
 ) -> Response[Role]:
     """Update a role (manage_roles)
 
+     Built-in roles are refused, except that the permissions of builtin-everyone may be changed; any
+    other field on it is a 403.
+
     Args:
         role_id (str):
         body (UpdateRoleBody):
@@ -98,6 +101,9 @@ def sync(
 ) -> Role | None:
     """Update a role (manage_roles)
 
+     Built-in roles are refused, except that the permissions of builtin-everyone may be changed; any
+    other field on it is a 403.
+
     Args:
         role_id (str):
         body (UpdateRoleBody):
@@ -124,6 +130,9 @@ async def asyncio_detailed(
     body: UpdateRoleBody,
 ) -> Response[Role]:
     """Update a role (manage_roles)
+
+     Built-in roles are refused, except that the permissions of builtin-everyone may be changed; any
+    other field on it is a 403.
 
     Args:
         role_id (str):
@@ -154,6 +163,9 @@ async def asyncio(
     body: UpdateRoleBody,
 ) -> Role | None:
     """Update a role (manage_roles)
+
+     Built-in roles are refused, except that the permissions of builtin-everyone may be changed; any
+    other field on it is a 403.
 
     Args:
         role_id (str):

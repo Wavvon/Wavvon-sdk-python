@@ -57,9 +57,13 @@ GitHub Actions workflow files: explain choices in the commit message.
   returns the hub's JSON rather than a generated model because generated enums
   raise on a value they do not know.
 - **Re-auth on its own**, with the state observable (`on_state_change`).
-- **Auth challenge**: `scheme: "tagged-v1"` -> sign
-  `"wavvon/auth-challenge/v1\0" || challenge`; no scheme -> raw only at exactly
-  32 bytes; unknown scheme -> error.
+- **Auth challenge**: `scheme: "tagged-v2"` -> sign
+  `"wavvon/auth-challenge/v2\0" || u32le(len) || server_pubkey || challenge`,
+  where `server_pubkey` is the hub's own `GET /info` `public_key`, never a key
+  from the challenge response (Wavvon-server#294). `"tagged-v1"` (older hubs)
+  -> sign `"wavvon/auth-challenge/v1\0" || challenge`. A missing or unknown
+  scheme -> `AuthSchemeError`, never a raw signature. The challenge is
+  exactly 32 bytes.
 - **Never send the seed** or any private key anywhere. Never invent a wire
   format: signed bytes come from wire-format.md and the vectors; a new one is
   a server-side change first. Never model a bot as an account or send
@@ -80,11 +84,11 @@ report the doc bug to Wavvon-docs.
   hub, not the app.
 - Paging: a bare array plus `limit` (default 100, max 500) and `cursor` = key
   of the previous page's last row; the key differs per endpoint (`code`,
-  `public_key`, `id`). Channel messages still page with `before`.
+  `public_key`, `id`); channel messages too since Wavvon-server#184.
 - Outgoing-webhook HKDF input is the **decoded** secret bytes (the admin sees
   base64url without padding); the HMAC key is the 32 HKDF bytes, not hex.
-- `GET /me/events` rows are never written by the hub today
-  (Wavvon-server#170); `poll_events` follows the spec and nothing relies on it.
+- `GET /me/events` reads the audit log (Wavvon-server#183): `hub_event`
+  envelopes after a `seq` cursor, 410 outside the 72-hour window, no ack.
 
 ## Smoke test
 

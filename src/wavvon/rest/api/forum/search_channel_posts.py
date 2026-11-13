@@ -6,19 +6,27 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.search_channel_posts_response_200 import SearchChannelPostsResponse200
-from ...types import UNSET, Response
+from ...models.search_channel_posts_response_200_item import (
+    SearchChannelPostsResponse200Item,
+)
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     channel_id: str,
     *,
     q: str,
+    cursor: str | Unset = UNSET,
+    limit: int | Unset = 50,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
     params["q"] = q
+
+    params["cursor"] = cursor
+
+    params["limit"] = limit
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -35,9 +43,16 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> SearchChannelPostsResponse200 | None:
+) -> list[SearchChannelPostsResponse200Item] | None:
     if response.status_code == 200:
-        response_200 = SearchChannelPostsResponse200.from_dict(response.json())
+        response_200 = []
+        _response_200 = response.json()
+        for response_200_item_data in _response_200:
+            response_200_item = SearchChannelPostsResponse200Item.from_dict(
+                response_200_item_data
+            )
+
+            response_200.append(response_200_item)
 
         return response_200
 
@@ -49,7 +64,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[SearchChannelPostsResponse200]:
+) -> Response[list[SearchChannelPostsResponse200Item]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -63,24 +78,30 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     q: str,
-) -> Response[SearchChannelPostsResponse200]:
+    cursor: str | Unset = UNSET,
+    limit: int | Unset = 50,
+) -> Response[list[SearchChannelPostsResponse200Item]]:
     """Full-text search within a forum channel
 
     Args:
         channel_id (str):
         q (str):
+        cursor (str | Unset):
+        limit (int | Unset):  Default: 50.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SearchChannelPostsResponse200]
+        Response[list[SearchChannelPostsResponse200Item]]
     """
 
     kwargs = _get_kwargs(
         channel_id=channel_id,
         q=q,
+        cursor=cursor,
+        limit=limit,
     )
 
     response = client.get_httpx_client().request(
@@ -95,25 +116,31 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     q: str,
-) -> SearchChannelPostsResponse200 | None:
+    cursor: str | Unset = UNSET,
+    limit: int | Unset = 50,
+) -> list[SearchChannelPostsResponse200Item] | None:
     """Full-text search within a forum channel
 
     Args:
         channel_id (str):
         q (str):
+        cursor (str | Unset):
+        limit (int | Unset):  Default: 50.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SearchChannelPostsResponse200
+        list[SearchChannelPostsResponse200Item]
     """
 
     return sync_detailed(
         channel_id=channel_id,
         client=client,
         q=q,
+        cursor=cursor,
+        limit=limit,
     ).parsed
 
 
@@ -122,24 +149,30 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     q: str,
-) -> Response[SearchChannelPostsResponse200]:
+    cursor: str | Unset = UNSET,
+    limit: int | Unset = 50,
+) -> Response[list[SearchChannelPostsResponse200Item]]:
     """Full-text search within a forum channel
 
     Args:
         channel_id (str):
         q (str):
+        cursor (str | Unset):
+        limit (int | Unset):  Default: 50.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SearchChannelPostsResponse200]
+        Response[list[SearchChannelPostsResponse200Item]]
     """
 
     kwargs = _get_kwargs(
         channel_id=channel_id,
         q=q,
+        cursor=cursor,
+        limit=limit,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -152,19 +185,23 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     q: str,
-) -> SearchChannelPostsResponse200 | None:
+    cursor: str | Unset = UNSET,
+    limit: int | Unset = 50,
+) -> list[SearchChannelPostsResponse200Item] | None:
     """Full-text search within a forum channel
 
     Args:
         channel_id (str):
         q (str):
+        cursor (str | Unset):
+        limit (int | Unset):  Default: 50.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SearchChannelPostsResponse200
+        list[SearchChannelPostsResponse200Item]
     """
 
     return (
@@ -172,5 +209,7 @@ async def asyncio(
             channel_id=channel_id,
             client=client,
             q=q,
+            cursor=cursor,
+            limit=limit,
         )
     ).parsed

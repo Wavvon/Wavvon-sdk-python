@@ -32,6 +32,7 @@ class MeInfo:
         favorite_hubs (list[MeInfoFavoriteHubsItem]):
         show_hubs (bool):
         findable_by_allies (bool):
+        widget_hidden (bool): Left out of the hub's public online widget. Hubs advertising `hub.widget`.
         approval_status (MeInfoApprovalStatus):
         roles (list[Role]):
         birthday (None | str):
@@ -50,6 +51,7 @@ class MeInfo:
     favorite_hubs: list[MeInfoFavoriteHubsItem]
     show_hubs: bool
     findable_by_allies: bool
+    widget_hidden: bool
     approval_status: MeInfoApprovalStatus
     roles: list[Role]
     birthday: None | str
@@ -92,6 +94,8 @@ class MeInfo:
 
         findable_by_allies = self.findable_by_allies
 
+        widget_hidden = self.widget_hidden
+
         approval_status = self.approval_status.value
 
         roles = []
@@ -121,6 +125,7 @@ class MeInfo:
                 "favorite_hubs": favorite_hubs,
                 "show_hubs": show_hubs,
                 "findable_by_allies": findable_by_allies,
+                "widget_hidden": widget_hidden,
                 "approval_status": approval_status,
                 "roles": roles,
                 "birthday": birthday,
@@ -207,6 +212,8 @@ class MeInfo:
 
         findable_by_allies = d.pop("findable_by_allies")
 
+        widget_hidden = d.pop("widget_hidden")
+
         approval_status = MeInfoApprovalStatus(d.pop("approval_status"))
 
         roles = []
@@ -243,6 +250,7 @@ class MeInfo:
             favorite_hubs=favorite_hubs,
             show_hubs=show_hubs,
             findable_by_allies=findable_by_allies,
+            widget_hidden=widget_hidden,
             approval_status=approval_status,
             roles=roles,
             birthday=birthday,

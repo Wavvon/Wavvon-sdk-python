@@ -10,13 +10,13 @@ from ...types import Response
 
 
 def _get_kwargs(
-    target_key: str,
+    pubkey: str,
 ) -> dict[str, Any]:
 
     _kwargs: dict[str, Any] = {
         "method": "delete",
-        "url": "/moderation/bans/{target_key}".format(
-            target_key=quote(str(target_key), safe=""),
+        "url": "/moderation/bans/{pubkey}".format(
+            pubkey=quote(str(pubkey), safe=""),
         ),
     }
 
@@ -47,7 +47,7 @@ def _build_response(
 
 
 def sync_detailed(
-    target_key: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[Any]:
@@ -57,7 +57,7 @@ def sync_detailed(
     escalation the split guards against.
 
     Args:
-        target_key (str):
+        pubkey (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -68,7 +68,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        target_key=target_key,
+        pubkey=pubkey,
     )
 
     response = client.get_httpx_client().request(
@@ -79,7 +79,7 @@ def sync_detailed(
 
 
 async def asyncio_detailed(
-    target_key: str,
+    pubkey: str,
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[Any]:
@@ -89,7 +89,7 @@ async def asyncio_detailed(
     escalation the split guards against.
 
     Args:
-        target_key (str):
+        pubkey (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -100,7 +100,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        target_key=target_key,
+        pubkey=pubkey,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)

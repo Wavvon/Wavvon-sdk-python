@@ -71,6 +71,14 @@ def test_auth_challenge(file: dict[str, Any]) -> None:
     assert identity_from_seed(v["inputs"]["signer_seed"]).sign(signing).hex() == v["signature"]
 
 
+def test_bound_auth_challenge(file: dict[str, Any]) -> None:
+    v = vector(file, "bound_auth_challenge")
+    i = v["inputs"]
+    signing = auth_challenge_signing_bytes(bytes.fromhex(i["challenge"]), "tagged-v2", i["server_pubkey"])
+    assert signing.hex() == v["signing_bytes"]
+    assert identity_from_seed(i["signer_seed"]).sign(signing).hex() == v["signature"]
+
+
 def test_webhook_delivery_hub(file: dict[str, Any]) -> None:
     v = vector(file, "webhook_delivery_hub")
     i = v["inputs"]
@@ -80,13 +88,11 @@ def test_webhook_delivery_hub(file: dict[str, Any]) -> None:
     assert identity_from_seed(i["hub_seed"]).public_key == v["hub_pubkey"]
     key = Ed25519PrivateKey.from_private_bytes(bytes.fromhex(i["hub_seed"]))
     assert key.sign(signing).hex() == v["signature_v1"]
-    assert key.sign(body).hex() == v["signature_legacy"]
 
     h = v["headers"]
     headers = {
         h["hub_pubkey"]: v["hub_pubkey"],
         h["signature_v1"]: v["signature_v1"],
-        h["signature_legacy"]: v["signature_legacy"],
         h["timestamp"]: str(i["timestamp"]),
     }
     assert verify_dispatch(headers, body, v["hub_pubkey"], now=i["timestamp"])["type"] == "slash_command"
@@ -105,12 +111,10 @@ def test_webhook_delivery_outgoing(file: dict[str, Any]) -> None:
     signing = webhook_delivery_signing_bytes(i["timestamp"], body)
     assert signing.hex() == v["signing_bytes"]
     assert hmac.new(key, signing, hashlib.sha256).hexdigest() == v["signature_v1"]
-    assert hmac.new(key, body, hashlib.sha256).hexdigest() == v["signature_legacy"]
 
     h = v["headers"]
     headers = {
         h["signature_v1"]: v["signature_v1"],
-        h["signature_legacy"]: v["signature_legacy"],
         h["timestamp"]: str(i["timestamp"]),
         h["webhook_id"]: "wh_test",
     }

@@ -5,8 +5,8 @@ Every REST route is under `wavvon.rest.api`; pass `client.rest` as `client=`.
 """
 
 from .auth import (
-    AUTH_CHALLENGE_LEN,
     AUTH_CHALLENGE_SCHEME,
+    BOUND_AUTH_CHALLENGE_SCHEME,
     Identity,
     Session,
     auth_challenge_signing_bytes,
@@ -18,7 +18,6 @@ from .client import (
     AppProfile,
     AppSubscription,
     HubInfo,
-    PolledEvent,
     SessionState,
     WavvonClient,
     ok,
@@ -27,6 +26,7 @@ from .errors import (
     AuthSchemeError,
     HubError,
     HubUnavailableError,
+    ReplayUnavailableError,
     UnsupportedByHubError,
     WavvonError,
     WebhookVerificationError,
@@ -82,11 +82,11 @@ from .webhooks import (
     webhook_delivery_signing_bytes,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
-    "AUTH_CHALLENGE_LEN",
     "AUTH_CHALLENGE_SCHEME",
+    "BOUND_AUTH_CHALLENGE_SCHEME",
     "MAX_PAGE_SIZE",
     "AppCloseEvent",
     "AppCommand",
@@ -120,10 +120,10 @@ __all__ = [
     "MessageRefEvent",
     "MiniAppMessageEvent",
     "OutgoingWebhookEvent",
-    "PolledEvent",
     "PongEvent",
     "ReactionsUpdatedEvent",
     "ReplayCompleteEvent",
+    "ReplayUnavailableError",
     "ReplayUnavailableEvent",
     "RetryInfo",
     "RetryOptions",

@@ -16,7 +16,7 @@ def _get_kwargs(
     id: str,
     *,
     limit: int | Unset = 50,
-    offset: int | Unset = 0,
+    cursor: str | Unset = UNSET,
     event_type: str | Unset = UNSET,
     success: bool | Unset = UNSET,
 ) -> dict[str, Any]:
@@ -25,7 +25,7 @@ def _get_kwargs(
 
     params["limit"] = limit
 
-    params["offset"] = offset
+    params["cursor"] = cursor
 
     params["event_type"] = event_type
 
@@ -83,7 +83,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
-    offset: int | Unset = 0,
+    cursor: str | Unset = UNSET,
     event_type: str | Unset = UNSET,
     success: bool | Unset = UNSET,
 ) -> Response[list[ListAdminOutgoingWebhookDeliveriesResponse200Item]]:
@@ -92,7 +92,7 @@ def sync_detailed(
     Args:
         id (str):
         limit (int | Unset):  Default: 50.
-        offset (int | Unset):  Default: 0.
+        cursor (str | Unset):
         event_type (str | Unset):
         success (bool | Unset):
 
@@ -107,7 +107,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         id=id,
         limit=limit,
-        offset=offset,
+        cursor=cursor,
         event_type=event_type,
         success=success,
     )
@@ -124,7 +124,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
-    offset: int | Unset = 0,
+    cursor: str | Unset = UNSET,
     event_type: str | Unset = UNSET,
     success: bool | Unset = UNSET,
 ) -> list[ListAdminOutgoingWebhookDeliveriesResponse200Item] | None:
@@ -133,7 +133,7 @@ def sync(
     Args:
         id (str):
         limit (int | Unset):  Default: 50.
-        offset (int | Unset):  Default: 0.
+        cursor (str | Unset):
         event_type (str | Unset):
         success (bool | Unset):
 
@@ -149,7 +149,7 @@ def sync(
         id=id,
         client=client,
         limit=limit,
-        offset=offset,
+        cursor=cursor,
         event_type=event_type,
         success=success,
     ).parsed
@@ -160,7 +160,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
-    offset: int | Unset = 0,
+    cursor: str | Unset = UNSET,
     event_type: str | Unset = UNSET,
     success: bool | Unset = UNSET,
 ) -> Response[list[ListAdminOutgoingWebhookDeliveriesResponse200Item]]:
@@ -169,7 +169,7 @@ async def asyncio_detailed(
     Args:
         id (str):
         limit (int | Unset):  Default: 50.
-        offset (int | Unset):  Default: 0.
+        cursor (str | Unset):
         event_type (str | Unset):
         success (bool | Unset):
 
@@ -184,7 +184,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         id=id,
         limit=limit,
-        offset=offset,
+        cursor=cursor,
         event_type=event_type,
         success=success,
     )
@@ -199,7 +199,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
-    offset: int | Unset = 0,
+    cursor: str | Unset = UNSET,
     event_type: str | Unset = UNSET,
     success: bool | Unset = UNSET,
 ) -> list[ListAdminOutgoingWebhookDeliveriesResponse200Item] | None:
@@ -208,7 +208,7 @@ async def asyncio(
     Args:
         id (str):
         limit (int | Unset):  Default: 50.
-        offset (int | Unset):  Default: 0.
+        cursor (str | Unset):
         event_type (str | Unset):
         success (bool | Unset):
 
@@ -225,7 +225,7 @@ async def asyncio(
             id=id,
             client=client,
             limit=limit,
-            offset=offset,
+            cursor=cursor,
             event_type=event_type,
             success=success,
         )
