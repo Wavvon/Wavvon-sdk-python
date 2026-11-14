@@ -1,5 +1,10 @@
 # wavvon-sdk
 
+[![PyPI](https://img.shields.io/pypi/v/wavvon-sdk)](https://pypi.org/project/wavvon-sdk/)
+[![Python](https://img.shields.io/pypi/pyversions/wavvon-sdk)](https://pypi.org/project/wavvon-sdk/)
+[![CI](https://github.com/Wavvon/Wavvon-sdk-python/actions/workflows/ci.yml/badge.svg)](https://github.com/Wavvon/Wavvon-sdk-python/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+
 Write programs that talk to a [Wavvon](https://github.com/Wavvon) hub: bots,
 apps with slash commands and buttons, event consumers, mini-app hosts, and
 receivers for outgoing webhooks.
