@@ -1,7 +1,7 @@
 # wavvon-sdk
 
 [![PyPI](https://img.shields.io/pypi/v/wavvon-sdk)](https://pypi.org/project/wavvon-sdk/)
-[![Python](https://img.shields.io/pypi/pyversions/wavvon-sdk)](https://pypi.org/project/wavvon-sdk/)
+[![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![CI](https://github.com/Wavvon/Wavvon-sdk-python/actions/workflows/ci.yml/badge.svg)](https://github.com/Wavvon/Wavvon-sdk-python/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
