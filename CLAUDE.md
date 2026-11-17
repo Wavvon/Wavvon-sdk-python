@@ -35,7 +35,10 @@ GitHub Actions workflow files: explain choices in the commit message.
    bearer, retries and re-authenticates on 401), capabilities, app
    registration, polling, `ok()`; `pager.py`; `events.py` the WebSocket stream
    and frame TypedDicts; `webhooks.py` dispatch and outgoing-webhook
-   verification, reply TypedDicts, the framework-agnostic handler and `to_asgi`.
+   verification, reply TypedDicts, the framework-agnostic handler and `to_asgi`;
+   `wire.py` DM/DH signing bytes; `_crypto.py` the pure key derivations and
+   AEADs; `store.py` the `StateStore` (in-memory default); `dhkey.py` publish,
+   verify and pin; `dm.py` E2E DMs (`client.dms()`).
 3. **Conformance** - `tests/test_conformance.py` reads Wavvon-server
    `crates/identity/wire-vectors.json` (default `../../server/...` relative
    to the working directory, or `WAVVON_WIRE_VECTORS`). Strings starting with
@@ -67,7 +70,8 @@ GitHub Actions workflow files: explain choices in the commit message.
 - **Never send the seed** or any private key anywhere. Never invent a wire
   format: signed bytes come from wire-format.md and the vectors; a new one is
   a server-side change first. Never model a bot as an account or send
-  `is_bot`. Tier 1 is community-axis only (no DMs E2E, pairing, home hub).
+  `is_bot`. No pairing or home hub. E2E DMs (`dm.py`) never fall back to
+  plaintext; a changed DH key is an error until the program accepts it.
 
 Code is authoritative over docs. When they disagree, follow the hub code and
 report the doc bug to Wavvon-docs.
@@ -94,7 +98,9 @@ report the doc bug to Wavvon-docs.
 
 `tests/smoke.py` runs against a real hub (`WAVVON_SMOKE_HUB`,
 `WAVVON_SMOKE_INVITE` for an invite whose role grants `apps.register`,
-optional `WAVVON_SMOKE_CHANNEL`). `scripts/smoke_local.py` copies a hub binary
+optional `WAVVON_SMOKE_CHANNEL`). `tests/smoke_dm.py` is the DM smoke against
+one hub with the Rust SDK's `dm_echo` example as the peer
+(`WAVVON_RUST_DM_ECHO`). `scripts/smoke_local.py` copies a hub binary
 (`WAVVON_HUB_BIN`, default a sibling Wavvon-server checkout's
 `target/debug/wavvon-hub`) into a temp directory, boots it on a fresh database
 in a PostgreSQL docker container (`WAVVON_PG_CONTAINER`, default `wavvon-pg`),

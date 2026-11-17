@@ -7,6 +7,7 @@ import httpx
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 
+from ._crypto import dh_secret_from_seed
 from .errors import AuthSchemeError, HubError
 from .retry import RetryOptions, fetch_with_retry, is_transient_status
 
@@ -29,8 +30,9 @@ class Identity(Protocol):
 
 
 class _SeedIdentity:
-    def __init__(self, key: Ed25519PrivateKey) -> None:
+    def __init__(self, key: Ed25519PrivateKey, seed: bytes) -> None:
         self._key = key
+        self._seed = seed
         self._public_key = key.public_key().public_bytes(Encoding.Raw, PublicFormat.Raw).hex()
 
     @property
@@ -39,6 +41,10 @@ class _SeedIdentity:
 
     def sign(self, message: bytes) -> bytes:
         return self._key.sign(message)
+
+    def dh_secret(self) -> bytes:
+        """The X25519 secret DMs and voice use, derived from the seed. Local use only."""
+        return dh_secret_from_seed(self._seed)
 
     def __repr__(self) -> str:
         return f"Identity({self._public_key})"
@@ -51,7 +57,7 @@ def identity_from_seed(seed: str | bytes) -> Identity:
     secret = bytes.fromhex(seed.strip()) if isinstance(seed, str) else bytes(seed)
     if len(secret) != 32:
         raise ValueError("an Ed25519 seed is 32 bytes")
-    return _SeedIdentity(Ed25519PrivateKey.from_private_bytes(secret))
+    return _SeedIdentity(Ed25519PrivateKey.from_private_bytes(secret), secret)
 
 
 def auth_challenge_signing_bytes(challenge: bytes, scheme: str | None, server_pubkey: str | None = None) -> bytes:

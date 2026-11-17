@@ -27,9 +27,9 @@ class HubEvent:
         hub_url (str):
         at (int): Unix seconds
         payload (HubEventPayload):
-        actor_pubkey (str | Unset):
-        target_pubkey (str | Unset):
-        channel_id (str | Unset):
+        actor_pubkey (str | Unset): Absent when empty. Live
+        target_pubkey (str | Unset): Absent when empty. Live
+        channel_id (str | Unset): Absent when empty. Live
         replayed (bool | Unset): Set on events read back from the audit log (Resume and polling).
         webhook_id (str | Unset): Outgoing webhooks only.
         truncated (bool | Unset): Outgoing webhooks only, when the payload was cut to the size cap.
