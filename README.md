@@ -118,9 +118,9 @@ those conversations unreadable. Design: [sdk-dm.md](https://github.com/Wavvon/Wa
 ## Voice
 
 ```python
-voice = await client.join_voice(channel_id)      # publishes the DH key, joins, opens the audio session
-await voice.send_opus(packet)                    # one 20 ms Opus packet, paced to real time
-async for ev in voice:                           # Audio, Roster, Speaking, Zones, Position, ...
+voice = await client.join_voice(channel_id)  # publishes the DH key, joins, opens the audio session
+await voice.send_opus(packet)  # one 20 ms Opus packet, paced to real time
+async for ev in voice:  # Audio, Roster, Speaking, Zones, Position, ...
     if isinstance(ev, Audio):
         print(ev.from_pubkey, ev.ts, len(ev.opus))
 await voice.leave()
