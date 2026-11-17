@@ -95,6 +95,26 @@ channels = ok(await list_channels.asyncio_detailed(client=client.rest))
 WebhookResponse` function, so it fits any framework; `to_asgi` wraps it for
 uvicorn, hypercorn, Starlette or FastAPI.
 
+## End-to-end encrypted DMs
+
+```python
+await client.publish_dh_key()  # once per hub; without it nobody can encrypt to you
+dms = client.dms()
+conv = await dms.create_conversation([peer_pubkey])
+await dms.send_text(conv.id, "hello")  # double ratchet; groups use sender keys
+for m in await dms.poll(conv.id):  # call it when a `dm` event arrives
+    print(m.sender, m.content.content if m.error is None else m.error)
+```
+
+A 1:1 sends the double-ratchet envelope and reads both it and the older static
+one; groups use sender keys. Nothing is ever sent in the clear because
+encryption failed: a peer without a key raises `RecipientHasNoKeyError`, a
+changed key raises `DhKeyChangedError` until you call `accept_dh_key`, and
+plaintext is the separate `send_plaintext`. DH pins, ratchet sessions and group
+chains live in a `StateStore` (in memory by default): pass `store=` to
+`WavvonClient` to keep them across restarts, since losing ratchet state makes
+those conversations unreadable. Design: [sdk-dm.md](https://github.com/Wavvon/Wavvon-docs/blob/main/docs/sdk-dm.md).
+
 ## Capabilities each feature needs
 
 Hubs say what they support in `GET /info` `capabilities`. The SDK checks those
@@ -108,6 +128,7 @@ advertise raises `UnsupportedByHubError`.
 | Paging `GET /users`, `/conversations/{id}/messages`, `/admin/reports` | `list.cursor` |
 | Paging bans, mutes, invites, pending, conversations, pins, polls | `list.cursor.lists` |
 | `ping` / `pong` over the socket | `ws.ping` |
+| Signed plaintext DMs (`send_plaintext`), signed group changes | `dms.plaintext.v2`, `dms.group.signedmembers` |
 
 Login, REST, the socket and polling need no capability.
 

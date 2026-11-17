@@ -9,8 +9,11 @@ from urllib.parse import quote
 
 import httpx
 
+from . import dhkey
+from ._crypto import x25519_pub
 from .auth import Identity, Session, authenticate, identity_from_seed
-from .errors import HubError, ReplayUnavailableError, UnsupportedByHubError
+from .dm import Dms
+from .errors import HubError, ReplayUnavailableError, UnsupportedByHubError, WavvonError
 from .events import EventStream, HubEvent, WebSocketConnect
 from .rest.api.apps import (
     list_me_events,
@@ -28,6 +31,7 @@ from .rest.models.set_me_app_profile_body import SetMeAppProfileBody
 from .rest.models.set_me_app_subscriptions_body import SetMeAppSubscriptionsBody
 from .rest.types import Response
 from .retry import RetryOptions, fetch_with_retry
+from .store import MemoryStore, StateStore
 
 AppProfile = SetMeAppProfileBody
 AppCommand = AppCommandDef
@@ -117,6 +121,7 @@ class WavvonClient:
         retry: RetryOptions | None = None,
         transport: httpx.AsyncBaseTransport | None = None,
         ws_connect: WebSocketConnect | None = None,
+        store: StateStore | None = None,
     ) -> None:
         self.hub_url = hub_url.rstrip("/")
         if identity is not None:
@@ -126,6 +131,10 @@ class WavvonClient:
         else:
             raise ValueError("WavvonClient needs a seed or an identity")
         self._invite_code = invite_code
+        self.store: StateStore = store or MemoryStore()
+        """DH pins, DM ratchet sessions and group chains. In memory by default; pass
+        `store` to keep them across restarts."""
+        self._dms: Dms | None = None
         self._retry = retry
         self._transport = transport or httpx.AsyncHTTPTransport()
         self._ws_connect = ws_connect
@@ -241,6 +250,54 @@ class WavvonClient:
         items = [s if isinstance(s, AppSubscription) else AppSubscription.from_dict(s) for s in subscriptions]
         body = SetMeAppSubscriptionsBody(subscriptions=items)
         ok(await set_me_app_subscriptions.asyncio_detailed(client=self.rest, body=body))
+
+    # ---- E2E: DH key, DMs ----
+
+    def _dh_secret(self) -> bytes:
+        fn = getattr(self.identity, "dh_secret", None)
+        if fn is None:
+            raise WavvonError("DMs and voice need an identity that can derive the DH key; build it with a seed")
+        return cast(bytes, fn())
+
+    def dh_public_key_hex(self) -> str:
+        """The X25519 public key peers wrap voice keys and DMs to (vector master_dh_pubkey)."""
+        return x25519_pub(self._dh_secret()).hex()
+
+    async def json_call(
+        self, method: str, path: str, *, params: Mapping[str, Any] | None = None, json: Any = None
+    ) -> Any:
+        """One authenticated request (bearer, retry and re-login as for every call).
+        A 2xx answer is returned decoded (None when empty); a 4xx other than 429
+        is HubError; an exhausted retry budget is HubUnavailableError."""
+        res = await self.rest.get_async_httpx_client().request(method, path, params=params, json=json)
+        if res.status_code >= 300:
+            raise HubError(res.status_code, res.text)
+        return res.json() if res.content else None
+
+    async def publish_dh_key(self) -> bool:
+        """Publishes this program's DH key on this hub, once per hub. Without it
+        nobody can wrap a voice key or encrypt a DM to the program, and the
+        program cannot unwrap theirs. False when the hub already held this key."""
+        return await dhkey.publish_dh_key(self)
+
+    async def peer_dh_key(self, pubkey: str) -> bytes:
+        """A peer's verified, pinned DH key. The first key seen is pinned; a
+        different validly signed one is DhKeyChangedError and is not used. A 404
+        is RecipientHasNoKeyError; 429, 5xx and timeouts are retried and surface
+        as HubUnavailableError, never as either."""
+        return await dhkey.peer_dh_key(self, pubkey)
+
+    async def accept_dh_key(self, pubkey: str) -> None:
+        """Re-pins what the hub now holds for `pubkey`, after the program checked a
+        changed key. When to call it is the program's policy."""
+        await dhkey.accept_dh_key(self, pubkey)
+
+    def dms(self) -> Dms:
+        """This client's E2E DMs; the same object every time, its sessions and
+        caches are shared. Publish the DH key first."""
+        if self._dms is None:
+            self._dms = Dms(self)
+        return self._dms
 
     # ---- events ----
 

@@ -115,6 +115,16 @@ class DmEvent(TypedDict):
     timestamp: int
 
 
+class DmMemberChangedEvent(TypedDict):
+    """Members were added to or removed from a conversation. Pass it to `Dms.handle_event`
+    to rotate a group sender key."""
+
+    type: Literal["dm_member_changed"]
+    conversation_id: str
+    added: list[str]
+    removed: list[str]
+
+
 class ReplayCompleteEvent(TypedDict):
     type: Literal["replay_complete"]
     replayed: int
@@ -179,6 +189,7 @@ KnownEvent = (
     | ReactionsUpdatedEvent
     | TypingEvent
     | DmEvent
+    | DmMemberChangedEvent
     | HubEvent
     | ReplayCompleteEvent
     | ReplayUnavailableEvent
@@ -202,6 +213,7 @@ KNOWN_TYPES = frozenset(
         "reactions_updated",
         "typing",
         "dm",
+        "dm_member_changed",
         "hub_event",
         "replay_complete",
         "replay_unavailable",
