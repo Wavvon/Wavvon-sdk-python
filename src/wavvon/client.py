@@ -4,7 +4,7 @@ import asyncio
 import json
 import re
 from collections.abc import Callable, Mapping, Sequence
-from typing import Any, Literal, TypedDict, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Literal, TypedDict, TypeVar, cast
 from urllib.parse import quote
 
 import httpx
@@ -32,6 +32,9 @@ from .rest.models.set_me_app_subscriptions_body import SetMeAppSubscriptionsBody
 from .rest.types import Response
 from .retry import RetryOptions, fetch_with_retry
 from .store import MemoryStore, StateStore
+
+if TYPE_CHECKING:
+    from .voice import Voice
 
 AppProfile = SetMeAppProfileBody
 AppCommand = AppCommandDef
@@ -291,6 +294,15 @@ class WavvonClient:
         """Re-pins what the hub now holds for `pubkey`, after the program checked a
         changed key. When to call it is the program's policy."""
         await dhkey.accept_dh_key(self, pubkey)
+
+    async def join_voice(
+        self, channel_id: str, *, pcm: bool = False, music: bool = False, bitrate: int | None = None
+    ) -> Voice:
+        """Joins a voice channel: publishes the DH key, joins the room and opens the
+        audio session (see `wavvon.voice`)."""
+        from .voice import Voice
+
+        return await Voice.join(self, channel_id, pcm=pcm, music=music, bitrate=bitrate)
 
     def dms(self) -> Dms:
         """This client's E2E DMs; the same object every time, its sessions and

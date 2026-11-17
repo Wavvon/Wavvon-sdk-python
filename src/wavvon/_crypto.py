@@ -167,3 +167,55 @@ def group_key_unwrap(
     if len(plain) < 36:
         raise DecryptionError("bad wrapped chain key")
     return plain[:32], int(struct.unpack(">I", plain[32:36])[0])
+
+
+# ---- voice ----
+
+VOICE_HEADER_LEN = 16
+
+
+def _voice_wrap_key(my_secret: bytes, peer_pub: bytes, channel_id: str) -> bytes:
+    return hkdf(x25519(my_secret, peer_pub), channel_id.encode(), "wavvon/voice-key/v1")
+
+
+def voice_key_wrap(
+    my_secret: bytes,
+    recipient_pub: bytes,
+    channel_id: str,
+    sender_key: bytes,
+    salt: bytes,
+    key_id: int,
+    nonce: bytes,
+) -> bytes:
+    """Wraps a voice sender key (key, salt, key_id) for one recipient."""
+    plain = sender_key + salt + be32(key_id)
+    return aead_seal(_voice_wrap_key(my_secret, recipient_pub, channel_id), nonce, plain)
+
+
+def voice_key_unwrap(
+    my_secret: bytes, sender_pub: bytes, channel_id: str, ciphertext: bytes, nonce: bytes
+) -> tuple[bytes, bytes, int]:
+    plain = aead_open(_voice_wrap_key(my_secret, sender_pub, channel_id), nonce, ciphertext)
+    if len(plain) != 40:
+        raise DecryptionError("wrapped voice key must be 40 bytes")
+    return plain[:32], plain[32:36], int(struct.unpack(">I", plain[36:])[0])
+
+
+def _voice_nonce(salt: bytes, ctr: int) -> bytes:
+    return salt + struct.pack(">Q", ctr)
+
+
+def voice_packet_seal(sender_key: bytes, salt: bytes, key_id: int, ctr: int, ts: int, opus: bytes) -> bytes:
+    """An uplink datagram: key_id(4) || ctr(8) || ts(4), big-endian, which is
+    also the AEAD's associated data, then the ciphertext of the Opus packet."""
+    header = struct.pack(">IQI", key_id, ctr, ts)
+    return header + aead_seal(sender_key, _voice_nonce(salt, ctr), opus, header)
+
+
+def voice_packet_open(sender_key: bytes, salt: bytes, packet: bytes) -> tuple[int, int, int, bytes]:
+    """Returns (key_id, ctr, ts, opus). Raises DecryptionError for a packet that does not open."""
+    if len(packet) < VOICE_HEADER_LEN + 16:
+        raise DecryptionError("voice packet too short")
+    key_id, ctr, ts = struct.unpack(">IQI", packet[:VOICE_HEADER_LEN])
+    opus = aead_open(sender_key, _voice_nonce(salt, ctr), packet[VOICE_HEADER_LEN:], packet[:VOICE_HEADER_LEN])
+    return key_id, ctr, ts, opus
