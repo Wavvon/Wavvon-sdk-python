@@ -38,7 +38,10 @@ GitHub Actions workflow files: explain choices in the commit message.
    verification, reply TypedDicts, the framework-agnostic handler and `to_asgi`;
    `wire.py` DM/DH signing bytes; `_crypto.py` the pure key derivations and
    AEADs; `store.py` the `StateStore` (in-memory default); `dhkey.py` publish,
-   verify and pin; `dm.py` E2E DMs (`client.dms()`).
+   verify and pin; `dm.py` E2E DMs (`client.dms()`); `voice/` voice
+   (`client.join_voice()`): `session.py` the room, `_wt.py` the draft-02
+   WebTransport client over aioquic, `_opus.py` the 20 ms check and the optional
+   opuslib codec.
 3. **Conformance** - `tests/test_conformance.py` reads Wavvon-server
    `crates/identity/wire-vectors.json` (default `../../server/...` relative
    to the working directory, or `WAVVON_WIRE_VECTORS`). Strings starting with
@@ -71,7 +74,15 @@ GitHub Actions workflow files: explain choices in the commit message.
   format: signed bytes come from wire-format.md and the vectors; a new one is
   a server-side change first. Never model a bot as an account or send
   `is_bot`. No pairing or home hub. E2E DMs (`dm.py`) never fall back to
-  plaintext; a changed DH key is an error until the program accepts it.
+  plaintext; a changed DH key is an error until the program accepts it. Voice sends only
+  exactly-20 ms Opus and decides nothing for the program (mute, AFK moves and a
+  changed DH key are events and calls).
+- **WebTransport is draft-02 only**: the hub's wtransport 0.7 sends
+  `SETTINGS_ENABLE_WEBTRANSPORT` (0x2b603742) and expects
+  `Sec-Webtransport-Http3-Draft02: 1`; aioquic's `enable_webtransport` speaks
+  exactly that, newer-draft libraries refuse the hub (Wavvon-server#417).
+  One `H3Connection` per connection: a second one opens a second control
+  stream and the hub closes with "critical stream".
 
 Code is authoritative over docs. When they disagree, follow the hub code and
 report the doc bug to Wavvon-docs.
@@ -100,7 +111,9 @@ report the doc bug to Wavvon-docs.
 `WAVVON_SMOKE_INVITE` for an invite whose role grants `apps.register`,
 optional `WAVVON_SMOKE_CHANNEL`). `tests/smoke_dm.py` is the DM smoke against
 one hub with the Rust SDK's `dm_echo` example as the peer
-(`WAVVON_RUST_DM_ECHO`). `scripts/smoke_local.py` copies a hub binary
+(`WAVVON_RUST_DM_ECHO`). `tests/smoke_voice.py` is the voice smoke
+(sustained traffic, rotation, proximity), optionally against a Rust SDK peer
+(`WAVVON_RUST_VOICE_PEER`, contract in its docstring). `scripts/smoke_local.py` copies a hub binary
 (`WAVVON_HUB_BIN`, default a sibling Wavvon-server checkout's
 `target/debug/wavvon-hub`) into a temp directory, boots it on a fresh database
 in a PostgreSQL docker container (`WAVVON_PG_CONTAINER`, default `wavvon-pg`),

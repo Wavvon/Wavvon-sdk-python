@@ -115,6 +115,31 @@ chains live in a `StateStore` (in memory by default): pass `store=` to
 `WavvonClient` to keep them across restarts, since losing ratchet state makes
 those conversations unreadable. Design: [sdk-dm.md](https://github.com/Wavvon/Wavvon-docs/blob/main/docs/sdk-dm.md).
 
+## Voice
+
+```python
+voice = await client.join_voice(channel_id)      # publishes the DH key, joins, opens the audio session
+await voice.send_opus(packet)                    # one 20 ms Opus packet, paced to real time
+async for ev in voice:                           # Audio, Roster, Speaking, Zones, Position, ...
+    if isinstance(ev, Audio):
+        print(ev.from_pubkey, ev.ts, len(ev.opus))
+await voice.leave()
+```
+
+Same wire as the desktop and web clients: signalling on the chat socket, audio
+as datagrams over WebTransport, every packet sealed with a per-sender key
+wrapped to each listener's DH key. `send_opus` refuses anything but exactly
+20 ms and holds each packet to its slot, so a file read faster than real time
+is not flooded into the relay. `set_position` is coalesced to one update per
+50 ms, `set_muted` and `set_deafened` are local, `Rejoining` and
+`PositionRefused` are events, never fatal. For PCM in and out, install the
+extra (`pip install wavvon-sdk[opus]`, which needs the libopus shared library)
+and join with `pcm=True`; then `send_pcm(960 floats)` and `Audio.pcm` work. The
+SDK carries its own small draft-02 WebTransport client over `aioquic`, because
+the hub speaks only that draft and current WebTransport libraries refuse it
+([Wavvon-server#417](https://github.com/Wavvon/Wavvon-server/issues/417)).
+Design: [sdk-voice.md](https://github.com/Wavvon/Wavvon-docs/blob/main/docs/sdk-voice.md).
+
 ## Capabilities each feature needs
 
 Hubs say what they support in `GET /info` `capabilities`. The SDK checks those
@@ -128,6 +153,7 @@ advertise raises `UnsupportedByHubError`.
 | Paging `GET /users`, `/conversations/{id}/messages`, `/admin/reports` | `list.cursor` |
 | Paging bans, mutes, invites, pending, conversations, pins, polls | `list.cursor.lists` |
 | `ping` / `pong` over the socket | `ws.ping` |
+| `join_voice` | `channels.voice` |
 | Signed plaintext DMs (`send_plaintext`), signed group changes | `dms.plaintext.v2`, `dms.group.signedmembers` |
 
 Login, REST, the socket and polling need no capability.

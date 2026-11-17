@@ -16,12 +16,17 @@ dependencies = [
     "cryptography>=42",
     "attrs>=22.2",
     "python-dateutil>=2.8",
+    "aioquic>=1.2",
 ]
+
 classifiers = [
     "Programming Language :: Python :: 3",
     "Framework :: AsyncIO",
     "Typing :: Typed",
 ]
+
+[project.optional-dependencies]
+opus = ["opuslib>=3.0"]
 
 [project.urls]
 Homepage = "https://github.com/Wavvon/Wavvon-docs/blob/main/docs/sdk.md"
@@ -36,6 +41,7 @@ dev = [
     "uvicorn>=0.30",
     "types-python-dateutil",
     "openapi-python-client==0.29.1",
+    "opuslib>=3.0",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -64,5 +70,5 @@ module = "wavvon.rest.*"
 ignore_errors = true
 
 [[tool.mypy.overrides]]
-module = ["ruamel.*"]
+module = ["ruamel.*", "opuslib"]
 ignore_missing_imports = true
