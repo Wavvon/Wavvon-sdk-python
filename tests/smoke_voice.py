@@ -20,6 +20,7 @@ leave and rejoin, proximity (coalescing, a creator-only refusal).
 from __future__ import annotations
 
 import asyncio
+import math
 import os
 import secrets
 import subprocess
@@ -242,12 +243,16 @@ async def owner_zone(hub: str, owner: WavvonClient, va: Voice, seen_b: Tally, vb
         "both to see the zone",
         lambda: "smoke-zone" in seen_b.zones and any(z.zone_id == "smoke-zone" for z in va.zones),
     )
+    t0 = time.monotonic()
     for i in range(10):
         va.set_position("smoke-zone", [10.0 + i, 50.0])
         await asyncio.sleep(0.01)
+    # One update per 50 ms window the loop spanned, plus the first and the final
+    # flush; timer slop stretches the loop, and nine keeps it a coalescing test.
+    limit = min(9, math.ceil((time.monotonic() - t0) * 1000 / 50) + 2)
     await until("B to see the last position", lambda: seen_b.positions[-1:] == [[19.0, 50.0]])
     step(f"ten positions in 100 ms coalesced to {len(seen_b.positions)}, ending at the last")
-    assert len(seen_b.positions) <= 4
+    assert len(seen_b.positions) <= limit, f"coalescing let {len(seen_b.positions)} of 10 through (limit {limit})"
     await va.create_zone("own-zone", "own", "2d", None, "creator_only")
     await until("B to see the creator-only zone", lambda: any(z.zone_id == "own-zone" for z in vb.zones))
     vb.set_position("own-zone", [1.0, 1.0])
