@@ -127,17 +127,14 @@ await voice.leave()
 ```
 
 Same wire as the desktop and web clients: signalling on the chat socket, audio
-as datagrams over WebTransport, every packet sealed with a per-sender key
+on a WebRTC data channel (`aiortc`; the hub must advertise `voice.webrtc`), every packet sealed with a per-sender key
 wrapped to each listener's DH key. `send_opus` refuses anything but exactly
 20 ms and holds each packet to its slot, so a file read faster than real time
 is not flooded into the relay. `set_position` is coalesced to one update per
 50 ms, `set_muted` and `set_deafened` are local, `Rejoining` and
 `PositionRefused` are events, never fatal. For PCM in and out, install the
 extra (`pip install wavvon-sdk[opus]`, which needs the libopus shared library)
-and join with `pcm=True`; then `send_pcm(960 floats)` and `Audio.pcm` work. The
-SDK carries its own small draft-02 WebTransport client over `aioquic`, because
-the hub speaks only that draft and current WebTransport libraries refuse it
-([Wavvon-server#417](https://github.com/Wavvon/Wavvon-server/issues/417)).
+and join with `pcm=True`; then `send_pcm(960 floats)` and `Audio.pcm` work.
 Design: [sdk-voice.md](https://github.com/Wavvon/Wavvon-docs/blob/main/docs/sdk-voice.md).
 
 ## Capabilities each feature needs

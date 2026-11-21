@@ -16,7 +16,7 @@ dependencies = [
     "cryptography>=42",
     "attrs>=22.2",
     "python-dateutil>=2.8",
-    "aioquic>=1.2",
+    "aiortc>=1.10",
 ]
 
 classifiers = [
