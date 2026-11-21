@@ -1,6 +1,6 @@
 """A program in a voice channel (sdk-voice.md). It does exactly what the
 desktop and web clients do: voice signalling rides one chat WebSocket, the
-audio rides a WebTransport session, and every datagram is sealed with a
+audio rides a WebRTC data channel, and every packet is sealed with a
 per-sender key wrapped to each listener's DH key.
 
 The module owns the mechanisms (key distribution and rotation, 20 ms pacing,
@@ -20,18 +20,16 @@ from array import array
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
-from urllib.parse import quote
 
 from .. import _crypto as c
 from ..errors import (
     DhKeyChangedError,
     DhKeyUnsignedError,
     RecipientHasNoKeyError,
-    UnsupportedByHubError,
     WavvonError,
 )
 from ._opus import FRAME_SAMPLES, OpusCodec, check_20ms
-from ._wt import WebTransportSession
+from ._rtc import RtcSession, TransportError
 
 if TYPE_CHECKING:
     from ..client import WavvonClient
@@ -194,14 +192,6 @@ class VoiceError(WavvonError):
     """Base of the errors a voice room raises on purpose."""
 
 
-class NoTransportError(UnsupportedByHubError, VoiceError):
-    """voice_joined carried no voice_wt_url: a hub older than voice transport v2."""
-
-    def __init__(self) -> None:
-        Exception.__init__(self, "the hub offers no WebTransport voice endpoint")
-        self.capability = "channels.voice"
-
-
 class MayNotSpeakError(VoiceError):
     """Talk power is below the channel's threshold, so the relay would drop every
     datagram. Lifted by a TalkGranted event."""
@@ -290,10 +280,6 @@ def _zone(raw: Any) -> Zone | None:
     )
 
 
-def _with_token(url: str, token: str) -> str:
-    return f"{url}{'&' if '?' in url else '?'}token={quote(token, safe='')}"
-
-
 @dataclass
 class _OwnKey:
     key: bytes
@@ -334,7 +320,7 @@ class Voice:
         self._remote: dict[tuple[str, int], tuple[bytes, bytes]] = {}
         self._marks: dict[tuple[int, int], int] = {}
         self._zones: list[Zone] = []
-        self._sess: WebTransportSession | None = None
+        self._sess: RtcSession | None = None
         self._pace: _Pacing | None = None
         self._speaking = False
         self._last_send = self._loop.time()
@@ -356,6 +342,9 @@ class Voice:
         session. One room per client: the hub allows one per identity. `pcm` turns on
         PCM encode and decode (the opus extra); `music` and `bitrate` tune its encoder."""
         await client.require_capability("channels.voice")
+        # Voice transport v3: a hub without it speaks only WebTransport, which
+        # this SDK no longer carries.
+        await client.require_capability("voice.webrtc")
         # Without a published key nobody wraps a voice key to this program and it
         # cannot unwrap theirs: it would be deaf and mute.
         await client.publish_dh_key()
@@ -408,13 +397,7 @@ class Voice:
                     joined = ev["raw"]
                 elif ev["type"] == "error" and ev.get("context") == "voice_join":
                     raise RefusedError(str(ev.get("message")))
-            url = joined.get("voice_wt_url")
-            if not url:
-                raise NoTransportError
-            cert = joined.get("voice_cert_hash")
-            sess = await WebTransportSession.connect(
-                _with_token(str(url), str(joined.get("voice_token"))), cert if isinstance(cert, str) else None
-            )
+            sess, deferred = await self._connect_transport(str(joined.get("voice_token")))
         sender_id = _u16(joined, "sender_id")
         if sender_id is None:
             await sess.close()
@@ -440,6 +423,32 @@ class Voice:
         self._in_room = True
         self._spawn(self._read_datagrams(sess))
         self._offer(others)
+        # What arrived while the answer was awaited, a key bundle above all:
+        # dropping it would leave this room unable to open that speaker.
+        for ev in deferred:
+            self._handle(ev)
+
+    async def _connect_transport(self, token: str) -> tuple[RtcSession, list[dict[str, Any]]]:
+        """Offers a WebRTC session bound by the voice token and waits for the hub's
+        answer on the same socket, keeping every other event that arrives meanwhile."""
+        sess, sdp = await RtcSession.offer()
+        deferred: list[dict[str, Any]] = []
+        try:
+            await self._stream.send({"type": "voice_rtc_offer", "token": token, "sdp": sdp})
+            answer: str | None = None
+            while answer is None:
+                ev = await self._inbox.get()
+                if ev["type"] == "unknown" and ev.get("raw_type") == "voice_rtc_answer":
+                    answer = str(ev["raw"].get("sdp") or "")
+                elif ev["type"] == "error" and ev.get("context") == "voice_rtc_offer":
+                    raise RefusedError(str(ev.get("message")))
+                else:
+                    deferred.append(ev)
+            await sess.accept(answer)
+        except BaseException:
+            await sess.close()
+            raise
+        return sess, deferred
 
     async def _dh_for(self, pub: str) -> bytes:
         """A peer's DH key, looked up once per session: it is pinned, so a second
@@ -635,13 +644,11 @@ class Voice:
 
     # ---- audio in ----
 
-    async def _read_datagrams(self, sess: WebTransportSession) -> None:
-        from ._wt import WebTransportError
-
+    async def _read_datagrams(self, sess: RtcSession) -> None:
         while True:
             try:
                 dg = await sess.receive_datagram()
-            except WebTransportError as e:
+            except TransportError as e:
                 # After leave or during a rejoin the close is ours.
                 ours = self._sess is sess and self._in_room
                 if self._sess is sess:

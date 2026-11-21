@@ -39,8 +39,8 @@ GitHub Actions workflow files: explain choices in the commit message.
    `wire.py` DM/DH signing bytes; `_crypto.py` the pure key derivations and
    AEADs; `store.py` the `StateStore` (in-memory default); `dhkey.py` publish,
    verify and pin; `dm.py` E2E DMs (`client.dms()`); `voice/` voice
-   (`client.join_voice()`): `session.py` the room, `_wt.py` the draft-02
-   WebTransport client over aioquic, `_opus.py` the 20 ms check and the optional
+   (`client.join_voice()`): `session.py` the room, `_rtc.py` the WebRTC
+   data channel over aiortc (voice-transport-v3.md), `_opus.py` the 20 ms check and the optional
    opuslib codec.
 3. **Conformance** - `tests/test_conformance.py` reads Wavvon-server
    `crates/identity/wire-vectors.json` (default `../../server/...` relative
@@ -77,12 +77,9 @@ GitHub Actions workflow files: explain choices in the commit message.
   plaintext; a changed DH key is an error until the program accepts it. Voice sends only
   exactly-20 ms Opus and decides nothing for the program (mute, AFK moves and a
   changed DH key are events and calls).
-- **WebTransport is draft-02 only**: the hub's wtransport 0.7 sends
-  `SETTINGS_ENABLE_WEBTRANSPORT` (0x2b603742) and expects
-  `Sec-Webtransport-Http3-Draft02: 1`; aioquic's `enable_webtransport` speaks
-  exactly that, newer-draft libraries refuse the hub (Wavvon-server#417).
-  One `H3Connection` per connection: a second one opens a second control
-  stream and the hub closes with "critical stream".
+- **Events that arrive while `voice_rtc_answer` is awaited are replayed** after
+  the join: a dropped `voice_key_received` there leaves a listener deaf to that
+  speaker.
 
 Code is authoritative over docs. When they disagree, follow the hub code and
 report the doc bug to Wavvon-docs.
