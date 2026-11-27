@@ -15,6 +15,8 @@ T = TypeVar("T", bound="CreateInviteBody")
 class CreateInviteBody:
     """
     Attributes:
+        code (str | Unset): A code the creator chooses instead of a random one (`invites.customcode`): 3–32 of a-z, 0-9,
+            - and _, stored and matched case-insensitively. A taken code is a 409.
         max_uses (int | None | Unset): Omitted means unlimited. Below 1 is a 400.
         expires_in_seconds (int | None | Unset): Lifetime in seconds from now. Omitted means no expiry, except as noted
             under `grant_role_id`. Below 1, or large enough to overflow the expiry timestamp, is a 400.
@@ -24,6 +26,7 @@ class CreateInviteBody:
         bound_pubkey (None | str | Unset): 64 hex characters. The only identity this invite admits.
     """
 
+    code: str | Unset = UNSET
     max_uses: int | None | Unset = UNSET
     expires_in_seconds: int | None | Unset = UNSET
     grant_role_id: None | str | Unset = UNSET
@@ -31,6 +34,8 @@ class CreateInviteBody:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        code = self.code
+
         max_uses: int | None | Unset
         if isinstance(self.max_uses, Unset):
             max_uses = UNSET
@@ -58,6 +63,8 @@ class CreateInviteBody:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if code is not UNSET:
+            field_dict["code"] = code
         if max_uses is not UNSET:
             field_dict["max_uses"] = max_uses
         if expires_in_seconds is not UNSET:
@@ -72,6 +79,7 @@ class CreateInviteBody:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
+        code = d.pop("code", UNSET)
 
         def _parse_max_uses(data: object) -> int | None | Unset:
             if data is None:
@@ -112,6 +120,7 @@ class CreateInviteBody:
         bound_pubkey = _parse_bound_pubkey(d.pop("bound_pubkey", UNSET))
 
         create_invite_body = cls(
+            code=code,
             max_uses=max_uses,
             expires_in_seconds=expires_in_seconds,
             grant_role_id=grant_role_id,

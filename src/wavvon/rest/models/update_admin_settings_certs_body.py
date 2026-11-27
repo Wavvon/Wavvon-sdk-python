@@ -6,17 +6,15 @@ from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.update_admin_settings_certs_body_cert_mode import (
-    UpdateAdminSettingsCertsBodyCertMode,
+from ..models.update_admin_settings_certs_body_cert_others import (
+    UpdateAdminSettingsCertsBodyCertOthers,
 )
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.trusted_cert_type import TrustedCertType
     from ..models.update_admin_settings_certs_body_cert_issuer_urls import (
         UpdateAdminSettingsCertsBodyCertIssuerUrls,
-    )
-    from ..models.update_admin_settings_certs_body_cert_require import (
-        UpdateAdminSettingsCertsBodyCertRequire,
     )
 
 
@@ -30,22 +28,22 @@ class UpdateAdminSettingsCertsBody:
         cert_auto_issue (bool | str | Unset):
         cert_min_age_days (int | str | Unset):
         cert_validity_days (int | str | Unset):
-        cert_mode (UpdateAdminSettingsCertsBodyCertMode | Unset):
         cert_trusted_issuers (list[str] | Unset):
+        cert_trusted_types (list[TrustedCertType] | Unset):
+        cert_others (UpdateAdminSettingsCertsBodyCertOthers | Unset):
+        cert_replaces_invite (bool | str | Unset):
         cert_issuer_urls (UpdateAdminSettingsCertsBodyCertIssuerUrls | Unset): Replaces the whole map, like the trust
             list it accompanies.
-        cert_require (UpdateAdminSettingsCertsBodyCertRequire | Unset):
-        cert_min_pow_level (int | str | Unset):
     """
 
     cert_auto_issue: bool | str | Unset = UNSET
     cert_min_age_days: int | str | Unset = UNSET
     cert_validity_days: int | str | Unset = UNSET
-    cert_mode: UpdateAdminSettingsCertsBodyCertMode | Unset = UNSET
     cert_trusted_issuers: list[str] | Unset = UNSET
+    cert_trusted_types: list[TrustedCertType] | Unset = UNSET
+    cert_others: UpdateAdminSettingsCertsBodyCertOthers | Unset = UNSET
+    cert_replaces_invite: bool | str | Unset = UNSET
     cert_issuer_urls: UpdateAdminSettingsCertsBodyCertIssuerUrls | Unset = UNSET
-    cert_require: UpdateAdminSettingsCertsBodyCertRequire | Unset = UNSET
-    cert_min_pow_level: int | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -67,27 +65,30 @@ class UpdateAdminSettingsCertsBody:
         else:
             cert_validity_days = self.cert_validity_days
 
-        cert_mode: str | Unset = UNSET
-        if not isinstance(self.cert_mode, Unset):
-            cert_mode = self.cert_mode.value
-
         cert_trusted_issuers: list[str] | Unset = UNSET
         if not isinstance(self.cert_trusted_issuers, Unset):
             cert_trusted_issuers = self.cert_trusted_issuers
 
+        cert_trusted_types: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.cert_trusted_types, Unset):
+            cert_trusted_types = []
+            for cert_trusted_types_item_data in self.cert_trusted_types:
+                cert_trusted_types_item = cert_trusted_types_item_data.to_dict()
+                cert_trusted_types.append(cert_trusted_types_item)
+
+        cert_others: str | Unset = UNSET
+        if not isinstance(self.cert_others, Unset):
+            cert_others = self.cert_others.value
+
+        cert_replaces_invite: bool | str | Unset
+        if isinstance(self.cert_replaces_invite, Unset):
+            cert_replaces_invite = UNSET
+        else:
+            cert_replaces_invite = self.cert_replaces_invite
+
         cert_issuer_urls: dict[str, Any] | Unset = UNSET
         if not isinstance(self.cert_issuer_urls, Unset):
             cert_issuer_urls = self.cert_issuer_urls.to_dict()
-
-        cert_require: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.cert_require, Unset):
-            cert_require = self.cert_require.to_dict()
-
-        cert_min_pow_level: int | str | Unset
-        if isinstance(self.cert_min_pow_level, Unset):
-            cert_min_pow_level = UNSET
-        else:
-            cert_min_pow_level = self.cert_min_pow_level
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -98,26 +99,24 @@ class UpdateAdminSettingsCertsBody:
             field_dict["cert_min_age_days"] = cert_min_age_days
         if cert_validity_days is not UNSET:
             field_dict["cert_validity_days"] = cert_validity_days
-        if cert_mode is not UNSET:
-            field_dict["cert_mode"] = cert_mode
         if cert_trusted_issuers is not UNSET:
             field_dict["cert_trusted_issuers"] = cert_trusted_issuers
+        if cert_trusted_types is not UNSET:
+            field_dict["cert_trusted_types"] = cert_trusted_types
+        if cert_others is not UNSET:
+            field_dict["cert_others"] = cert_others
+        if cert_replaces_invite is not UNSET:
+            field_dict["cert_replaces_invite"] = cert_replaces_invite
         if cert_issuer_urls is not UNSET:
             field_dict["cert_issuer_urls"] = cert_issuer_urls
-        if cert_require is not UNSET:
-            field_dict["cert_require"] = cert_require
-        if cert_min_pow_level is not UNSET:
-            field_dict["cert_min_pow_level"] = cert_min_pow_level
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.trusted_cert_type import TrustedCertType
         from ..models.update_admin_settings_certs_body_cert_issuer_urls import (
             UpdateAdminSettingsCertsBodyCertIssuerUrls,
-        )
-        from ..models.update_admin_settings_certs_body_cert_require import (
-            UpdateAdminSettingsCertsBodyCertRequire,
         )
 
         d = dict(src_dict)
@@ -145,14 +144,34 @@ class UpdateAdminSettingsCertsBody:
             d.pop("cert_validity_days", UNSET)
         )
 
-        _cert_mode = d.pop("cert_mode", UNSET)
-        cert_mode: UpdateAdminSettingsCertsBodyCertMode | Unset
-        if isinstance(_cert_mode, Unset):
-            cert_mode = UNSET
-        else:
-            cert_mode = UpdateAdminSettingsCertsBodyCertMode(_cert_mode)
-
         cert_trusted_issuers = cast(list[str], d.pop("cert_trusted_issuers", UNSET))
+
+        _cert_trusted_types = d.pop("cert_trusted_types", UNSET)
+        cert_trusted_types: list[TrustedCertType] | Unset = UNSET
+        if _cert_trusted_types is not UNSET:
+            cert_trusted_types = []
+            for cert_trusted_types_item_data in _cert_trusted_types:
+                cert_trusted_types_item = TrustedCertType.from_dict(
+                    cert_trusted_types_item_data
+                )
+
+                cert_trusted_types.append(cert_trusted_types_item)
+
+        _cert_others = d.pop("cert_others", UNSET)
+        cert_others: UpdateAdminSettingsCertsBodyCertOthers | Unset
+        if isinstance(_cert_others, Unset):
+            cert_others = UNSET
+        else:
+            cert_others = UpdateAdminSettingsCertsBodyCertOthers(_cert_others)
+
+        def _parse_cert_replaces_invite(data: object) -> bool | str | Unset:
+            if isinstance(data, Unset):
+                return data
+            return cast(bool | str | Unset, data)
+
+        cert_replaces_invite = _parse_cert_replaces_invite(
+            d.pop("cert_replaces_invite", UNSET)
+        )
 
         _cert_issuer_urls = d.pop("cert_issuer_urls", UNSET)
         cert_issuer_urls: UpdateAdminSettingsCertsBodyCertIssuerUrls | Unset
@@ -163,33 +182,15 @@ class UpdateAdminSettingsCertsBody:
                 _cert_issuer_urls
             )
 
-        _cert_require = d.pop("cert_require", UNSET)
-        cert_require: UpdateAdminSettingsCertsBodyCertRequire | Unset
-        if isinstance(_cert_require, Unset):
-            cert_require = UNSET
-        else:
-            cert_require = UpdateAdminSettingsCertsBodyCertRequire.from_dict(
-                _cert_require
-            )
-
-        def _parse_cert_min_pow_level(data: object) -> int | str | Unset:
-            if isinstance(data, Unset):
-                return data
-            return cast(int | str | Unset, data)
-
-        cert_min_pow_level = _parse_cert_min_pow_level(
-            d.pop("cert_min_pow_level", UNSET)
-        )
-
         update_admin_settings_certs_body = cls(
             cert_auto_issue=cert_auto_issue,
             cert_min_age_days=cert_min_age_days,
             cert_validity_days=cert_validity_days,
-            cert_mode=cert_mode,
             cert_trusted_issuers=cert_trusted_issuers,
+            cert_trusted_types=cert_trusted_types,
+            cert_others=cert_others,
+            cert_replaces_invite=cert_replaces_invite,
             cert_issuer_urls=cert_issuer_urls,
-            cert_require=cert_require,
-            cert_min_pow_level=cert_min_pow_level,
         )
 
         update_admin_settings_certs_body.additional_properties = d

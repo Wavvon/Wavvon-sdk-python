@@ -58,6 +58,10 @@ def sync_detailed(
 ) -> Response[Any]:
     """Sign a directory entry for the hub discovery service
 
+     Returns `canonical_payload` (sorted keys: bio, hub_url, invite_code when given, language, nonce,
+    tags, and `theme_preview_url` when the hub has a default theme with a preview), the hub key and its
+    signature.
+
     Args:
         body (SignAdminDirectoryListingBody):
 
@@ -86,6 +90,10 @@ async def asyncio_detailed(
     body: SignAdminDirectoryListingBody,
 ) -> Response[Any]:
     """Sign a directory entry for the hub discovery service
+
+     Returns `canonical_payload` (sorted keys: bio, hub_url, invite_code when given, language, nonce,
+    tags, and `theme_preview_url` when the hub has a default theme with a preview), the hub key and its
+    signature.
 
     Args:
         body (SignAdminDirectoryListingBody):

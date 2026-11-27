@@ -1,17 +1,22 @@
 from http import HTTPStatus
-from typing import Any
+from typing import Any, cast
 from urllib.parse import quote
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...types import Response
+from ...models.mark_channel_read_body import MarkChannelReadBody
+from ...models.mark_channel_read_response_200 import MarkChannelReadResponse200
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     channel_id: str,
+    *,
+    body: MarkChannelReadBody | Unset = UNSET,
 ) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -20,14 +25,26 @@ def _get_kwargs(
         ),
     }
 
+    if not isinstance(body, Unset):
+        _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Any | None:
-    if response.status_code == 204:
-        return None
+) -> Any | MarkChannelReadResponse200 | None:
+    if response.status_code == 200:
+        response_200 = MarkChannelReadResponse200.from_dict(response.json())
+
+        return response_200
+
+    if response.status_code == 404:
+        response_404 = cast(Any, None)
+        return response_404
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -37,7 +54,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[Any]:
+) -> Response[Any | MarkChannelReadResponse200]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -50,22 +67,30 @@ def sync_detailed(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[Any]:
-    """Mark a channel as read up to now
+    body: MarkChannelReadBody | Unset = UNSET,
+) -> Response[Any | MarkChannelReadResponse200]:
+    """Mark a channel as read up to now, or unread from a message
+
+     Without a body the caller's read marker moves to now. With
+    `message_id` ("mark unread", capability `channels.markunread`) it
+    moves to that message's `created_at` minus one, so the message and
+    everything after it count as unread. Only the caller's marker changes.
 
     Args:
         channel_id (str):
+        body (MarkChannelReadBody | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[Any | MarkChannelReadResponse200]
     """
 
     kwargs = _get_kwargs(
         channel_id=channel_id,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -75,28 +100,102 @@ def sync_detailed(
     return _build_response(client=client, response=response)
 
 
-async def asyncio_detailed(
+def sync(
     channel_id: str,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[Any]:
-    """Mark a channel as read up to now
+    body: MarkChannelReadBody | Unset = UNSET,
+) -> Any | MarkChannelReadResponse200 | None:
+    """Mark a channel as read up to now, or unread from a message
+
+     Without a body the caller's read marker moves to now. With
+    `message_id` ("mark unread", capability `channels.markunread`) it
+    moves to that message's `created_at` minus one, so the message and
+    everything after it count as unread. Only the caller's marker changes.
 
     Args:
         channel_id (str):
+        body (MarkChannelReadBody | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Any | MarkChannelReadResponse200
+    """
+
+    return sync_detailed(
+        channel_id=channel_id,
+        client=client,
+        body=body,
+    ).parsed
+
+
+async def asyncio_detailed(
+    channel_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: MarkChannelReadBody | Unset = UNSET,
+) -> Response[Any | MarkChannelReadResponse200]:
+    """Mark a channel as read up to now, or unread from a message
+
+     Without a body the caller's read marker moves to now. With
+    `message_id` ("mark unread", capability `channels.markunread`) it
+    moves to that message's `created_at` minus one, so the message and
+    everything after it count as unread. Only the caller's marker changes.
+
+    Args:
+        channel_id (str):
+        body (MarkChannelReadBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Any | MarkChannelReadResponse200]
     """
 
     kwargs = _get_kwargs(
         channel_id=channel_id,
+        body=body,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
+
+async def asyncio(
+    channel_id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: MarkChannelReadBody | Unset = UNSET,
+) -> Any | MarkChannelReadResponse200 | None:
+    """Mark a channel as read up to now, or unread from a message
+
+     Without a body the caller's read marker moves to now. With
+    `message_id` ("mark unread", capability `channels.markunread`) it
+    moves to that message's `created_at` minus one, so the message and
+    everything after it count as unread. Only the caller's marker changes.
+
+    Args:
+        channel_id (str):
+        body (MarkChannelReadBody | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Any | MarkChannelReadResponse200
+    """
+
+    return (
+        await asyncio_detailed(
+            channel_id=channel_id,
+            client=client,
+            body=body,
+        )
+    ).parsed

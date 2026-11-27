@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any
+from typing import Any, cast
 
 import httpx
 
@@ -31,11 +31,15 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Invite | None:
+) -> Any | Invite | None:
     if response.status_code == 201:
         response_201 = Invite.from_dict(response.json())
 
         return response_201
+
+    if response.status_code == 409:
+        response_409 = cast(Any, None)
+        return response_409
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -45,7 +49,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[Invite]:
+) -> Response[Any | Invite]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,7 +62,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: CreateInviteBody,
-) -> Response[Invite]:
+) -> Response[Any | Invite]:
     """Create an invite (manage_invites)
 
      With `bound_pubkey` set the invite admits that identity and nobody else, and `max_uses` is forced to
@@ -78,7 +82,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Invite]
+        Response[Any | Invite]
     """
 
     kwargs = _get_kwargs(
@@ -96,7 +100,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     body: CreateInviteBody,
-) -> Invite | None:
+) -> Any | Invite | None:
     """Create an invite (manage_invites)
 
      With `bound_pubkey` set the invite admits that identity and nobody else, and `max_uses` is forced to
@@ -116,7 +120,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Invite
+        Any | Invite
     """
 
     return sync_detailed(
@@ -129,7 +133,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: CreateInviteBody,
-) -> Response[Invite]:
+) -> Response[Any | Invite]:
     """Create an invite (manage_invites)
 
      With `bound_pubkey` set the invite admits that identity and nobody else, and `max_uses` is forced to
@@ -149,7 +153,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Invite]
+        Response[Any | Invite]
     """
 
     kwargs = _get_kwargs(
@@ -165,7 +169,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     body: CreateInviteBody,
-) -> Invite | None:
+) -> Any | Invite | None:
     """Create an invite (manage_invites)
 
      With `bound_pubkey` set the invite admits that identity and nobody else, and `max_uses` is forced to
@@ -185,7 +189,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Invite
+        Any | Invite
     """
 
     return (
