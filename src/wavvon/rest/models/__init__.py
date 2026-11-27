@@ -19,21 +19,15 @@ from .attachment_ref_kind import AttachmentRefKind
 from .attachment_ref_state import AttachmentRefState
 from .attest_recovery_rotation_request_body import AttestRecoveryRotationRequestBody
 from .attestation_input import AttestationInput
+from .badge_def import BadgeDef
+from .badge_def_holders import BadgeDefHolders
+from .badge_def_request import BadgeDefRequest
+from .badge_def_request_rule import BadgeDefRequestRule
+from .badge_level import BadgeLevel
 from .badge_payload import BadgePayload
-from .begin_webauthn_assertion_body import BeginWebauthnAssertionBody
-from .begin_webauthn_assertion_response_200 import BeginWebauthnAssertionResponse200
-from .begin_webauthn_assertion_response_200_options import (
-    BeginWebauthnAssertionResponse200Options,
-)
-from .begin_webauthn_registration_body import BeginWebauthnRegistrationBody
-from .begin_webauthn_registration_response_200 import (
-    BeginWebauthnRegistrationResponse200,
-)
-from .begin_webauthn_registration_response_200_options import (
-    BeginWebauthnRegistrationResponse200Options,
-)
 from .cert_payload import CertPayload
 from .cert_payload_standing import CertPayloadStanding
+from .cert_type import CertType
 from .certification import Certification
 from .challenge_prompt import ChallengePrompt
 from .challenge_prompt_mode import ChallengePromptMode
@@ -96,6 +90,7 @@ from .create_auth_challenge_response_200 import CreateAuthChallengeResponse200
 from .create_auth_challenge_response_200_scheme import (
     CreateAuthChallengeResponse200Scheme,
 )
+from .create_cert_type_body import CreateCertTypeBody
 from .create_channel_ban_body import CreateChannelBanBody
 from .create_channel_body import CreateChannelBody
 from .create_channel_message_body import CreateChannelMessageBody
@@ -139,6 +134,7 @@ from .create_moderation_ban_body import CreateModerationBanBody
 from .create_moderation_ban_response_201 import CreateModerationBanResponse201
 from .create_moderation_mute_body import CreateModerationMuteBody
 from .create_moderation_voice_mute_body import CreateModerationVoiceMuteBody
+from .create_program_badge_body import CreateProgramBadgeBody
 from .create_role_body import CreateRoleBody
 from .create_role_category_body import CreateRoleCategoryBody
 from .create_slot_request import CreateSlotRequest
@@ -154,6 +150,7 @@ from .delete_federation_forum_channel_post_body import (
 from .delete_federation_forum_channel_post_reply_body import (
     DeleteFederationForumChannelPostReplyBody,
 )
+from .delete_push_subscription_body import DeletePushSubscriptionBody
 from .dm_message import DmMessage
 from .dm_message_encrypted_envelope_type_0 import DmMessageEncryptedEnvelopeType0
 from .dm_message_encrypted_envelope_type_0_signer_cert import (
@@ -183,18 +180,6 @@ from .explain_user_permissions_response_200_sources_item_kind import (
 from .favorite_hub import FavoriteHub
 from .federation_join_alliance_body import FederationJoinAllianceBody
 from .federation_join_alliance_response_200 import FederationJoinAllianceResponse200
-from .finish_webauthn_assertion_body import FinishWebauthnAssertionBody
-from .finish_webauthn_assertion_body_credential import (
-    FinishWebauthnAssertionBodyCredential,
-)
-from .finish_webauthn_assertion_response_200 import FinishWebauthnAssertionResponse200
-from .finish_webauthn_registration_body import FinishWebauthnRegistrationBody
-from .finish_webauthn_registration_body_credential import (
-    FinishWebauthnRegistrationBodyCredential,
-)
-from .finish_webauthn_registration_response_200 import (
-    FinishWebauthnRegistrationResponse200,
-)
 from .forum_tag import ForumTag
 from .game_launch_card import GameLaunchCard
 from .get_admin_settings_banlist_response_200 import GetAdminSettingsBanlistResponse200
@@ -231,6 +216,7 @@ from .get_moderation_history_response_200_entries_item_policy import (
 from .get_poll_response_200 import GetPollResponse200
 from .get_poll_response_200_totals import GetPollResponse200Totals
 from .get_preview_response_200 import GetPreviewResponse200
+from .get_push_vapid_key_response_200 import GetPushVapidKeyResponse200
 from .get_recovery_rotation_request_response_200 import (
     GetRecoveryRotationRequestResponse200,
 )
@@ -246,6 +232,8 @@ from .get_user_profile_response_200_badges_item import (
 )
 from .get_user_profile_response_200_roles_item import GetUserProfileResponse200RolesItem
 from .get_widget_page_theme import GetWidgetPageTheme
+from .grant_badge_body import GrantBadgeBody
+from .grant_program_badge_body import GrantProgramBadgeBody
 from .group_encrypted_envelope import GroupEncryptedEnvelope
 from .hub_event import HubEvent
 from .hub_event_payload import HubEventPayload
@@ -253,13 +241,17 @@ from .hub_event_type import HubEventType
 from .hub_info import HubInfo
 from .hub_info_badges_item import HubInfoBadgesItem
 from .hub_info_cert_requirement import HubInfoCertRequirement
-from .hub_info_cert_requirement_require import HubInfoCertRequirementRequire
+from .hub_info_cert_requirement_others import HubInfoCertRequirementOthers
 from .hub_info_challenge_mode import HubInfoChallengeMode
 from .hub_info_rotation import HubInfoRotation
+from .hub_info_theme import HubInfoTheme
+from .hub_language_pack import HubLanguagePack
+from .hub_languages import HubLanguages
 from .invite import Invite
 from .invite_status import InviteStatus
 from .issue_admin_badge_body import IssueAdminBadgeBody
 from .issue_admin_badge_response_201 import IssueAdminBadgeResponse201
+from .issue_admin_cert_body import IssueAdminCertBody
 from .join_alliance_with_invite_body import JoinAllianceWithInviteBody
 from .kick_user_body import KickUserBody
 from .landing import Landing
@@ -305,8 +297,8 @@ from .list_admin_settings_certs_response_200 import ListAdminSettingsCertsRespon
 from .list_admin_settings_certs_response_200_cert_issuer_urls import (
     ListAdminSettingsCertsResponse200CertIssuerUrls,
 )
-from .list_admin_settings_certs_response_200_cert_mode import (
-    ListAdminSettingsCertsResponse200CertMode,
+from .list_admin_settings_certs_response_200_cert_others import (
+    ListAdminSettingsCertsResponse200CertOthers,
 )
 from .list_admin_survey_responses_status import ListAdminSurveyResponsesStatus
 from .list_admin_webhooks_response_200_item import ListAdminWebhooksResponse200Item
@@ -319,6 +311,7 @@ from .list_apps_response_200_item_commands_item import (
     ListAppsResponse200ItemCommandsItem,
 )
 from .list_apps_response_200_item_game import ListAppsResponse200ItemGame
+from .list_badge_awards_response_200_item import ListBadgeAwardsResponse200Item
 from .list_badges_response_200_item import ListBadgesResponse200Item
 from .list_certs_revocations_response_200_item import (
     ListCertsRevocationsResponse200Item,
@@ -360,7 +353,6 @@ from .list_federation_badge_revocations_response_200_item import (
 )
 from .list_hub_pending_response_200_item import ListHubPendingResponse200Item
 from .list_identity_dm_blocks_response_200 import ListIdentityDmBlocksResponse200
-from .list_me_credentials_response_200_item import ListMeCredentialsResponse200Item
 from .list_me_events_response_410 import ListMeEventsResponse410
 from .list_me_events_response_410_type import ListMeEventsResponse410Type
 from .list_pending_badges_response_200_item import ListPendingBadgesResponse200Item
@@ -390,9 +382,12 @@ from .list_sticker_blocklist_response_200_item import (
 from .list_stored_stickers_sort import ListStoredStickersSort
 from .list_stored_stickers_state import ListStoredStickersState
 from .list_unread_channels_response_200_item import ListUnreadChannelsResponse200Item
+from .list_voice_pins_response_200 import ListVoicePinsResponse200
 from .lobby_status import LobbyStatus
 from .lobby_status_status import LobbyStatusStatus
 from .lockdown_settings import LockdownSettings
+from .mark_channel_read_body import MarkChannelReadBody
+from .mark_channel_read_response_200 import MarkChannelReadResponse200
 from .mark_soundboard_sound_played_body import MarkSoundboardSoundPlayedBody
 from .masquerade import Masquerade
 from .me_info import MeInfo
@@ -412,7 +407,23 @@ from .post_detail import PostDetail
 from .post_summary import PostSummary
 from .post_summary_tags_item import PostSummaryTagsItem
 from .pow_proof import PowProof
+from .preview_badge_def_response_200 import PreviewBadgeDefResponse200
 from .public_hub_entry import PublicHubEntry
+from .put_hub_default_language_body import PutHubDefaultLanguageBody
+from .put_hub_theme_response_200 import PutHubThemeResponse200
+from .put_push_subscription_body import PutPushSubscriptionBody
+from .put_push_subscription_body_keys import PutPushSubscriptionBodyKeys
+from .put_push_subscription_body_notify import PutPushSubscriptionBodyNotify
+from .put_push_subscription_body_notify_channels import (
+    PutPushSubscriptionBodyNotifyChannels,
+)
+from .put_push_subscription_body_notify_channels_additional_property import (
+    PutPushSubscriptionBodyNotifyChannelsAdditionalProperty,
+)
+from .put_push_subscription_body_notify_channels_until import (
+    PutPushSubscriptionBodyNotifyChannelsUntil,
+)
+from .put_push_subscription_body_notify_hub import PutPushSubscriptionBodyNotifyHub
 from .raise_channel_hand_response_201 import RaiseChannelHandResponse201
 from .reaction import Reaction
 from .regenerate_admin_webhook_response_200 import RegenerateAdminWebhookResponse200
@@ -483,6 +494,7 @@ from .survey_choice_admin import SurveyChoiceAdmin
 from .survey_question_admin import SurveyQuestionAdmin
 from .survey_question_admin_kind import SurveyQuestionAdminKind
 from .timeout_user_body import TimeoutUserBody
+from .trusted_cert_type import TrustedCertType
 from .update_admin_banlist_sources_body import UpdateAdminBanlistSourcesBody
 from .update_admin_banlist_sources_body_policy import (
     UpdateAdminBanlistSourcesBodyPolicy,
@@ -493,16 +505,14 @@ from .update_admin_settings_certs_body import UpdateAdminSettingsCertsBody
 from .update_admin_settings_certs_body_cert_issuer_urls import (
     UpdateAdminSettingsCertsBodyCertIssuerUrls,
 )
-from .update_admin_settings_certs_body_cert_mode import (
-    UpdateAdminSettingsCertsBodyCertMode,
-)
-from .update_admin_settings_certs_body_cert_require import (
-    UpdateAdminSettingsCertsBodyCertRequire,
+from .update_admin_settings_certs_body_cert_others import (
+    UpdateAdminSettingsCertsBodyCertOthers,
 )
 from .update_admin_settings_listing_body import UpdateAdminSettingsListingBody
 from .update_admin_settings_moderation_body import UpdateAdminSettingsModerationBody
 from .update_admin_settings_pow_body import UpdateAdminSettingsPowBody
 from .update_admin_settings_tags_body import UpdateAdminSettingsTagsBody
+from .update_badge_def_body import UpdateBadgeDefBody
 from .update_channel_body import UpdateChannelBody
 from .update_channel_body_channel_type import UpdateChannelBodyChannelType
 from .update_channel_message_body import UpdateChannelMessageBody
@@ -513,7 +523,6 @@ from .update_event_slot_response_200 import UpdateEventSlotResponse200
 from .update_hub_body import UpdateHubBody
 from .update_hub_icon_body import UpdateHubIconBody
 from .update_me_body import UpdateMeBody
-from .update_me_credential_body import UpdateMeCredentialBody
 from .update_role_body import UpdateRoleBody
 from .update_role_category_body import UpdateRoleCategoryBody
 from .update_tag_body import UpdateTagBody
@@ -551,15 +560,15 @@ __all__ = (
     "AttachmentRefState",
     "AttestRecoveryRotationRequestBody",
     "AttestationInput",
+    "BadgeDef",
+    "BadgeDefHolders",
+    "BadgeDefRequest",
+    "BadgeDefRequestRule",
+    "BadgeLevel",
     "BadgePayload",
-    "BeginWebauthnAssertionBody",
-    "BeginWebauthnAssertionResponse200",
-    "BeginWebauthnAssertionResponse200Options",
-    "BeginWebauthnRegistrationBody",
-    "BeginWebauthnRegistrationResponse200",
-    "BeginWebauthnRegistrationResponse200Options",
     "CertPayload",
     "CertPayloadStanding",
+    "CertType",
     "Certification",
     "ChallengePrompt",
     "ChallengePromptMode",
@@ -598,6 +607,7 @@ __all__ = (
     "CreateAuthChallengeBody",
     "CreateAuthChallengeResponse200",
     "CreateAuthChallengeResponse200Scheme",
+    "CreateCertTypeBody",
     "CreateChannelBanBody",
     "CreateChannelBody",
     "CreateChannelMessageBody",
@@ -635,6 +645,7 @@ __all__ = (
     "CreateModerationBanResponse201",
     "CreateModerationMuteBody",
     "CreateModerationVoiceMuteBody",
+    "CreateProgramBadgeBody",
     "CreateRoleBody",
     "CreateRoleCategoryBody",
     "CreateSlotRequest",
@@ -646,6 +657,7 @@ __all__ = (
     "DeleteFederationAllianceMemberBody",
     "DeleteFederationForumChannelPostBody",
     "DeleteFederationForumChannelPostReplyBody",
+    "DeletePushSubscriptionBody",
     "DmMessage",
     "DmMessageEncryptedEnvelopeType0",
     "DmMessageEncryptedEnvelopeType0SignerCert",
@@ -665,12 +677,6 @@ __all__ = (
     "FavoriteHub",
     "FederationJoinAllianceBody",
     "FederationJoinAllianceResponse200",
-    "FinishWebauthnAssertionBody",
-    "FinishWebauthnAssertionBodyCredential",
-    "FinishWebauthnAssertionResponse200",
-    "FinishWebauthnRegistrationBody",
-    "FinishWebauthnRegistrationBodyCredential",
-    "FinishWebauthnRegistrationResponse200",
     "ForumTag",
     "GameLaunchCard",
     "GetAdminSettingsBanlistResponse200",
@@ -693,6 +699,7 @@ __all__ = (
     "GetPollResponse200",
     "GetPollResponse200Totals",
     "GetPreviewResponse200",
+    "GetPushVapidKeyResponse200",
     "GetRecoveryRotationRequestResponse200",
     "GetRecoveryRotationRequestResponse200Status",
     "GetStickerUsageResponse200",
@@ -702,6 +709,8 @@ __all__ = (
     "GetUserProfileResponse200BadgesItem",
     "GetUserProfileResponse200RolesItem",
     "GetWidgetPageTheme",
+    "GrantBadgeBody",
+    "GrantProgramBadgeBody",
     "GroupEncryptedEnvelope",
     "HubEvent",
     "HubEventPayload",
@@ -709,13 +718,17 @@ __all__ = (
     "HubInfo",
     "HubInfoBadgesItem",
     "HubInfoCertRequirement",
-    "HubInfoCertRequirementRequire",
+    "HubInfoCertRequirementOthers",
     "HubInfoChallengeMode",
     "HubInfoRotation",
+    "HubInfoTheme",
+    "HubLanguagePack",
+    "HubLanguages",
     "Invite",
     "InviteStatus",
     "IssueAdminBadgeBody",
     "IssueAdminBadgeResponse201",
+    "IssueAdminCertBody",
     "JoinAllianceWithInviteBody",
     "KickUserBody",
     "Landing",
@@ -737,7 +750,7 @@ __all__ = (
     "ListAdminReportsStatus",
     "ListAdminSettingsCertsResponse200",
     "ListAdminSettingsCertsResponse200CertIssuerUrls",
-    "ListAdminSettingsCertsResponse200CertMode",
+    "ListAdminSettingsCertsResponse200CertOthers",
     "ListAdminSurveyResponsesStatus",
     "ListAdminWebhooksResponse200Item",
     "ListAllianceManagersResponse200Item",
@@ -745,6 +758,7 @@ __all__ = (
     "ListAppsResponse200Item",
     "ListAppsResponse200ItemCommandsItem",
     "ListAppsResponse200ItemGame",
+    "ListBadgeAwardsResponse200Item",
     "ListBadgesResponse200Item",
     "ListCertsRevocationsResponse200Item",
     "ListChannelBansResponse200Item",
@@ -766,7 +780,6 @@ __all__ = (
     "ListFederationBadgeRevocationsResponse200Item",
     "ListHubPendingResponse200Item",
     "ListIdentityDmBlocksResponse200",
-    "ListMeCredentialsResponse200Item",
     "ListMeEventsResponse410",
     "ListMeEventsResponse410Type",
     "ListPendingBadgesResponse200Item",
@@ -782,9 +795,12 @@ __all__ = (
     "ListStoredStickersSort",
     "ListStoredStickersState",
     "ListUnreadChannelsResponse200Item",
+    "ListVoicePinsResponse200",
     "LobbyStatus",
     "LobbyStatusStatus",
     "LockdownSettings",
+    "MarkChannelReadBody",
+    "MarkChannelReadResponse200",
     "MarkSoundboardSoundPlayedBody",
     "Masquerade",
     "MeInfo",
@@ -802,7 +818,17 @@ __all__ = (
     "PostSummary",
     "PostSummaryTagsItem",
     "PowProof",
+    "PreviewBadgeDefResponse200",
     "PublicHubEntry",
+    "PutHubDefaultLanguageBody",
+    "PutHubThemeResponse200",
+    "PutPushSubscriptionBody",
+    "PutPushSubscriptionBodyKeys",
+    "PutPushSubscriptionBodyNotify",
+    "PutPushSubscriptionBodyNotifyChannels",
+    "PutPushSubscriptionBodyNotifyChannelsAdditionalProperty",
+    "PutPushSubscriptionBodyNotifyChannelsUntil",
+    "PutPushSubscriptionBodyNotifyHub",
     "RaiseChannelHandResponse201",
     "Reaction",
     "RegenerateAdminWebhookResponse200",
@@ -865,18 +891,19 @@ __all__ = (
     "SurveyQuestionAdmin",
     "SurveyQuestionAdminKind",
     "TimeoutUserBody",
+    "TrustedCertType",
     "UpdateAdminBanlistSourcesBody",
     "UpdateAdminBanlistSourcesBodyPolicy",
     "UpdateAdminOutgoingWebhookBody",
     "UpdateAdminSettingsBanlistBody",
     "UpdateAdminSettingsCertsBody",
     "UpdateAdminSettingsCertsBodyCertIssuerUrls",
-    "UpdateAdminSettingsCertsBodyCertMode",
-    "UpdateAdminSettingsCertsBodyCertRequire",
+    "UpdateAdminSettingsCertsBodyCertOthers",
     "UpdateAdminSettingsListingBody",
     "UpdateAdminSettingsModerationBody",
     "UpdateAdminSettingsPowBody",
     "UpdateAdminSettingsTagsBody",
+    "UpdateBadgeDefBody",
     "UpdateChannelBody",
     "UpdateChannelBodyChannelType",
     "UpdateChannelMessageBody",
@@ -887,7 +914,6 @@ __all__ = (
     "UpdateHubBody",
     "UpdateHubIconBody",
     "UpdateMeBody",
-    "UpdateMeCredentialBody",
     "UpdateRoleBody",
     "UpdateRoleCategoryBody",
     "UpdateTagBody",

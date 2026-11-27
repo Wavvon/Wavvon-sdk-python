@@ -30,6 +30,7 @@ class CertPayload:
         label (str | Unset): Badge display name; present means this cert is an achievement badge. Omitted unless set.
         description (str | Unset): Omitted unless set.
         icon (str | Unset): Emoji or short icon for the badge. Omitted unless set.
+        cert_type (str | Unset): A type from the issuer's catalogue. Absent on a plain standing cert and on every badge.
     """
 
     subject_kind: str | Unset = UNSET
@@ -45,6 +46,7 @@ class CertPayload:
     label: str | Unset = UNSET
     description: str | Unset = UNSET
     icon: str | Unset = UNSET
+    cert_type: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -82,6 +84,8 @@ class CertPayload:
 
         icon = self.icon
 
+        cert_type = self.cert_type
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -111,6 +115,8 @@ class CertPayload:
             field_dict["description"] = description
         if icon is not UNSET:
             field_dict["icon"] = icon
+        if cert_type is not UNSET:
+            field_dict["cert_type"] = cert_type
 
         return field_dict
 
@@ -155,6 +161,8 @@ class CertPayload:
 
         icon = d.pop("icon", UNSET)
 
+        cert_type = d.pop("cert_type", UNSET)
+
         cert_payload = cls(
             subject_kind=subject_kind,
             issuer_pubkey=issuer_pubkey,
@@ -169,6 +177,7 @@ class CertPayload:
             label=label,
             description=description,
             icon=icon,
+            cert_type=cert_type,
         )
 
         cert_payload.additional_properties = d

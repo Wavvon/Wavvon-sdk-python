@@ -18,7 +18,7 @@ class ListSoundboardSoundsResponse200Item:
         id (str | Unset):
         name (str | Unset):
         emoji (None | str | Unset):
-        uploader (str | Unset):
+        uploader (str | Unset): Pubkey of the member who uploaded it; empty for a clip the hub ships with
         size_bytes (int | Unset):
         duration_ms (int | Unset):
         created_at (int | Unset):

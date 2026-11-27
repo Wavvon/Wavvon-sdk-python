@@ -13,6 +13,8 @@ if TYPE_CHECKING:
     from ..models.hub_info_badges_item import HubInfoBadgesItem
     from ..models.hub_info_cert_requirement import HubInfoCertRequirement
     from ..models.hub_info_rotation import HubInfoRotation
+    from ..models.hub_info_theme import HubInfoTheme
+    from ..models.hub_languages import HubLanguages
     from ..models.landing import Landing
     from ..models.stream_limits import StreamLimits
 
@@ -61,9 +63,12 @@ class HubInfo:
             address.
         landing (Landing | Unset): How the invite landing looks (hubs advertising `hub.landing`). Each field is omitted
             when unset.
+        theme (HubInfoTheme | Unset): The hub default theme (`hub.theme`), present while one is set. The package is at
+            `/hub/theme/{sha256}` and, when `has_preview`, its preview image at `/hub/theme/{sha256}/preview`.
+        languages (HubLanguages | Unset):
         farm_url (str | Unset): When present, send `/auth/*` here instead of to the hub. Omitted unless set.
-        cert_requirement (HubInfoCertRequirement | Unset): What a certificate must show to admit a member. Omitted
-            unless set.
+        cert_requirement (HubInfoCertRequirement | Unset): Which certificates take a newcomer through the fast lane (no
+            lobby, approval or challenge). Omitted while both trust lists are empty.
         sfu_url (str | Unset): Omitted unless the hub runs an SFU.
         rotation (HubInfoRotation | Unset): Hub key rotation payload during the transition window after a rotate-key
             ceremony (see `GET /key-rotation`). Omitted when no rotation is in progress.
@@ -72,8 +77,6 @@ class HubInfo:
         welcome_label (str | Unset): Omitted unless set.
         welcome_invite_url (str | Unset): Omitted unless set.
         farewell_label (str | Unset): Omitted unless set.
-        voice_wt_url (str | Unset): WebTransport voice endpoint. Omitted unless set.
-        voice_cert_hash (str | Unset): Omitted unless set.
         timezone (str | Unset): Omitted unless set.
         stream_limits (StreamLimits | Unset): The most a screen share or camera may declare in `screen_share_start`
             (hubs advertising `screenshare.limits`). Each field is omitted when uncapped. Read-only on `/info` and `GET
@@ -99,6 +102,8 @@ class HubInfo:
     max_attachment_bytes: int
     canonical_url: str | Unset = UNSET
     landing: Landing | Unset = UNSET
+    theme: HubInfoTheme | Unset = UNSET
+    languages: HubLanguages | Unset = UNSET
     farm_url: str | Unset = UNSET
     cert_requirement: HubInfoCertRequirement | Unset = UNSET
     sfu_url: str | Unset = UNSET
@@ -108,8 +113,6 @@ class HubInfo:
     welcome_label: str | Unset = UNSET
     welcome_invite_url: str | Unset = UNSET
     farewell_label: str | Unset = UNSET
-    voice_wt_url: str | Unset = UNSET
-    voice_cert_hash: str | Unset = UNSET
     timezone: str | Unset = UNSET
     stream_limits: StreamLimits | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -160,6 +163,14 @@ class HubInfo:
         if not isinstance(self.landing, Unset):
             landing = self.landing.to_dict()
 
+        theme: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.theme, Unset):
+            theme = self.theme.to_dict()
+
+        languages: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.languages, Unset):
+            languages = self.languages.to_dict()
+
         farm_url = self.farm_url
 
         cert_requirement: dict[str, Any] | Unset = UNSET
@@ -181,10 +192,6 @@ class HubInfo:
         welcome_invite_url = self.welcome_invite_url
 
         farewell_label = self.farewell_label
-
-        voice_wt_url = self.voice_wt_url
-
-        voice_cert_hash = self.voice_cert_hash
 
         timezone = self.timezone
 
@@ -219,6 +226,10 @@ class HubInfo:
             field_dict["canonical_url"] = canonical_url
         if landing is not UNSET:
             field_dict["landing"] = landing
+        if theme is not UNSET:
+            field_dict["theme"] = theme
+        if languages is not UNSET:
+            field_dict["languages"] = languages
         if farm_url is not UNSET:
             field_dict["farm_url"] = farm_url
         if cert_requirement is not UNSET:
@@ -237,10 +248,6 @@ class HubInfo:
             field_dict["welcome_invite_url"] = welcome_invite_url
         if farewell_label is not UNSET:
             field_dict["farewell_label"] = farewell_label
-        if voice_wt_url is not UNSET:
-            field_dict["voice_wt_url"] = voice_wt_url
-        if voice_cert_hash is not UNSET:
-            field_dict["voice_cert_hash"] = voice_cert_hash
         if timezone is not UNSET:
             field_dict["timezone"] = timezone
         if stream_limits is not UNSET:
@@ -253,6 +260,8 @@ class HubInfo:
         from ..models.hub_info_badges_item import HubInfoBadgesItem
         from ..models.hub_info_cert_requirement import HubInfoCertRequirement
         from ..models.hub_info_rotation import HubInfoRotation
+        from ..models.hub_info_theme import HubInfoTheme
+        from ..models.hub_languages import HubLanguages
         from ..models.landing import Landing
         from ..models.stream_limits import StreamLimits
 
@@ -315,6 +324,20 @@ class HubInfo:
         else:
             landing = Landing.from_dict(_landing)
 
+        _theme = d.pop("theme", UNSET)
+        theme: HubInfoTheme | Unset
+        if isinstance(_theme, Unset):
+            theme = UNSET
+        else:
+            theme = HubInfoTheme.from_dict(_theme)
+
+        _languages = d.pop("languages", UNSET)
+        languages: HubLanguages | Unset
+        if isinstance(_languages, Unset):
+            languages = UNSET
+        else:
+            languages = HubLanguages.from_dict(_languages)
+
         farm_url = d.pop("farm_url", UNSET)
 
         _cert_requirement = d.pop("cert_requirement", UNSET)
@@ -342,10 +365,6 @@ class HubInfo:
         welcome_invite_url = d.pop("welcome_invite_url", UNSET)
 
         farewell_label = d.pop("farewell_label", UNSET)
-
-        voice_wt_url = d.pop("voice_wt_url", UNSET)
-
-        voice_cert_hash = d.pop("voice_cert_hash", UNSET)
 
         timezone = d.pop("timezone", UNSET)
 
@@ -376,6 +395,8 @@ class HubInfo:
             max_attachment_bytes=max_attachment_bytes,
             canonical_url=canonical_url,
             landing=landing,
+            theme=theme,
+            languages=languages,
             farm_url=farm_url,
             cert_requirement=cert_requirement,
             sfu_url=sfu_url,
@@ -385,8 +406,6 @@ class HubInfo:
             welcome_label=welcome_label,
             welcome_invite_url=welcome_invite_url,
             farewell_label=farewell_label,
-            voice_wt_url=voice_wt_url,
-            voice_cert_hash=voice_cert_hash,
             timezone=timezone,
             stream_limits=stream_limits,
         )
